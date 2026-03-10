@@ -1,0 +1,240 @@
+/**
+ * Healther Image Gallery Styles
+ * Styles for dynamic image loading and galleries
+ */
+
+/* Base gallery styles */
+.healther-gallery {
+    width: 100%;
+    margin: 20px 0;
+}
+
+.gallery-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.gallery-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Category-specific gallery styles */
+.pharmacy-gallery .gallery-image {
+    border: 2px solid var(--primary, #00A651);
+}
+
+.healthcare-gallery .gallery-image {
+    border: 2px solid var(--secondary, #007bff);
+}
+
+.wellness-gallery .gallery-image {
+    border: 2px solid var(--success, #28a745);
+}
+
+.labtests-gallery .gallery-image {
+    border: 2px solid var(--warning, #ffc107);
+}
+
+/* Grid layouts */
+.gallery-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.gallery-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.gallery-grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.gallery-grid-5 {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+    .gallery-grid-4 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .gallery-grid-5 {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .gallery-grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .gallery-grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .gallery-grid-5 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .gallery-image {
+        height: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery-grid-2,
+    .gallery-grid-3,
+    .gallery-grid-4,
+    .gallery-grid-5 {
+        grid-template-columns: 1fr;
+    }
+    
+    .gallery-image {
+        height: 200px;
+    }
+}
+
+/* Loading states */
+.image-loading {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: 8px;
+}
+
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Image overlay effects */
+.image-overlay {
+    position: relative;
+    overflow: hidden;
+}
+
+.image-overlay::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(0, 163, 81, 0.1), rgba(0, 123, 255, 0.1));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.image-overlay:hover::after {
+    opacity: 1;
+}
+
+/* Masonry layout for varied image heights */
+.gallery-masonry {
+    column-count: 4;
+    column-gap: 15px;
+}
+
+.gallery-masonry .gallery-image {
+    break-inside: avoid;
+    margin-bottom: 15px;
+    height: auto;
+}
+
+@media (max-width: 1200px) {
+    .gallery-masonry {
+        column-count: 3;
+    }
+}
+
+@media (max-width: 768px) {
+    .gallery-masonry {
+        column-count: 2;
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery-masonry {
+        column-count: 1;
+    }
+}
+
+/* Lightbox styles */
+.image-lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.image-lightbox.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.image-lightbox img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.image-lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.image-lightbox-close:hover {
+    transform: scale(1.1);
+}
+
+/* Dark theme support */
+[data-theme="dark"] .gallery-image {
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .gallery-image:hover {
+    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] .image-lightbox-close {
+    background: #333;
+    color: white;
+}

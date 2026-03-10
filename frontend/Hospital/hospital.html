@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" data-ai-platform="hospital">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healther Hospital</title>
+    <script>try{var t=localStorage.getItem('theme'); if(t) document.documentElement.setAttribute('data-theme', t);}catch(e){};</script>
+    <script>
+        (function(){
+            function setFaviconForTheme(theme){
+                var ico = document.getElementById('favicon-ico');
+                if(!ico){
+                    ico = document.createElement('link');
+                    ico.id = 'favicon-ico';
+                    ico.rel = 'icon';
+                    ico.type = 'image/x-icon';
+                    document.head.appendChild(ico);
+                }
+                ico.href = (theme === 'dark') ? '../assets/healther.ico' : '../assets/health2.ico';
+            }
+            try{
+                var current = document.documentElement.getAttribute('data-theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                setFaviconForTheme(current);
+            }catch(e){}
+            new MutationObserver(function(mutations){
+                mutations.forEach(function(m){
+                    if(m.attributeName === 'data-theme'){
+                        setFaviconForTheme(document.documentElement.getAttribute('data-theme'));
+                    }
+                });
+            }).observe(document.documentElement,{attributes:true});
+        })();
+    </script>
+    <link rel="stylesheet" href="../global/style.css">
+    <link rel="stylesheet" href="../global/nav.css">
+    <link rel="stylesheet" href="../global/ai-assistant.css">
+    <link rel="stylesheet" href="hospital.css">
+    <link rel="icon" href="../assets/images/healther-icon.svg" type="image/svg+xml">
+
+</head>
+<body>
+
+<header class="app-header">
+    <div class="brand">
+        <div class="brand-title">Healther</div>
+        <div class="brand-subtitle">Hospital platform</div>
+    </div>
+    <div class="header-search">
+        <div class="search-container">
+            <button id="search-btn" class="search-btn" aria-label="Search">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+            </button>
+            <input type="text" id="search-input" class="search-input" placeholder="Search...">
+            <button id="clear-search" class="clear-search" aria-label="Clear search" hidden>×</button>
+        </div>
+        <div id="search-results" class="search-results" hidden>
+            <div class="results-header">
+                <h3>Search Results</h3>
+                <button id="close-results" class="close-results" aria-label="Close results">×</button>
+            </div>
+            <div class="results-list" id="results-list"></div>
+        </div>
+    </div>
+    <div class="header-actions">
+        <button id="more-options" aria-haspopup="true" aria-expanded="false" aria-label="Open options">⋮</button>
+        <div id="options-tile" class="options-tile" hidden>
+            <ul>
+                <li><button class="opt-btn" data-action="profile">Profile</button></li>
+                <li><button class="opt-btn" data-action="settings">Settings</button></li>
+                <li><button class="opt-btn" data-action="help">Help</button></li>
+                <li><button class="opt-btn" data-action="logout">Logout</button></li>
+            </ul>
+        </div>
+        <div id="settings-tile" class="settings-tile" hidden>
+            <ul>
+                <li><button class="setting-btn" data-setting="ai-mods">Healther AI Modifications</button></li>
+                <li><button class="setting-btn" data-setting="accounts">Accounts Centre</button></li>
+                <li><button class="setting-btn" data-setting="language">Language</button></li>
+                <li><button class="setting-btn" data-setting="theme">Theme</button></li>
+                <li><button class="setting-btn" data-setting="tutorials">Tutorials</button></li>
+            </ul>
+    </div>
+</header>
+<!-- Platform navigation removed per design request -->
+
+<aside class="sidebar" aria-label="Primary">
+    <nav>
+        <div class="nav-item" data-name="Home" data-key="home" title="Home">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 11.5L12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V11.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="label">Home</span>
+        </div>
+        <div id="theme-tile" class="theme-tile" hidden>
+            <ul>
+                <li><button class="theme-option" data-theme="dark">Dark theme</button></li>
+                <li><button class="theme-option" data-theme="light">Light theme</button></li>
+            </ul>
+        </div>
+        <div class="nav-item" data-name="Patients" data-key="patients" title="Patients">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            <span class="label">Patients</span>
+        </div>
+        <div class="nav-item" data-name="Statistics" data-key="statistics" title="Statistics">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 19h3v-4H3v4zM8 19h3v-7H8v7zM13 19h3v-10h-3v10z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="label">Statistics</span>
+        </div>
+        <div class="nav-item" data-name="My account" data-key="account" title="My account">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            <span class="label">My account</span>
+        </div>
+    </nav>
+</aside>
+
+<section class="dashboard">
+    <div class="card status-card">
+        <div class="status-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M17 21v-8H7v8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M7 3v5h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <h2>Hospital 
+            <br>
+            Dashboard</h2>
+        <p class="status-summary">Manage hospital, patients, and stats.</p>
+    </div>
+
+    <div class="card community-card">
+        <div class="status-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M3 19h3v-4H3v4zM8 19h3v-7H8v7zM13 19h3v-10h-3v10z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <h2>Statistics</h2>
+        <p class="status-summary">View hospital performance metrics.</p>
+    </div>
+
+    <div class="card badge-card">
+        <div class="status-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <h2>Registered Hospitals</h2>
+        <ul id="hospital-list"></ul>
+    </div>
+    
+</section>
+
+<script src="hospital.js"></script>
+<script src="../global/navigation.js"></script>
+<script src="../global/ai-assistant.js"></script>
+</body>
+</html>

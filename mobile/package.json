@@ -1,0 +1,53 @@
+{
+  "name": "healther-mobile",
+  "version": "1.0.0",
+  "description": "Healther AI - Cross-Platform Health Collaboration Mobile App",
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "eject": "expo eject",
+    "build:android": "eas build --platform android",
+    "build:ios": "eas build --platform ios",
+    "build": "eas build",
+    "submit:android": "eas submit --platform android",
+    "submit:ios": "eas submit --platform ios",
+    "test": "jest --watch",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "react": "18.2.0",
+    "react-native": "0.71.0",
+    "expo": "^48.0.0",
+    "expo-splash-screen": "^0.18.0",
+    "expo-status-bar": "^1.4.0",
+    "expo-font": "^11.1.0",
+    "expo-notifications": "^0.18.0",
+    "@react-navigation/native": "^6.1.0",
+    "@react-navigation/bottom-tabs": "^6.5.0",
+    "@react-navigation/stack": "^6.3.0",
+    "react-native-gesture-handler": "^2.12.0",
+    "react-native-reanimated": "^2.14.0",
+    "react-native-screens": "^3.20.0",
+    "react-native-safe-area-context": "^4.5.0",
+    "react-native-vector-icons": "^9.2.0",
+    "@react-native-async-storage/async-storage": "^1.17.0",
+    "axios": "^1.4.0",
+    "zustand": "^4.3.7",
+    "react-native-mmkv": "^2.10.0",
+    "react-native-biometrics": "^3.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.19.0",
+    "@types/react": "^18.0.27",
+    "@types/react-native": "^0.70.7",
+    "typescript": "^4.9.4",
+    "jest": "^29.4.0",
+    "@testing-library/react-native": "^11.5.0",
+    "eslint": "^8.35.0",
+    "eslint-config-expo": "^6.0.0"
+  },
+  "private": true
+}

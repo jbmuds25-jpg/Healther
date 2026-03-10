@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" data-ai-platform="web">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Healther</title>
+    <script>
+        // Apply persisted theme before CSS loads to avoid flash
+        (function(){
+            try{
+                var t = localStorage.getItem('theme');
+                if(t) document.documentElement.setAttribute('data-theme', t);
+            }catch(e){}
+        })();
+    </script>
+    <script>
+        (function(){
+            function setFaviconForTheme(theme){
+                var ico = document.getElementById('favicon-ico');
+                if(!ico){
+                    ico = document.createElement('link');
+                    ico.id = 'favicon-ico';
+                    ico.rel = 'icon';
+                    ico.type = 'image/x-icon';
+                    document.head.appendChild(ico);
+                }
+                ico.href = (theme === 'dark') ? '../assets/healther.ico' : '../assets/health2.ico';
+            }
+            try{
+                var current = document.documentElement.getAttribute('data-theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                setFaviconForTheme(current);
+            }catch(e){}
+            new MutationObserver(function(mutations){
+                mutations.forEach(function(m){
+                    if(m.attributeName === 'data-theme'){
+                        setFaviconForTheme(document.documentElement.getAttribute('data-theme'));
+                    }
+                });
+            }).observe(document.documentElement,{attributes:true});
+        })();
+    </script>
+    <link rel="stylesheet" href="../global/style.css">
+    <link rel="stylesheet" href="../global/ai-assistant.css">
+    <link rel="stylesheet" href="auth.css">
+    <link rel="icon" href="../assets/images/healther-icon.svg" type="image/svg+xml">
+</head>
+<body>
+<header class="app-header">
+    <div class="menu-container">
+        <button id="menu-toggle" class="menu-toggle">⋮</button>
+        <div id="menu-dropdown" class="menu-dropdown">
+            <button class="menu-item" id="menu-ai"> Healther AI Modifications</button>
+            <button class="menu-item" id="menu-settings">⚙️ Settings</button>
+            <button class="menu-item" id="menu-help">❓ Help</button>
+        </div>
+    </div>
+</header>
+
+<section class="auth-container">
+    <div class="auth-card">
+        <div class="healther-header">
+            <h1 class="healther-title">Healther</h1>
+            <p class="healther-subtitle">Your Health, Connected</p>
+        </div>
+        <h2 class="form-title">Welcome to Healther</h2>
+        <p class="identity-subtitle" style="margin: 12px 0 20px 0; color: var(--text); font-size: 14px;">Please select your identity...</p>
+
+        <div class="identity-options">
+            <button class="identity-option" data-platform="citizen">
+                <div class="identity-title">Citizen</div>
+                <div class="identity-text">Use Healther as a citizen to manage your personal health journey.</div>
+            </button>
+            <button class="identity-option" data-platform="hospital">
+                <div class="identity-title">Hospital</div>
+                <div class="identity-text">Manage hospitals, patients, and operational statistics.</div>
+            </button>
+            <button class="identity-option" data-platform="management">
+                <div class="identity-title">Management</div>
+                <div class="identity-text">Oversee global health data across citizens, doctors, and hospitals.</div>
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Settings Modal -->
+<div id="settings-modal" class="modal hidden">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeModal('settings-modal')">✕</button>
+        <h2>Settings</h2>
+        <div class="settings-option">
+            <label>
+                <input type="checkbox" id="theme-toggle"> Dark Mode
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- Help Modal -->
+<div id="help-modal" class="modal hidden">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeModal('help-modal')">✕</button>
+        <h2>Help</h2>
+        <div class="help-section">
+            <h3>What is a Healther ID?</h3>
+            <p>Your Healther ID is a unique identifier that links your health profile globally, enabling seamless access to services across borders.</p>
+        </div>
+        <div class="help-section">
+            <h3>How to sign up?</h3>
+            <p>Click on "Sign Up", fill in your details, and create your account. You'll receive a unique Healther ID immediately.</p>
+        </div>
+        <div class="help-section">
+            <h3>Can I use social login?</h3>
+            <p>Yes! You can sign up using Google, GitHub, or Apple accounts for quick registration.</p>
+        </div>
+    </div>
+</div>
+
+<script src="auth.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var buttons = document.querySelectorAll('.identity-option');
+        buttons.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var platform = btn.getAttribute('data-platform');
+                if (platform === 'citizen') {
+                    sessionStorage.setItem('authStep', 'identity-citizen');
+                    window.location.href = 'citizen-register.html';
+                } else if (platform === 'hospital') {
+                    window.location.href = '../Hospital/hospital.html';
+                } else if (platform === 'management') {
+                    window.location.href = '../Management/management.html';
+                }
+            });
+        });
+    });
+</script>
+<script src="../global/ai-assistant.js"></script>
+</body>
+</html>
+

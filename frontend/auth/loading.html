@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading - Healther</title>
+    <script>
+        (function(){
+            try{
+                var t = localStorage.getItem('theme');
+                if(t) document.documentElement.setAttribute('data-theme', t);
+            }catch(e){}
+        })();
+    </script>
+    <link rel="stylesheet" href="../global/style.css">
+    <link rel="icon" href="../assets/healthload.ico" type="image/x-icon">
+    <style>
+        .loading-page {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.6s ease-out;
+        }
+        .loading-page.fade-out {
+            opacity: 0;
+        }
+        .loading-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            animation: loadFadeIn 0.8s ease-out;
+        }
+        @keyframes loadFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.92);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .loading-title {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: var(--primary, #0a7c42);
+            margin: 0;
+            animation: titleGlow 2s ease-in-out infinite;
+        }
+        @keyframes titleGlow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.85; }
+        }
+        .loading-icon {
+            width: 88px;
+            height: 88px;
+            margin-top: 0.25rem;
+            opacity: 0;
+            animation: iconAppear 1s ease-out 0.3s forwards, iconHover 2s ease-in-out 1.4s infinite;
+        }
+        .loading-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+        @keyframes iconAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.6) translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        @keyframes iconHover {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-6px) scale(1.05); }
+        }
+        .loading-subtitle {
+            font-size: 0.95rem;
+            color: var(--text, #333);
+            opacity: 0.8;
+            margin: 0;
+        }
+        .loading-bar {
+            width: 160px;
+            height: 4px;
+            background: rgba(10, 124, 66, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+        .loading-bar-fill {
+            height: 100%;
+            width: 40%;
+            background: var(--primary, #0a7c42);
+            border-radius: 2px;
+            animation: barMove 1.2s ease-in-out infinite;
+        }
+        @keyframes barMove {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(350%); }
+        }
+        [data-theme="dark"] .loading-title {
+            color: var(--primary, #22c55e);
+        }
+        [data-theme="dark"] .loading-subtitle {
+            color: var(--text, #e2e8f0);
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-page" id="loading-page">
+        <div class="loading-content">
+            <h1 class="loading-title">Healther</h1>
+            <div class="loading-icon">
+                <img src="../assets/healthload.ico" alt="Healther">
+            </div>
+            <p class="loading-subtitle" id="loading-text">Taking you there...</p>
+            <div class="loading-bar">
+                <div class="loading-bar-fill"></div>
+            </div>
+            <div style="margin-top:1rem;">
+                <button id="loading-continue" style="display:none;padding:0.6rem 0.9rem;border-radius:8px;border:none;background:var(--primary-color,#16a34a);color:#fff;cursor:pointer;">Continue</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        (function() {
+            var params = new URLSearchParams(window.location.search);
+            var next = params.get('next') || sessionStorage.getItem('loadingNext') || 'auth.html';
+            var context = params.get('context') || sessionStorage.getItem('loadingContext') || '';
+            sessionStorage.removeItem('loadingNext');
+
+            // Require an explicit trigger (sessionStorage flag) before showing the animation.
+            var triggered = sessionStorage.getItem('loadingTriggered') === 'true';
+            // Clear the trigger so subsequent direct opens don't animate
+            if (triggered) {
+                sessionStorage.removeItem('loadingTriggered');
+                sessionStorage.removeItem('loadingContext');
+            }
+
+            // If not triggered, do NOT auto-forward; show a manual continue button instead
+            var continueBtn = document.getElementById('loading-continue');
+            if (!triggered) {
+                if (continueBtn) {
+                    // Update subtitle so user knows this is a manual transition
+                    var textEl = document.getElementById('loading-text');
+                    if (textEl) textEl.textContent = 'Press Continue to proceed';
+                    continueBtn.style.display = '';
+                    continueBtn.addEventListener('click', function(){ window.location.href = next; });
+                } else {
+                    // Fallback: navigate on explicit user confirmation via dialog
+                    // but do nothing automatically to avoid page switches
+                }
+                return;
+            }
+
+            var duration = 2200;
+            var page = document.getElementById('loading-page');
+            var textEl = document.getElementById('loading-text');
+            if (textEl) textEl.textContent = 'Loading...';
+            setTimeout(function() {
+                if (page) page.classList.add('fade-out');
+                setTimeout(function() {
+                    window.location.href = next;
+                }, 600);
+            }, duration);
+        })();
+    </script>
+</body>
+</html>

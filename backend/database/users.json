@@ -1,0 +1,133 @@
+[
+    {
+        "id": 1,
+        "fullName": "John Doe",
+        "username": "johndoe",
+        "email": "1f2e3a4b5c6d7e8f:a1b2c3d4e5f6:7a8b9c0d1e2f3g4h5i6j7k",
+        "healtherId": "H-ABC12345",
+        "role": "citizen",
+        "passwordHash": "$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86E36gBMJ1e",
+        "badges": [
+            "Welcome Badge"
+        ],
+        "upgradedTo": [],
+        "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=johndoe",
+        "createdAt": "2025-01-15T08:30:00Z",
+        "updatedAt": "2025-01-15T08:30:00Z",
+        "profile": {
+            "phone": "2e3a4b5c6d7e8f:b2c3d4e5f6g7:8b9c0d1e2f3g4h5i6j7k8l",
+            "dateOfBirth": "3a4b5c6d7e8f9g:c3d4e5f6g7h8:9c0d1e2f3g4h5i6j7k8l9m",
+            "gender": "male",
+            "location": "New York, USA",
+            "conditions": [
+                "hypertension"
+            ],
+            "medications": "4b5c6d7e8f9g0h:d4e5f6g7h8i9:0d1e2f3g4h5i6j7k8l9m0n",
+            "allergies": "5c6d7e8f9g0h1i:e5f6g7h8i9j0:1e2f3g4h5i6j7k8l9m0n1o",
+            "activityLevel": "moderate",
+            "emergencyContact": "6d7e8f9g0h1i2j:f6g7h8i9j0k1:2f3g4h5i6j7k8l9m0n1o2p",
+            "insuranceId": "7e8f9g0h1i2j3k:g7h8i9j0k1l2:3g4h5i6j7k8l9m0n1o2p3q"
+        },
+        "_encrypted": true,
+        "privacySettings": {
+            "showProfile": true,
+            "allowMessaging": true,
+            "shareData": false
+        }
+    },
+    {
+        "id": 2,
+        "fullName": "Jane Smith",
+        "username": "janesmith",
+        "email": "8f9g0h1i2j3k4l:h8i9j0k1l2m3:4h5i6j7k8l9m0n1o2p3q4r",
+        "healtherId": "H-DEF67890",
+        "role": "citizen",
+        "passwordHash": "$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86E36gBMJ1e",
+        "badges": [
+            "Welcome Badge",
+            "Health Explorer"
+        ],
+        "upgradedTo": [],
+        "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=janesmith",
+        "createdAt": "2025-01-10T14:20:00Z",
+        "updatedAt": "2025-01-20T10:15:00Z",
+        "profile": {
+            "phone": "9g0h1i2j3k4l5m:i9j0k1l2m3n4:5i6j7k8l9m0n1o2p3q4r5s",
+            "dateOfBirth": "0h1i2j3k4l5m6n:j0k1l2m3n4o5:6j7k8l9m0n1o2p3q4r5s6t",
+            "gender": "female",
+            "location": "San Francisco, USA",
+            "conditions": [],
+            "medications": "1i2j3k4l5m6n7o:k1l2m3n4o5p6:7k8l9m0n1o2p3q4r5s6t7u",
+            "allergies": "2j3k4l5m6n7o8p:l2m3n4o5p6q7:8l9m0n1o2p3q4r5s6t7u8v",
+            "activityLevel": "active",
+            "emergencyContact": "3k4l5m6n7o8p9q:m3n4o5p6q7r8:9m0n1o2p3q4r5s6t7u8v9w",
+            "insuranceId": "4l5m6n7o8p9q0r:n4o5p6q7r8s9:0n1o2p3q4r5s6t7u8v9w0x"
+        },
+        "_encrypted": true,
+        "privacySettings": {
+            "showProfile": true,
+            "allowMessaging": true,
+            "shareData": true
+        }
+    },
+    {
+        "id": 3,
+        "fullName": "Dr. Robert Johnson",
+        "username": "drrjohnson",
+        "email": "5m6n7o8p9q0r1s:o5p6q7r8s9t0:1o2p3q4r5s6t7u8v9w0x1y",
+        "healtherId": "H-DOC11111",
+        "role": "doctor",
+        "passwordHash": "$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86E36gBMJ1e",
+        "badges": [
+            "Medical Professional",
+            "Verified Doctor"
+        ],
+        "upgradedTo": [],
+        "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=drrjohnson",
+        "createdAt": "2024-12-01T09:00:00Z",
+        "updatedAt": "2025-01-22T16:45:00Z",
+        "profile": {
+            "phone": "6n7o8p9q0r1s2t:p6q7r8s9t0u1:2p3q4r5s6t7u8v9w0x1y2z",
+            "dateOfBirth": "7o8p9q0r1s2t3u:q7r8s9t0u1v2:3q4r5s6t7u8v9w0x1y2z3a",
+            "gender": "male",
+            "location": "Los Angeles, USA",
+            "licenseNumber": "8p9q0r1s2t3u4v:r8s9t0u1v2w3:4r5s6t7u8v9w0x1y2z3a4b",
+            "specialty": "Cardiology",
+            "hospital": "Los Angeles Medical Center",
+            "degree": "MD, Stanford University"
+        },
+        "_encrypted": true,
+        "privacySettings": {
+            "showProfile": true,
+            "allowMessaging": true,
+            "shareData": false
+        }
+    },
+    {
+        "id": 4,
+        "fullName": "Jbmuds_Legen",
+        "username": "Jbmuds_Legen",
+        "email": "b3b94572de41c39767f81e07053fda89:a3f1bcad7eaf660f26103a0acad0b260:a9d7872497cea7caff12a80bcf766cdf797a",
+        "healtherId": "H-ORJ5KDVZ",
+        "role": "citizen",
+        "passwordHash": "$2a$10$7yDbSpoz3MA/qy6rHsA.3eRs4H/gm1gdZaLjMMDxD5sXxpNrruD.2",
+        "badges": [
+            "Welcome Badge"
+        ],
+        "upgradedTo": [],
+        "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Jbmuds_Legen",
+        "createdAt": "2026-02-19T13:05:11.915Z",
+        "updatedAt": "2026-02-19T13:05:11.915Z",
+        "profile": {
+            "gender": "not-specified",
+            "location": "",
+            "conditions": []
+        },
+        "privacySettings": {
+            "showProfile": true,
+            "allowMessaging": true,
+            "shareData": false
+        },
+        "_encrypted": true
+    }
+]

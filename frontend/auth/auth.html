@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" data-ai-platform="web">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healther — Log In / Sign Up</title>
+    <script>
+        // Apply persisted theme before CSS loads to avoid flash
+        (function(){
+            try{
+                var t = localStorage.getItem('theme');
+                if(t) document.documentElement.setAttribute('data-theme', t);
+            }catch(e){}
+        })();
+    </script>
+    <script>
+        (function(){
+            function setFaviconForTheme(theme){
+                var ico = document.getElementById('favicon-ico');
+                if(!ico){
+                    ico = document.createElement('link');
+                    ico.id = 'favicon-ico';
+                    ico.rel = 'icon';
+                    ico.type = 'image/x-icon';
+                    document.head.appendChild(ico);
+                }
+                ico.href = (theme === 'dark') ? '../assets/healther.ico' : '../assets/health2.ico';
+            }
+            try{
+                var current = document.documentElement.getAttribute('data-theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                setFaviconForTheme(current);
+            }catch(e){}
+            new MutationObserver(function(mutations){
+                mutations.forEach(function(m){
+                    if(m.attributeName === 'data-theme'){
+                        setFaviconForTheme(document.documentElement.getAttribute('data-theme'));
+                    }
+                });
+            }).observe(document.documentElement,{attributes:true});
+        })();
+    </script>
+    <link rel="stylesheet" href="../global/style.css">
+    <link rel="stylesheet" href="../global/ai-assistant.css">
+    <link rel="stylesheet" href="auth.css">
+    <link rel="icon" href="../assets/images/healther-icon.svg" type="image/svg+xml">
+</head>
+<body>
+<header class="app-header">
+    <div class="menu-container">
+        <button id="menu-toggle" class="menu-toggle">⋮</button>
+        <div id="menu-dropdown" class="menu-dropdown">
+            <button class="menu-item" id="menu-ai"> Healther AI Modifications</button>
+            <button class="menu-item" id="menu-settings">⚙️ Settings</button>
+            <button class="menu-item" id="menu-help">❓ Help</button>
+        </div>
+    </div>
+</header>
+
+<section class="auth-container">
+    <div class="auth-card">
+        <div class="healther-header">
+            <h1 class="healther-title">Healther</h1>
+            <p class="healther-subtitle">Your Health, Connected</p>
+        </div>
+        <h2 class="form-title" id="form-title">Log In</h2>
+
+        <!-- Login Form -->
+        <form id="login-form" class="auth-form">
+            <input type="text" id="login-healtherid" placeholder="Username, Email, or HealtherID" required>
+            <div class="input-group">
+                <input type="password" id="login-password" placeholder="Password" required>
+                <button type="button" id="toggle-login-password" class="toggle-password-btn" aria-label="Show password">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="12" cy="12" r="3" fill="currentColor"/>
+                    </svg>
+                </button>
+            </div>
+            <button type="submit">Log In</button>
+            <div id="login-error" class="error"></div>
+            <p class="toggle-form">Don't have an account? <a href="#" onclick="toggleForms(event)">Sign Up</a></p>
+            
+            <div class="info-box">
+                <p><strong>HealtherID?</strong> You'll receive a unique ID (e.g., H-ABC12XYZ) when you sign up. Use it, your username, or email to log in.</p>
+            </div>
+        </form>
+
+        <!-- Sign Up Form -->
+        <form id="signup-form" class="auth-form hidden">
+            <input type="text" id="signup-fullname" placeholder="Full name" required>
+            <input type="email" id="signup-email" placeholder="Email" required>
+            <input type="text" id="signup-username" placeholder="Username" required>
+            <div class="input-group">
+                <input type="password" id="signup-password" placeholder="Password" required>
+                <button type="button" id="toggle-signup-password" class="toggle-password-btn" aria-label="Show password">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="12" cy="12" r="3" fill="currentColor"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="input-group">
+                <input type="password" id="signup-confirm" placeholder="Confirm Password" required>
+                <button type="button" id="toggle-signup-confirm" class="toggle-password-btn" aria-label="Show password">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="12" cy="12" r="3" fill="currentColor"/>
+                    </svg>
+                </button>
+            </div>
+            <button type="submit">Create Account</button>
+            <div id="signup-error" class="error"></div>
+            
+            <p class="toggle-form">Already have an account? <a href="#" onclick="toggleForms(event)">Log In</a></p>
+            
+            <div class="info-box">
+                <p><strong>🔐 Your Security:</strong> After signup, you'll receive a unique <strong>HealtherID</strong> (e.g., H-ABC12XYZ). Your password is encrypted with bcrypt. Save your HealtherID to access your account anytime.</p>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- Settings Modal -->
+<div id="settings-modal" class="modal hidden">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeModal('settings-modal')">✕</button>
+        <h2>Settings</h2>
+        <div class="settings-option">
+            <label>
+                <input type="checkbox" id="theme-toggle"> Dark Mode
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- Help Modal -->
+<div id="help-modal" class="modal hidden">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeModal('help-modal')">✕</button>
+        <h2>Help</h2>
+        <div class="help-section">
+            <h3>What is a Healther ID?</h3>
+            <p>Your Healther ID is a unique identifier that links your health profile globally, enabling seamless access to services across borders.</p>
+        </div>
+        <div class="help-section">
+            <h3>How to sign up?</h3>
+            <p>Click on "Sign Up", fill in your details, and create your account. You'll receive a unique Healther ID immediately.</p>
+        </div>
+        <div class="help-section">
+            <h3>Can I use social login?</h3>
+            <p>Yes! You can sign up using Google, GitHub, or Apple accounts for quick registration.</p>
+        </div>
+    </div>
+</div>
+
+<script src="../global/translations.js"></script>
+<script src="auth.js"></script>
+<script src="../global/ai-assistant.js"></script>
+</body>
+</html>

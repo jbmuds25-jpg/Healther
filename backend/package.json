@@ -1,0 +1,23 @@
+{
+	"name": "healther-backend",
+	"version": "0.1.0",
+	"private": true,
+	"description": "Healther backend - minimal Express API for demo and local development",
+	"main": "server.js",
+	"engines": {
+		"node": ">=18"
+	},
+	"scripts": {
+		"start": "node server.js",
+		"dev": "node server.js"
+	},
+	"dependencies": {
+		"bcryptjs": "^2.4.3",
+		"cors": "^2.8.5",
+		"express": "^4.18.2",
+		"jsonwebtoken": "^9.0.0",
+		"mongodb": "^6.8.0",
+		"mongoose": "^8.23.0",
+		"openai": "^4.26.0"
+	}
+}

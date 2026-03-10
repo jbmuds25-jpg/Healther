@@ -1,0 +1,126 @@
+{
+  "name": "Healther AI - Health Collaboration Platform",
+  "short_name": "Healther",
+  "description": "A cross-platform health collaboration app powered by AI. Connect with doctors, scientists, and health professionals. Track wellness and get personalized health guidance.",
+  "start_url": "/citizen/citizen.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#1976d2",
+  "background_color": "#ffffff",
+  "screenshots": [
+    {
+      "src": "/assets/images/screenshot-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/assets/images/screenshot-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "icons": [
+    {
+      "src": "/assets/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["health", "productivity"],
+  "shortcuts": [
+    {
+      "name": "Chat with Healther AI",
+      "short_name": "AI Assistant",
+      "description": "Quick access to Healther AI assistant",
+      "url": "/citizen/citizen.html?action=chat",
+      "icons": [
+        {
+          "src": "/assets/icons/chat-icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "View My Health Profile",
+      "short_name": "Profile",
+      "description": "Access your health profile and settings",
+      "url": "/citizen/citizen.html?action=profile",
+      "icons": [
+        {
+          "src": "/assets/icons/profile-icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Community Posts",
+      "short_name": "Community",
+      "description": "Browse community health posts",
+      "url": "/citizen/citizen.html?action=posts",
+      "icons": [
+        {
+          "src": "/assets/icons/community-icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": []
+    }
+  },
+  "prefer_related_applications": false
+}

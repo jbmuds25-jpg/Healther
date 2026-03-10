@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en" data-ai-platform="citizen">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Progress - Healther</title>
+    <script>try{var t=localStorage.getItem('theme'); if(t) document.documentElement.setAttribute('data-theme', t);}catch(e){};</script>
+    <script>
+        (function(){
+            function setFaviconForTheme(theme){
+                var ico = document.getElementById('favicon-ico');
+                if(!ico){
+                    ico = document.createElement('link');
+                    ico.id = 'favicon-ico';
+                    ico.rel = 'icon';
+                    ico.type = 'image/x-icon';
+                    document.head.appendChild(ico);
+                }
+                ico.href = (theme === 'dark') ? '../assets/healther.ico' : '../assets/health2.ico';
+            }
+            try{
+                var current = document.documentElement.getAttribute('data-theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                setFaviconForTheme(current);
+            }catch(e){}
+            new MutationObserver(function(mutations){
+                mutations.forEach(function(m){
+                    if(m.attributeName === 'data-theme'){
+                        setFaviconForTheme(document.documentElement.getAttribute('data-theme'));
+                    }
+                });
+            }).observe(document.documentElement,{attributes:true});
+        })();
+    </script>
+    <link rel="stylesheet" href="../global/style.css">
+    <link rel="stylesheet" href="../global/nav.css">
+    <link rel="stylesheet" href="../global/ai-assistant.css">
+    <link rel="stylesheet" href="citizen.css">
+    <link rel="icon" href="../assets/images/healther-icon.svg" type="image/svg+xml">
+    <script src="../global/ai-assistant.js"></script>
+</head>
+<body>
+
+<header class="app-header">
+    <div class="brand">
+        <div class="brand-title">Healther</div>
+        <div class="brand-subtitle">Citizen platform</div>
+    </div>
+    <div class="header-search">
+        <div class="search-container">
+            <button id="search-btn" class="search-btn" aria-label="Search">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+            </button>
+            <input type="text" id="search-input" class="search-input" placeholder="Search...">
+            <button id="clear-search" class="clear-search" aria-label="Clear search" hidden>×</button>
+        </div>
+        <div id="search-results" class="search-results" hidden>
+            <div class="results-header">
+                <h3>Search Results</h3>
+                <button id="close-results" class="close-results" aria-label="Close results">×</button>
+            </div>
+            <div class="results-list" id="results-list"></div>
+        </div>
+    </div>
+    <div class="header-actions">
+        <button id="more-options" aria-haspopup="true" aria-expanded="false" aria-label="Open options">⋮</button>
+        <div id="options-tile" class="options-tile" hidden>
+            <ul>
+                <li><button class="setting-btn" data-setting="ai-mods">Healther AI Modifications</button></li>
+                <li><button class="setting-btn" data-setting="accounts">Accounts Centre</button></li>
+                <li><button class="setting-btn" data-setting="language">Language</button></li>
+                <li><button class="setting-btn" data-setting="theme">Theme</button></li>
+                <li><button class="setting-btn" data-setting="tutorials">Tutorials</button></li>
+            </ul>
+        </div>
+    </div>
+</header>
+
+<aside class="sidebar" aria-label="Primary">
+    <nav>
+        <div class="nav-item" data-name="Home" data-key="home" title="Home">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 11.5L12 4l9 7.5L21 11.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="label">Home</span>
+        </div>
+        <div class="nav-item" data-name="Explore Hub" data-key="explore" title="Explore Hub">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span class="label">Explore Hub</span>
+        </div>
+        <div class="nav-item" data-name="Market" data-key="market" title="Market">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 6h18v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="label">Market</span>
+        </div>
+        <div class="nav-item" data-name="Notifications" data-key="notifications" title="Notifications">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0 1 18 14.158V11a6 6 0 1 0-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span class="label">Notifications</span>
+        </div>
+        <div class="nav-item" data-name="My account" data-key="account" title="My account">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            <span class="label">My account</span>
+        </div>
+    </nav>
+</aside>
+
+<main class="main-content">
+    <section class="progress-header">
+        <h1>My Progress</h1>
+        <p>Track your health journey and celebrate your achievements</p>
+    </section>
+
+    <section class="progress-dashboard">
+        <div class="progress-overview">
+            <div class="overview-card">
+                <h2>Overall Progress</h2>
+                <div class="progress-circle">
+                    <div class="progress-value">85%</div>
+                    <div class="progress-label">Goal Completion</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="progress-sections">
+            <div class="progress-section">
+                <h3>Fitness Goals</h3>
+                <div class="progress-item">
+                    <div class="progress-info">
+                        <h4>Daily Steps</h4>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 75%"></div>
+                        </div>
+                        <span class="progress-text">7,500 / 10,000 steps</span>
+                    </div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-info">
+                        <h4>Weekly Workouts</h4>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 90%"></div>
+                        </div>
+                        <span class="progress-text">4 / 5 workouts</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="progress-section">
+                <h3>Nutrition Tracking</h3>
+                <div class="progress-item">
+                    <div class="progress-info">
+                        <h4>Calorie Goal</h4>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 60%"></div>
+                        </div>
+                        <span class="progress-text">1,200 / 2,000 calories</span>
+                    </div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-info">
+                        <h4>Water Intake</h4>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 80%"></div>
+                        </div>
+                        <span class="progress-text">6 / 8 glasses</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="progress-section">
+                <h3>Health Metrics</h3>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon">❤️</div>
+                        <div class="metric-info">
+                            <h4>Heart Rate</h4>
+                            <span class="metric-value">72 bpm</span>
+                            <span class="metric-status">Normal</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">🩺</div>
+                        <div class="metric-info">
+                            <h4>Blood Pressure</h4>
+                            <span class="metric-value">120/80</span>
+                            <span class="metric-status">Good</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">⚖️</div>
+                        <div class="metric-info">
+                            <h4>Weight</h4>
+                            <span class="metric-value">68 kg</span>
+                            <span class="metric-status">-2 kg this month</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="achievements-section">
+            <h3>Recent Achievements</h3>
+            <div class="achievements-grid">
+                <div class="achievement-card">
+                    <div class="achievement-icon">🏃</div>
+                    <div class="achievement-info">
+                        <h4>7-Day Streak</h4>
+                        <p>Completed workouts for 7 consecutive days</p>
+                        <div class="achievement-date">Earned 2 days ago</div>
+                    </div>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">🎯</div>
+                    <div class="achievement-info">
+                        <h4>Goal Crusher</h4>
+                        <p>Exceeded monthly fitness goal by 15%</p>
+                        <div class="achievement-date">Earned 1 week ago</div>
+                    </div>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">💪</div>
+                    <div class="achievement-info">
+                        <h4>Strength Builder</h4>
+                        <p>Increased strength training by 3 levels</p>
+                        <div class="achievement-date">Earned 2 weeks ago</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<style>
+/* My Progress Page Styles - Original Citizen Platform Theme */
+.progress-header {
+    text-align: center;
+    padding: 40px 20px;
+    background: var(--card);
+    border-radius: 12px;
+    margin-bottom: 40px;
+}
+
+.progress-header h1 {
+    color: var(--text);
+    margin-bottom: 10px;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.progress-header p {
+    color: var(--text);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.progress-dashboard {
+    display: grid;
+    gap: 30px;
+    padding: 0 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    justify-items: center;
+}
+
+.progress-overview {
+    grid-column: 1;
+}
+
+.overview-card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+}
+
+.progress-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: conic-gradient(var(--primary) 0deg, #20c997 90deg, #17a2b8 180deg, var(--primary) 270deg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    position: relative;
+}
+
+.progress-circle::before {
+    content: '';
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: var(--bg);
+    z-index: 1;
+}
+
+.progress-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary);
+    z-index: 2;
+}
+
+.progress-label {
+    font-size: 0.9rem;
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 10px;
+}
+
+.progress-sections {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.progress-section {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+
+.progress-section h3 {
+    color: var(--text);
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.progress-item {
+    margin-bottom: 20px;
+}
+
+.progress-info h4 {
+    color: var(--text);
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.progress-bar {
+    background: #e9ecef;
+    border-radius: 10px;
+    height: 8px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), #20c997);
+    border-radius: 10px;
+    transition: width 0.5s ease;
+}
+
+.progress-text {
+    font-size: 0.9rem;
+    color: var(--text);
+    display: block;
+    text-align: right;
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.metric-card {
+    background: #000000;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+}
+
+.metric-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.metric-info h4 {
+    color: var(--text);
+    margin-bottom: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.metric-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    display: block;
+    margin-bottom: 5px;
+}
+
+.metric-status {
+    font-size: 0.9rem;
+    padding: 4px 8px;
+    border-radius: 20px;
+    background: #d4edda;
+    color: #155724;
+    font-weight: 500;
+}
+
+.achievements-section {
+    margin-top: 30px;
+}
+
+.achievements-section h3 {
+    color: var(--text);
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.achievement-card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+}
+
+.achievement-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.achievement-info h4 {
+    color: var(--primary);
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.achievement-info p {
+    color: var(--text);
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.achievement-date {
+    font-size: 0.8rem;
+    color: var(--text);
+    background: #f8f9fa;
+    padding: 4px 8px;
+    border-radius: 8px;
+    display: inline-block;
+}
+
+/* Dark theme tiles - black only in dark mode */
+[data-theme="dark"] .overview-card,
+[data-theme="dark"] .progress-section,
+[data-theme="dark"] .metric-card,
+[data-theme="dark"] .achievement-card {
+    background: #000000;
+    border: 2px solid #4a5568;
+}
+
+[data-theme="dark"] .overview-card:hover,
+[data-theme="dark"] .progress-section:hover,
+[data-theme="dark"] .metric-card:hover,
+[data-theme="dark"] .achievement-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+    border-color: #4a5568;
+}
+
+[data-theme="dark"] .progress-circle {
+    background: conic-gradient(var(--primary) 0deg, #20c997 90deg, #17a2b8 180deg, var(--primary) 270deg);
+}
+
+[data-theme="dark"] .progress-circle::before {
+    background: #2d3748;
+}
+
+[data-theme="dark"] .progress-bar {
+    background: #4a5568;
+}
+
+[data-theme="dark"] .metric-info h4 {
+    color: var(--text);
+}
+
+[data-theme="dark"] .metric-value {
+    color: var(--primary);
+}
+
+[data-theme="dark"] .achievement-info h4 {
+    color: var(--primary);
+}
+
+[data-theme="dark"] .achievement-date {
+    background: #4a5568;
+    color: var(--text);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .progress-dashboard {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .metrics-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .achievements-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .progress-circle {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .progress-value {
+        font-size: 1.5rem;
+    }
+}
+</style>
+
+<script>
+// My Progress Page JavaScript
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('My Progress page loaded');
+    
+    // Initialize Healther AI Assistant
+    window.HealtherAI.init({
+        theme: document.documentElement.getAttribute('data-theme') || 'light',
+        autoOpen: false
+    });
+    
+    // Handle navigation clicks
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const key = this.getAttribute('data-key');
+            if (key === 'my-progress') {
+                // Stay on current page
+                return;
+            } else if (key === 'home') {
+                window.location.href = 'citizen.html';
+            } else if (key === 'explore') {
+                window.location.href = 'explore.html';
+            } else if (key === 'market') {
+                window.location.href = 'market.html';
+            } else if (key === 'health-status') {
+                window.location.href = 'health-status.html';
+            } else if (key === 'notifications') {
+                console.log('Notifications clicked');
+            } else if (key === 'account') {
+                window.location.href = 'account-settings.html';
+            }
+        });
+    });
+    
+    // Animate progress bars on load
+    setTimeout(() => {
+        const progressFills = document.querySelectorAll('.progress-fill');
+        progressFills.forEach(fill => {
+            const width = fill.style.width;
+            fill.style.width = '0';
+            setTimeout(() => {
+                fill.style.width = width;
+            }, 100);
+        });
+    }, 500);
+});
+</script>
+</body>
+</html>

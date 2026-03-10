@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en" data-ai-platform="web">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citizen Registration - Healther</title>
+    <script>
+        // Apply persisted theme before CSS loads to avoid flash
+        (function(){
+            try{
+                var t = localStorage.getItem('theme');
+                if(t) document.documentElement.setAttribute('data-theme', t);
+            }catch(e){}
+        })();
+    </script>
+    <script>
+        (function(){
+            function setFaviconForTheme(theme){
+                var ico = document.getElementById('favicon-ico');
+                if(!ico){
+                    ico = document.createElement('link');
+                    ico.id = 'favicon-ico';
+                    ico.rel = 'icon';
+                    ico.type = 'image/x-icon';
+                    document.head.appendChild(ico);
+                }
+                ico.href = (theme === 'dark') ? '../assets/healther.ico' : '../assets/health2.ico';
+            }
+            try{
+                var current = document.documentElement.getAttribute('data-theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                setFaviconForTheme(current);
+            }catch(e){}
+            new MutationObserver(function(mutations){
+                mutations.forEach(function(m){
+                    if(m.attributeName === 'data-theme'){
+                        setFaviconForTheme(document.documentElement.getAttribute('data-theme'));
+                    }
+                });
+            }).observe(document.documentElement,{attributes:true});
+        })();
+    </script>
+    <link rel="stylesheet" href="../global/style.css">
+    <link rel="stylesheet" href="../global/ai-assistant.css">
+    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icons/7.5.0/css/flag-icons.min.css">
+    <link rel="icon" href="../assets/images/healther-icon.svg" type="image/svg+xml">
+</head>
+<body>
+<header class="app-header">
+    <div class="menu-container">
+        <button id="menu-toggle" class="menu-toggle">⋮</button>
+        <div id="menu-dropdown" class="menu-dropdown">
+            <button class="menu-item" id="menu-ai"> Healther AI Modifications</button>
+            <button class="menu-item" id="menu-settings">⚙️ Settings</button>
+            <button class="menu-item" id="menu-help">❓ Help</button>
+        </div>
+    </div>
+</header>
+
+<section class="auth-container">
+    <div class="auth-card">
+        <div class="healther-header">
+            <h1 class="healther-title">Healther</h1>
+            <p class="healther-subtitle">Your Health, Connected</p>
+        </div>
+        <h2 class="form-title">Please fill up the entries...</h2>
+        <p class="identity-subtitle" style="margin: 12px 0 20px 0; color: var(--text); font-size: 14px; line-height: 1.6;">
+            Original information as the Country's Identification Card and Birth Certificate entails...
+        </p>
+
+        <form id="citizen-register-form" class="auth-form">
+            <div class="form-section">
+                <label class="form-label">Date Of Birth</label>
+                <input type="date" id="date-of-birth" placeholder="Date Of Birth" required>
+            </div>
+
+            <div class="form-section">
+                <label class="form-label">Nationality</label>
+                <select id="nationality" required>
+                    <option value="">Select Nationality</option>
+                    <option value="Argentina">Argentina</option>
+                    <option value="Australia">Australia</option>
+                    <option value="Austria">Austria</option>
+                    <option value="Bahrain">Bahrain</option>
+                    <option value="Belgium">Belgium</option>
+                    <option value="Brazil">Brazil</option>
+                    <option value="Canada">Canada</option>
+                    <option value="China">China</option>
+                    <option value="Czech Republic">Czech Republic</option>
+                    <option value="Denmark">Denmark</option>
+                    <option value="Egypt">Egypt</option>
+                    <option value="Finland">Finland</option>
+                    <option value="France">France</option>
+                    <option value="Germany">Germany</option>
+                    <option value="Hungary">Hungary</option>
+                    <option value="India">India</option>
+                    <option value="Indonesia">Indonesia</option>
+                    <option value="Ireland">Ireland</option>
+                    <option value="Israel">Israel</option>
+                    <option value="Italy">Italy</option>
+                    <option value="Japan">Japan</option>
+                    <option value="Jordan">Jordan</option>
+                    <option value="Kenya">Kenya</option>
+                    <option value="Kuwait">Kuwait</option>
+                    <option value="Lebanon">Lebanon</option>
+                    <option value="Malaysia">Malaysia</option>
+                    <option value="Mexico">Mexico</option>
+                    <option value="Netherlands">Netherlands</option>
+                    <option value="New Zealand">New Zealand</option>
+                    <option value="Nigeria">Nigeria</option>
+                    <option value="Norway">Norway</option>
+                    <option value="Oman">Oman</option>
+                    <option value="Philippines">Philippines</option>
+                    <option value="Poland">Poland</option>
+                    <option value="Portugal">Portugal</option>
+                    <option value="Qatar">Qatar</option>
+                    <option value="Romania">Romania</option>
+                    <option value="Russia">Russia</option>
+                    <option value="Saudi Arabia">Saudi Arabia</option>
+                    <option value="Singapore">Singapore</option>
+                    <option value="South Africa">South Africa</option>
+                    <option value="South Korea">South Korea</option>
+                    <option value="Spain">Spain</option>
+                    <option value="Sweden">Sweden</option>
+                    <option value="Switzerland">Switzerland</option>
+                    <option value="Thailand">Thailand</option>
+                    <option value="Turkey">Turkey</option>
+                    <option value="United Arab Emirates">United Arab Emirates</option>
+                    <option value="United Kingdom">United Kingdom</option>
+                    <option value="United States">United States</option>
+                    <option value="Vietnam">Vietnam</option>
+                </select>
+            </div>
+
+            <div class="form-section">
+                <label class="form-label">Mobile number</label>
+                <div class="mobile-input-group">
+                    <div class="country-code-wrapper">
+                        <div class="country-code-display" id="country-code-display">
+                            <span class="fi fi-us" id="selected-flag"></span>
+                            <span id="selected-code">+1</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </div>
+                        <select id="country-code" class="country-code-select" style="display: none;">
+                            <option value="+54" data-flag="ar" data-country="Argentina">+54 (Argentina)</option>
+                            <option value="+61" data-flag="au" data-country="Australia">+61 (Australia)</option>
+                            <option value="+43" data-flag="at" data-country="Austria">+43 (Austria)</option>
+                            <option value="+973" data-flag="bh" data-country="Bahrain">+973 (Bahrain)</option>
+                            <option value="+32" data-flag="be" data-country="Belgium">+32 (Belgium)</option>
+                            <option value="+55" data-flag="br" data-country="Brazil">+55 (Brazil)</option>
+                            <option value="+1" data-flag="ca" data-country="CA">+1 (CA)</option>
+                            <option value="+86" data-flag="cn" data-country="China">+86 (China)</option>
+                            <option value="+420" data-flag="cz" data-country="Czech Republic">+420 (Czech Republic)</option>
+                            <option value="+45" data-flag="dk" data-country="Denmark">+45 (Denmark)</option>
+                            <option value="+20" data-flag="eg" data-country="Egypt">+20 (Egypt)</option>
+                            <option value="+358" data-flag="fi" data-country="Finland">+358 (Finland)</option>
+                            <option value="+33" data-flag="fr" data-country="France">+33 (France)</option>
+                            <option value="+49" data-flag="de" data-country="Germany">+49 (Germany)</option>
+                            <option value="+36" data-flag="hu" data-country="Hungary">+36 (Hungary)</option>
+                            <option value="+91" data-flag="in" data-country="India">+91 (India)</option>
+                            <option value="+62" data-flag="id" data-country="Indonesia">+62 (Indonesia)</option>
+                            <option value="+353" data-flag="ie" data-country="Ireland">+353 (Ireland)</option>
+                            <option value="+972" data-flag="il" data-country="Israel">+972 (Israel)</option>
+                            <option value="+39" data-flag="it" data-country="Italy">+39 (Italy)</option>
+                            <option value="+81" data-flag="jp" data-country="Japan">+81 (Japan)</option>
+                            <option value="+962" data-flag="jo" data-country="Jordan">+962 (Jordan)</option>
+                            <option value="+254" data-flag="ke" data-country="Kenya">+254 (Kenya)</option>
+                            <option value="+965" data-flag="kw" data-country="Kuwait">+965 (Kuwait)</option>
+                            <option value="+961" data-flag="lb" data-country="Lebanon">+961 (Lebanon)</option>
+                            <option value="+60" data-flag="my" data-country="Malaysia">+60 (Malaysia)</option>
+                            <option value="+52" data-flag="mx" data-country="Mexico">+52 (Mexico)</option>
+                            <option value="+31" data-flag="nl" data-country="Netherlands">+31 (Netherlands)</option>
+                            <option value="+64" data-flag="nz" data-country="New Zealand">+64 (New Zealand)</option>
+                            <option value="+234" data-flag="ng" data-country="Nigeria">+234 (Nigeria)</option>
+                            <option value="+47" data-flag="no" data-country="Norway">+47 (Norway)</option>
+                            <option value="+968" data-flag="om" data-country="Oman">+968 (Oman)</option>
+                            <option value="+63" data-flag="ph" data-country="Philippines">+63 (Philippines)</option>
+                            <option value="+48" data-flag="pl" data-country="Poland">+48 (Poland)</option>
+                            <option value="+351" data-flag="pt" data-country="Portugal">+351 (Portugal)</option>
+                            <option value="+974" data-flag="qa" data-country="Qatar">+974 (Qatar)</option>
+                            <option value="+40" data-flag="ro" data-country="Romania">+40 (Romania)</option>
+                            <option value="+7" data-flag="ru" data-country="Russia">+7 (Russia)</option>
+                            <option value="+966" data-flag="sa" data-country="Saudi Arabia">+966 (Saudi Arabia)</option>
+                            <option value="+65" data-flag="sg" data-country="Singapore">+65 (Singapore)</option>
+                            <option value="+27" data-flag="za" data-country="South Africa">+27 (South Africa)</option>
+                            <option value="+82" data-flag="kr" data-country="South Korea">+82 (South Korea)</option>
+                            <option value="+34" data-flag="es" data-country="Spain">+34 (Spain)</option>
+                            <option value="+46" data-flag="se" data-country="Sweden">+46 (Sweden)</option>
+                            <option value="+41" data-flag="ch" data-country="Switzerland">+41 (Switzerland)</option>
+                            <option value="+66" data-flag="th" data-country="Thailand">+66 (Thailand)</option>
+                            <option value="+90" data-flag="tr" data-country="Turkey">+90 (Turkey)</option>
+                            <option value="+971" data-flag="ae" data-country="UAE">+971 (UAE)</option>
+                            <option value="+44" data-flag="gb" data-country="UK">+44 (UK)</option>
+                            <option value="+1" data-flag="us" data-country="US">+1 (US)</option>
+                            <option value="+84" data-flag="vn" data-country="Vietnam">+84 (Vietnam)</option>
+                        </select>
+                        <div class="country-code-dropdown" id="country-code-dropdown" style="display: none;">
+                            <!-- Options will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    <input type="tel" id="mobile-number" placeholder="Mobile number" required>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <label class="form-label">Full Name</label>
+                <input type="text" id="full-name" placeholder="Your full name" required>
+            </div>
+            <div class="form-section">
+                <label class="form-label">Email</label>
+                <input type="email" id="citizen-email" placeholder="Email (for login)" required>
+            </div>
+            <div class="form-section">
+                <label class="form-label">Password</label>
+                <input type="password" id="citizen-password" placeholder="Create a password" required>
+            </div>
+            <div class="form-section">
+                <label class="form-label">Confirm Password</label>
+                <input type="password" id="citizen-password-confirm" placeholder="Confirm password" required>
+            </div>
+
+            <button type="submit">Continue</button>
+            <div id="register-error" class="error"></div>
+        </form>
+    </div>
+</section>
+
+<!-- Settings Modal -->
+<div id="settings-modal" class="modal hidden">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeModal('settings-modal')">✕</button>
+        <h2>Settings</h2>
+        <div class="settings-option">
+            <label>
+                <input type="checkbox" id="theme-toggle"> Dark Mode
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- Help Modal -->
+<div id="help-modal" class="modal hidden">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeModal('help-modal')">✕</button>
+        <h2>Help</h2>
+        <div class="help-section">
+            <h3>What is a Healther ID?</h3>
+            <p>Your Healther ID is a unique identifier that links your health profile globally, enabling seamless access to services across borders.</p>
+        </div>
+        <div class="help-section">
+            <h3>How to sign up?</h3>
+            <p>Click on "Sign Up", fill in your details, and create your account. You'll receive a unique Healther ID immediately.</p>
+        </div>
+        <div class="help-section">
+            <h3>Can I use social login?</h3>
+            <p>Yes! You can sign up using Google, GitHub, or Apple accounts for quick registration.</p>
+        </div>
+    </div>
+</div>
+
+<script src="auth.js"></script>
+<script>
+    // Mapping of nationality to country code and flag
+    const nationalityToCountryCode = {
+        'United States': { code: '+1', flag: 'us' },
+        'Canada': { code: '+1', flag: 'ca' },
+        'United Kingdom': { code: '+44', flag: 'gb' },
+        'France': { code: '+33', flag: 'fr' },
+        'Germany': { code: '+49', flag: 'de' },
+        'Italy': { code: '+39', flag: 'it' },
+        'Spain': { code: '+34', flag: 'es' },
+        'Netherlands': { code: '+31', flag: 'nl' },
+        'Belgium': { code: '+32', flag: 'be' },
+        'Switzerland': { code: '+41', flag: 'ch' },
+        'Austria': { code: '+43', flag: 'at' },
+        'Sweden': { code: '+46', flag: 'se' },
+        'Norway': { code: '+47', flag: 'no' },
+        'Denmark': { code: '+45', flag: 'dk' },
+        'Finland': { code: '+358', flag: 'fi' },
+        'Portugal': { code: '+351', flag: 'pt' },
+        'Ireland': { code: '+353', flag: 'ie' },
+        'Poland': { code: '+48', flag: 'pl' },
+        'Czech Republic': { code: '+420', flag: 'cz' },
+        'Hungary': { code: '+36', flag: 'hu' },
+        'Romania': { code: '+40', flag: 'ro' },
+        'Russia': { code: '+7', flag: 'ru' },
+        'Japan': { code: '+81', flag: 'jp' },
+        'South Korea': { code: '+82', flag: 'kr' },
+        'China': { code: '+86', flag: 'cn' },
+        'India': { code: '+91', flag: 'in' },
+        'Australia': { code: '+61', flag: 'au' },
+        'New Zealand': { code: '+64', flag: 'nz' },
+        'South Africa': { code: '+27', flag: 'za' },
+        'Egypt': { code: '+20', flag: 'eg' },
+        'Nigeria': { code: '+234', flag: 'ng' },
+        'Kenya': { code: '+254', flag: 'ke' },
+        'Brazil': { code: '+55', flag: 'br' },
+        'Mexico': { code: '+52', flag: 'mx' },
+        'Argentina': { code: '+54', flag: 'ar' },
+        'United Arab Emirates': { code: '+971', flag: 'ae' },
+        'Saudi Arabia': { code: '+966', flag: 'sa' },
+        'Qatar': { code: '+974', flag: 'qa' },
+        'Kuwait': { code: '+965', flag: 'kw' },
+        'Bahrain': { code: '+973', flag: 'bh' },
+        'Oman': { code: '+968', flag: 'om' },
+        'Lebanon': { code: '+961', flag: 'lb' },
+        'Jordan': { code: '+962', flag: 'jo' },
+        'Israel': { code: '+972', flag: 'il' },
+        'Turkey': { code: '+90', flag: 'tr' },
+        'Malaysia': { code: '+60', flag: 'my' },
+        'Singapore': { code: '+65', flag: 'sg' },
+        'Thailand': { code: '+66', flag: 'th' },
+        'Vietnam': { code: '+84', flag: 'vn' },
+        'Indonesia': { code: '+62', flag: 'id' },
+        'Philippines': { code: '+63', flag: 'ph' }
+    };
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Only allow this page after identity step is completed
+        if (sessionStorage.getItem('authStep') !== 'identity-citizen') {
+            // Do not auto-show loading page for redirects
+            window.location.href = 'identity.html';
+            return;
+        }
+
+        const countryCodeSelect = document.getElementById('country-code');
+        const countryCodeDisplay = document.getElementById('country-code-display');
+        const selectedFlag = document.getElementById('selected-flag');
+        const selectedCode = document.getElementById('selected-code');
+        const countryCodeDropdown = document.getElementById('country-code-dropdown');
+        const nationalitySelect = document.getElementById('nationality');
+        
+        // Populate custom dropdown
+        function populateDropdown() {
+            if (!countryCodeSelect || !countryCodeDropdown) return;
+            
+            countryCodeDropdown.innerHTML = '';
+            const options = countryCodeSelect.options;
+            
+            for (let i = 0; i < options.length; i++) {
+                const option = options[i];
+                if (option.value === '') continue;
+                
+                const flag = option.getAttribute('data-flag');
+                const country = option.getAttribute('data-country');
+                const code = option.value;
+                
+                const dropdownItem = document.createElement('div');
+                dropdownItem.className = 'country-code-option';
+                dropdownItem.innerHTML = `
+                    <span class="fi fi-${flag}"></span>
+                    <span>${code} (${country})</span>
+                `;
+                dropdownItem.addEventListener('click', function() {
+                    countryCodeSelect.selectedIndex = i;
+                    selectedFlag.className = 'fi fi-' + flag;
+                    selectedCode.textContent = code;
+                    countryCodeDropdown.style.display = 'none';
+                });
+                countryCodeDropdown.appendChild(dropdownItem);
+            }
+        }
+        
+        // Toggle dropdown
+        if (countryCodeDisplay) {
+            countryCodeDisplay.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (countryCodeDropdown) {
+                    countryCodeDropdown.style.display = countryCodeDropdown.style.display === 'none' ? 'block' : 'none';
+                }
+            });
+        }
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (countryCodeDropdown && !countryCodeDisplay.contains(e.target) && !countryCodeDropdown.contains(e.target)) {
+                countryCodeDropdown.style.display = 'none';
+            }
+        });
+        
+        // Auto-update country code when nationality changes
+        if (nationalitySelect && countryCodeSelect) {
+            nationalitySelect.addEventListener('change', function() {
+                const nationality = this.value;
+                const countryData = nationalityToCountryCode[nationality];
+                
+                if (countryData) {
+                    // Find matching option in select
+                    const options = countryCodeSelect.options;
+                    for (let i = 0; i < options.length; i++) {
+                        const flag = options[i].getAttribute('data-flag');
+                        if (flag === countryData.flag && options[i].value === countryData.code) {
+                            countryCodeSelect.selectedIndex = i;
+                            selectedFlag.className = 'fi fi-' + countryData.flag;
+                            selectedCode.textContent = countryData.code;
+                            break;
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Initialize dropdown
+        populateDropdown();
+        
+        // Initialize display with first option
+        if (countryCodeSelect.options.length > 0) {
+            const firstOption = countryCodeSelect.options[0];
+            if (firstOption.value) {
+                const flag = firstOption.getAttribute('data-flag');
+                selectedFlag.className = 'fi fi-' + flag;
+                selectedCode.textContent = firstOption.value;
+            }
+        }
+        
+        const form = document.getElementById('citizen-register-form');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const dateOfBirth = document.getElementById('date-of-birth').value;
+                const nationality = document.getElementById('nationality').value;
+                const countryCode = countryCodeSelect.value;
+                const mobileNumber = document.getElementById('mobile-number').value;
+                const fullName = document.getElementById('full-name').value.trim();
+                const email = document.getElementById('citizen-email').value.trim();
+                const password = document.getElementById('citizen-password').value;
+                const passwordConfirm = document.getElementById('citizen-password-confirm').value;
+                
+                // Clear previous errors
+                const errorEl = document.getElementById('register-error');
+                if (errorEl) {
+                    errorEl.textContent = '';
+                    errorEl.style.display = 'none';
+                }
+                
+                // Basic validation
+                if (!dateOfBirth || !nationality || !countryCode || !mobileNumber || !fullName || !email || !password || !passwordConfirm) {
+                    if (errorEl) {
+                        errorEl.textContent = 'Please fill in all fields';
+                        errorEl.style.display = 'block';
+                    }
+                    return;
+                }
+                if (password !== passwordConfirm) {
+                    if (errorEl) {
+                        errorEl.textContent = 'Passwords do not match';
+                        errorEl.style.display = 'block';
+                    }
+                    return;
+                }
+                if (password.length < 6) {
+                    if (errorEl) {
+                        errorEl.textContent = 'Password must be at least 6 characters';
+                        errorEl.style.display = 'block';
+                    }
+                    return;
+                }
+                
+                // Store citizen data in localStorage; password only in sessionStorage (used once for API then cleared)
+                try {
+                    localStorage.setItem('citizenData', JSON.stringify({
+                        dateOfBirth,
+                        nationality,
+                        countryCode,
+                        mobileNumber: countryCode + mobileNumber,
+                        fullName,
+                        email
+                    }));
+                    sessionStorage.setItem('citizenPassword', password);
+                    sessionStorage.setItem('authStep', 'citizen-register-done');
+                } catch(err) {
+                    console.warn('Could not save citizen data:', err);
+                }
+                
+                // Redirect to confirmation page (user clicked)
+                window.location.href = 'citizen-confirm.html';
+            });
+        }
+    });
+</script>
+<script src="../global/ai-assistant.js"></script>
+</body>
+</html>

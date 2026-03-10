@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en" data-ai-platform="citizen">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Health Guide - Healther</title>
+    <script>try{var t=localStorage.getItem('theme'); if(t) document.documentElement.setAttribute('data-theme', t);}catch(e){};</script>
+    <script>
+        (function(){
+            function setFaviconForTheme(theme){
+                var ico = document.getElementById('favicon-ico');
+                if(!ico){
+                    ico = document.createElement('link');
+                    ico.id = 'favicon-ico';
+                    ico.rel = 'icon';
+                    ico.type = 'image/x-icon';
+                    document.head.appendChild(ico);
+                }
+                ico.href = (theme === 'dark') ? '../assets/healther.ico' : '../assets/health2.ico';
+            }
+            try{
+                var current = document.documentElement.getAttribute('data-theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                setFaviconForTheme(current);
+            }catch(e){}
+            new MutationObserver(function(mutations){
+                mutations.forEach(function(m){
+                    if(m.attributeName === 'data-theme'){
+                        setFaviconForTheme(document.documentElement.getAttribute('data-theme'));
+                    }
+                });
+            }).observe(document.documentElement,{attributes:true});
+        })();
+    </script>
+    <link rel="stylesheet" href="../global/style.css">
+    <link rel="stylesheet" href="../global/nav.css">
+    <link rel="stylesheet" href="../global/ai-assistant.css">
+    <link rel="stylesheet" href="citizen.css">
+    <link rel="icon" href="../assets/images/healther-icon.svg" type="image/svg+xml">
+    <script src="../global/ai-assistant.js"></script>
+</head>
+<body>
+
+<header class="app-header">
+    <div class="brand">
+        <div class="brand-title">Healther</div>
+        <div class="brand-subtitle">Citizen platform</div>
+    </div>
+    <div class="header-search">
+        <div class="search-container">
+            <button id="search-btn" class="search-btn" aria-label="Search">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+            </button>
+            <input type="text" id="search-input" class="search-input" placeholder="Search...">
+            <button id="clear-search" class="clear-search" aria-label="Clear search" hidden>×</button>
+        </div>
+        <div id="search-results" class="search-results" hidden>
+            <div class="results-header">
+                <h3>Search Results</h3>
+                <button id="close-results" class="close-results" aria-label="Close results">×</button>
+            </div>
+            <div class="results-list" id="results-list"></div>
+        </div>
+    </div>
+    <div class="header-actions">
+        <button id="more-options" aria-haspopup="true" aria-expanded="false" aria-label="Open options">⋮</button>
+        <div id="options-tile" class="options-tile" hidden>
+            <ul>
+                <li><button class="setting-btn" data-setting="ai-mods">Healther AI Modifications</button></li>
+                <li><button class="setting-btn" data-setting="accounts">Accounts Centre</button></li>
+                <li><button class="setting-btn" data-setting="language">Language</button></li>
+                <li><button class="setting-btn" data-setting="theme">Theme</button></li>
+                <li><button class="setting-btn" data-setting="tutorials">Tutorials</button></li>
+            </ul>
+        </div>
+    </div>
+</header>
+
+<aside class="sidebar" aria-label="Primary">
+    <nav>
+        <div class="nav-item" data-name="Home" data-key="home" title="Home">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 11.5L12 4l9 7.5L21 11.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="label">Home</span>
+        </div>
+        <div class="nav-item" data-name="Explore Hub" data-key="explore" title="Explore Hub">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span class="label">Explore Hub</span>
+        </div>
+        <div class="nav-item" data-name="Market" data-key="market" title="Market">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 6h18v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="label">Market</span>
+        </div>
+        <div class="nav-item" data-name="Notifications" data-key="notifications" title="Notifications">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0 1 18 14.158V11a6 6 0 1 0-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span class="label">Notifications</span>
+        </div>
+        <div class="nav-item" data-name="My account" data-key="account" title="My account">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            <span class="label">My account</span>
+        </div>
+    </nav>
+</aside>
+
+<main class="main-content">
+    <section class="guide-header">
+        <h1>My Health Guide</h1>
+        <p>Comprehensive health information and educational resources to support your wellness journey</p>
+    </section>
+
+    <section class="guide-search">
+        <div class="search-container">
+            <input type="text" id="guide-search" placeholder="Search health topics, symptoms, or conditions...">
+            <button id="search-guide-btn">🔍</button>
+        </div>
+    </section>
+
+    <section class="guide-categories">
+        <div class="category-grid">
+            <div class="guide-category" data-category="conditions">
+                <div class="category-icon">🏥</div>
+                <h3>Health Conditions</h3>
+                <p>Information about common health conditions and symptoms</p>
+            </div>
+            <div class="guide-category" data-category="wellness">
+                <div class="category-icon">🧘</div>
+                <h3>Wellness Tips</h3>
+                <p>Daily wellness practices and mental health guidance</p>
+            </div>
+            <div class="guide-category" data-category="nutrition">
+                <div class="category-icon">🥗</div>
+                <h3>Nutrition Guide</h3>
+                <p>Healthy eating habits and nutritional information</p>
+            </div>
+            <div class="guide-category" data-category="fitness">
+                <div class="category-icon">💪</div>
+                <h3>Fitness Programs</h3>
+                <p>Exercise routines and fitness best practices</p>
+            </div>
+            <div class="guide-category" data-category="prevention">
+                <div class="category-icon">🛡️</div>
+                <h3>Preventive Care</h3>
+                <p>Tips for preventing illness and maintaining health</p>
+            </div>
+            <div class="guide-category" data-category="emergency">
+                <div class="category-icon">🚨</div>
+                <h3>Emergency Guide</h3>
+                <p>What to do in medical emergencies and first aid</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="guide-content" id="guide-content">
+        <!-- Content will be loaded dynamically based on category selection -->
+        <div class="welcome-message">
+            <div class="welcome-icon">📚</div>
+            <h3>Welcome to Your Health Guide</h3>
+            <p>Select a category above to explore comprehensive health information and resources tailored to your needs.</p>
+        </div>
+    </section>
+</main>
+
+<style>
+/* Health Guide Page Styles */
+.guide-header {
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 12px;
+    margin-bottom: 40px;
+}
+
+.guide-header h1 {
+    color: #6f42c1;
+    margin-bottom: 10px;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.guide-header p {
+    color: #6c757d;
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.guide-search {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+
+.search-container {
+    display: flex;
+    gap: 10px;
+}
+
+#guide-search {
+    flex: 1;
+    padding: 12px 16px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+#search-guide-btn {
+    background: #6f42c1;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+#search-guide-btn:hover {
+    background: #5a32a3;
+}
+
+.guide-categories {
+    margin-bottom: 40px;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 0 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    justify-items: center;
+}
+
+.guide-category {
+    background: #000000;
+    border-radius: 16px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.guide-category:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+}
+
+.guide-category.conditions {
+    border-left-color: #dc3545;
+}
+
+.guide-category.wellness {
+    border-left-color: #17a2b8;
+}
+
+.guide-category.nutrition {
+    border-left-color: #fd7e14;
+}
+
+.guide-category.fitness {
+    border-left-color: #28a745;
+}
+
+.guide-category.prevention {
+    border-left-color: #6f42c1;
+}
+
+.guide-category.emergency {
+    border-left-color: #ffc107;
+}
+
+.category-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+.guide-category h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.guide-category p {
+    color: #6c757d;
+    line-height: 1.6;
+}
+
+.guide-content {
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    min-height: 400px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+
+.welcome-message {
+    text-align: center;
+    padding: 60px 40px;
+}
+
+.welcome-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+.welcome-message h3 {
+    color: #6f42c1;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.welcome-message p {
+    color: #6c757d;
+    line-height: 1.6;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* Dark theme */
+[data-theme="dark"] .guide-header {
+    background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+}
+
+[data-theme="dark"] .guide-header h1 {
+    color: #6f42c1;
+}
+
+[data-theme="dark"] .guide-header p {
+    color: #a8b5cf;
+}
+
+[data-theme="dark"] .guide-category {
+    background: #000000;
+    border: 2px solid #4a5568;
+}
+
+[data-theme="dark"] .guide-category:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+    border-color: #4a5568;
+}
+
+[data-theme="dark"] .guide-category h3 {
+    color: #63b3ed;
+}
+
+[data-theme="dark"] .guide-category p {
+    color: #a8b5cf;
+}
+
+[data-theme="dark"] #guide-search {
+    background: #2d3748;
+    border-color: #4a5568;
+}
+
+[data-theme="dark"] #guide-search {
+    background: #4a5568;
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .category-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .guide-content {
+        min-height: 300px;
+    }
+}
+</style>
+
+<script>
+// Health Guide Page JavaScript
+const healthGuideContent = {
+    conditions: {
+        title: 'Common Health Conditions',
+        content: `
+            <h2>Understanding Common Health Conditions</h2>
+            <div class="condition-section">
+                <h3>🩺 Hypertension (High Blood Pressure)</h3>
+                <p>Blood pressure consistently above 130/80 mmHg. Risk factors include age, family history, obesity, and lack of physical activity.</p>
+                <h4>Symptoms:</h4>
+                <ul>
+                    <li>Severe headaches</li>
+                    <li>Shortness of breath</li>
+                    <li>Nosebleeds</li>
+                    <li>Vision problems</li>
+                </ul>
+                <h4>Prevention:</h4>
+                <ul>
+                    <li>Maintain healthy weight</li>
+                    <li>Regular exercise</li>
+                    <li>Limit sodium intake</li>
+                    <li>Avoid tobacco and excessive alcohol</li>
+                </ul>
+            </div>
+            <div class="condition-section">
+                <h3>🤧 Diabetes</h3>
+                <p>High blood sugar levels that can lead to serious health complications if not managed properly.</p>
+                <h4>Types:</h4>
+                <ul>
+                    <li>Type 1: Body doesn't produce enough insulin</li>
+                    <li>Type 2: Body doesn't use insulin properly</li>
+                </ul>
+                <h4>Management:</h4>
+                <ul>
+                    <li>Monitor blood sugar regularly</li>
+                    <li>Take medications as prescribed</li>
+                    <li>Maintain healthy diet</li>
+                    <li>Regular exercise</li>
+                </ul>
+            </div>
+        `
+    },
+    wellness: {
+        title: 'Wellness Practices',
+        content: `
+            <h2>Mental Health & Wellness</h2>
+            <div class="wellness-section">
+                <h3>🧘 Stress Management</h3>
+                <p>Chronic stress can impact both physical and mental health. Learn effective coping strategies.</p>
+                <h4>Techniques:</h4>
+                <ul>
+                    <li>Deep breathing exercises</li>
+                    <li>Meditation and mindfulness</li>
+                    <li>Regular physical activity</li>
+                    <li>Adequate sleep (7-9 hours)</li>
+                    <li>Time management and prioritization</li>
+                </ul>
+            </div>
+            <div class="wellness-section">
+                <h3>😊 Healthy Sleep Habits</h3>
+                <p>Quality sleep is essential for overall health and recovery.</p>
+                <h4>Sleep Tips:</h4>
+                <ul>
+                    <li>Stick to a consistent sleep schedule</li>
+                    <li>Create a relaxing bedtime routine</li>
+                    <li>Avoid screens 1 hour before bed</li>
+                    <li>Keep bedroom cool and dark</li>
+                    <li>Limit caffeine and alcohol before bed</li>
+                </ul>
+            </div>
+            <div class="wellness-section">
+                <h3>💪 Work-Life Balance</h3>
+                <p>Balance between professional responsibilities and personal well-being is crucial.</p>
+                <h4>Strategies:</h4>
+                <ul>
+                    <li>Set clear boundaries between work and personal time</li>
+                    <li>Take regular breaks during work</li>
+                    <li>Prioritize self-care activities</li>
+                    <li>Practice saying "no" to additional commitments</li>
+                </ul>
+            </div>
+        `
+    },
+    nutrition: {
+        title: 'Nutrition Guide',
+        content: `
+            <h2>Healthy Eating Habits</h2>
+            <div class="nutrition-section">
+                <h3>🥗 Balanced Diet</h3>
+                <p>A balanced diet provides essential nutrients for optimal health.</p>
+                <h4>Food Groups:</h4>
+                <ul>
+                    <li><strong>Proteins:</strong> Lean meats, fish, eggs, beans, nuts</li>
+                    <li><strong>Carbohydrates:</strong> Whole grains, fruits, vegetables</li>
+                    <li><strong>Fats:</strong> Healthy oils, nuts, seeds</li>
+                    <li><strong>Dairy:</strong> Low-fat options, fortified alternatives</li>
+                </ul>
+            </div>
+            <div class="nutrition-section">
+                <h3>💧 Hydration</h3>
+                <p>Proper hydration is vital for bodily functions and overall health.</p>
+                <h4>Daily Intake:</h4>
+                <ul>
+                    <li>Men: ~3.7 liters (15.5 cups)</li>
+                    <li>Women: ~2.7 liters (11.5 cups)</li>
+                    <li>Adjust based on activity level and climate</li>
+                    <li>Listen to your body's thirst signals</li>
+                </ul>
+            </div>
+            <div class="nutrition-section">
+                <h3>🥦 Meal Planning</h3>
+                <p>Strategic meal planning supports health goals and saves time and money.</p>
+                <h4>Tips:</h4>
+                <ul>
+                    <li>Plan meals for the week</li>
+                    <li>Include variety of food groups</li>
+                    <li>Prepare healthy snacks in advance</li>
+                    <li>Read food labels and understand portions</li>
+                </ul>
+            </div>
+        `
+    },
+    fitness: {
+        title: 'Fitness Programs',
+        content: `
+            <h2>Exercise & Physical Activity</h2>
+            <div class="fitness-section">
+                <h3>🏃 Cardiovascular Exercise</h3>
+                <p>Regular cardio exercise strengthens your heart and improves overall endurance.</p>
+                <h4>Recommended Activities:</h4>
+                <ul>
+                    <li>Brisk walking (30 minutes, 5 days/week)</li>
+                    <li>Running or jogging (150 minutes/week)</li>
+                    <li>Cycling (60 minutes/week)</li>
+                    <li>Swimming (30 minutes, 3 days/week)</li>
+                </ul>
+            </div>
+            <div class="fitness-section">
+                <h3>💪 Strength Training</h3>
+                <p>Building muscle strength supports metabolism and bone health.</p>
+                <h4>Training Tips:</h4>
+                <ul>
+                    <li>Start with 2-3 days per week</li>
+                    <li>Focus on proper form over heavy weights</li>
+                    <li>Allow 48 hours between sessions for recovery</li>
+                    <li>Progressively increase weight and intensity</li>
+                </ul>
+            </div>
+            <div class="fitness-section">
+                <h3>🧘 Flexibility & Balance</h3>
+                <p>Improving flexibility and balance reduces injury risk and enhances mobility.</p>
+                <h4>Exercises:</h4>
+                <ul>
+                    <li>Yoga or Tai Chi</li>
+                    <li>Pilates or similar core exercises</li>
+                    <li>Stretching major muscle groups</li>
+                    <li>Balance exercises (single-leg stands, heel-to-toe walks)</li>
+                </ul>
+            </div>
+        `
+    },
+    prevention: {
+        title: 'Preventive Care',
+        content: `
+            <h2>Preventive Health Measures</h2>
+            <div class="prevention-section">
+                <h3>🛡️ Vaccinations</h3>
+                <p>Stay up-to-date with recommended vaccinations for optimal protection.</p>
+                <h4>Essential Vaccines:</h4>
+                <ul>
+                    <li>Annual flu shot</li>
+                    <li>Tetanus booster (every 10 years)</li>
+                    <li>COVID-19 vaccine and boosters</li>
+                    <li>Shingles vaccine (adults 50+)</li>
+                    <li>Pneumonia vaccine (adults 65+)</li>
+                </ul>
+            </div>
+            <div class="prevention-section">
+                <h3>🔍 Regular Health Screenings</h3>
+                <p>Early detection through regular screenings can significantly improve health outcomes.</p>
+                <h4>Recommended Screenings:</h4>
+                <ul>
+                    <li>Blood pressure check (annually)</li>
+                    <li>Cholesterol test (every 4-6 years)</li>
+                    <li>Diabetes screening (every 3 years)</li>
+                    <li>Cancer screenings (age and risk dependent)</li>
+                    <li>Bone density scan (women 65+, men 70+)</li>
+                </ul>
+            </div>
+            <div class="prevention-section">
+                <h3>🦷 Oral Health</h3>
+                <p>Good oral hygiene and regular dental care prevent systemic health issues.</p>
+                <h4>Dental Care Tips:</h4>
+                <ul>
+                    <li>Brush twice daily with fluoride toothpaste</li>
+                    <li>Floss daily and use mouthwash</li>
+                    <li>Visit dentist every 6 months</li>
+                    <li>Limit sugary foods and acidic drinks</li>
+                    <li>Avoid tobacco products</li>
+                </ul>
+            </div>
+        `
+    },
+    emergency: {
+        title: 'Emergency Procedures',
+        content: `
+            <h2>Emergency Response Guide</h2>
+            <div class="emergency-section">
+                <h3>🚨 Medical Emergency</h3>
+                <p>Know when and how to seek immediate medical attention.</p>
+                <h4>Emergency Numbers:</h4>
+                <ul>
+                    <li>Emergency Services: 911</li>
+                    <li>Poison Control: 1-800-222-1222</li>
+                    <li>Non-emergency medical: Your doctor's office</li>
+                </ul>
+            </div>
+            <div class="emergency-section">
+                <h3>🏥 First Aid Basics</h3>
+                <p>Essential first aid knowledge can save lives in critical situations.</p>
+                <h4>First Aid Kit Essentials:</h4>
+                <ul>
+                    <li>Bandages and antiseptic wipes</li>
+                    <li>Pain relievers and fever reducers</li>
+                    <li>Thermometer</li>
+                    <li>Tweezers and scissors</li>
+                    <li>Emergency blanket</li>
+                    <li>Flashlight and batteries</li>
+                </ul>
+            </div>
+            <div class="emergency-section">
+                <h3>⚠️ When to Seek Help</h3>
+                <p>Recognize symptoms that require immediate medical attention.</p>
+                <h4>Warning Signs:</h4>
+                <ul>
+                    <li>Chest pain or pressure</li>
+                    <li>Difficulty breathing or shortness of breath</li>
+                    <li>Sudden severe headache</li>
+                    <li>Weakness or numbness on one side</li>
+                    <li>Confusion or difficulty speaking</li>
+                    <li>Severe bleeding that won't stop</li>
+                </ul>
+            </div>
+        `
+    }
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('Health Guide page loaded');
+    
+    // Initialize Healther AI Assistant
+    window.HealtherAI.init({
+        theme: document.documentElement.getAttribute('data-theme') || 'light',
+        autoOpen: false
+    });
+    
+    // Handle category clicks
+    const categories = document.querySelectorAll('.guide-category');
+    categories.forEach(category => {
+        category.addEventListener('click', function() {
+            const categoryType = this.getAttribute('data-category');
+            loadGuideContent(categoryType);
+        });
+    });
+    
+    // Handle search
+    const searchBtn = document.getElementById('search-guide-btn');
+    const searchInput = document.getElementById('guide-search');
+    
+    if (searchBtn && searchInput) {
+        searchBtn.addEventListener('click', () => {
+            performGuideSearch();
+        });
+        
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                performGuideSearch();
+            }
+        });
+    }
+    
+    // Handle navigation clicks
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const key = this.getAttribute('data-key');
+            if (key === 'health-guide') {
+                // Stay on current page
+                return;
+            } else if (key === 'home') {
+                window.location.href = 'citizen.html';
+            } else if (key === 'explore') {
+                window.location.href = 'explore.html';
+            } else if (key === 'market') {
+                window.location.href = 'market.html';
+            } else if (key === 'health-status') {
+                window.location.href = 'health-status.html';
+            } else if (key === 'notifications') {
+                console.log('Notifications clicked');
+            } else if (key === 'account') {
+                window.location.href = 'account-settings.html';
+            }
+        });
+    });
+});
+
+function loadGuideContent(category) {
+    const content = document.getElementById('guide-content');
+    if (!content) return;
+    
+    const guideData = healthGuideContent[category];
+    if (guideData) {
+        content.innerHTML = `
+            <h2>${guideData.title}</h2>
+            ${guideData.content}
+        `;
+    } else {
+        content.innerHTML = `
+            <div class="welcome-message">
+                <div class="welcome-icon">📚</div>
+                <h3>Welcome to Your Health Guide</h3>
+                <p>Select a category above to explore comprehensive health information and resources tailored to your needs.</p>
+            </div>
+        `;
+    }
+}
+
+function performGuideSearch() {
+    const searchTerm = document.getElementById('guide-search').value.toLowerCase();
+    const content = document.getElementById('guide-content');
+    
+    if (!searchTerm) {
+        loadGuideContent(null);
+        return;
+    }
+    
+    // Search through all guide content
+    let searchResults = '';
+    Object.keys(healthGuideContent).forEach(category => {
+        const guideData = healthGuideContent[category];
+        if (guideData.content.toLowerCase().includes(searchTerm)) {
+            searchResults += `
+                <div class="search-result-item">
+                    <h4>${guideData.title}</h4>
+                    <p>Found relevant information in ${guideData.title}</p>
+                </div>
+            `;
+        }
+    });
+    
+    if (searchResults) {
+        content.innerHTML = `
+            <h3>Search Results</h3>
+            <div class="search-results-list">
+                ${searchResults}
+            </div>
+        `;
+    } else {
+        loadGuideContent(null);
+    }
+}
+</script>
+</body>
+</html>

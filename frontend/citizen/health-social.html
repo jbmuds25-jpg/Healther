@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" data-ai-platform="citizen">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Social Hub - Healther</title>
+    <script>try{var t=localStorage.getItem('theme'); if(t) document.documentElement.setAttribute('data-theme', t);}catch(e){};</script>
+    <link rel="stylesheet" href="../global/style.css">
+    <link rel="stylesheet" href="../global/nav.css">
+    <link rel="stylesheet" href="health-social.css">
+    <link rel="icon" href="../assets/images/healther-icon.svg" type="image/svg+xml">
+</head>
+<body>
+
+<header class="app-header">
+    <div class="brand">
+        <div class="brand-title">Healther</div>
+        <div class="brand-subtitle">Health Social Hub</div>
+    </div>
+    <div class="header-search">
+        <div class="search-container">
+            <button id="search-btn" class="search-btn" aria-label="Search">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+            </button>
+            <input type="text" id="search-input" class="search-input" placeholder="Search health content worldwide..." data-i18n-placeholder="search_placeholder">
+            <button id="clear-search" class="clear-search" aria-label="Clear search" hidden>×</button>
+        </div>
+    </div>
+    <div class="header-actions">
+        <button id="refresh-btn" class="refresh-btn" aria-label="Refresh news">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M23 4v6h-6M1 4v6h6M3.5 13.5L8 18l4.5-4.5L16 18M21 4l-9 9-9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+        <button id="back-btn" class="back-btn" aria-label="Go back">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+    </div>
+</header>
+
+<aside class="sidebar" aria-label="Primary">
+    <nav>
+        <div class="nav-item" data-name="Home" data-key="home" title="Home">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 11.5L12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V11.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="label">Home</span>
+        </div>
+        <div class="nav-item active" data-name="Health Social Hub" data-key="explore" title="Health Social Hub">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span class="label">Health Social Hub</span>
+        </div>
+        <div class="nav-item" data-name="Market" data-key="market" title="Market">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 6h18v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="label">Market</span>
+        </div>
+        <div class="nav-item" data-name="Notifications" data-key="notifications" title="Notifications">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0 1 18 14.158V11a6 6 0 1 0-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span class="label">Notifications</span>
+        </div>
+        <div class="nav-item" data-name="My account" data-key="account" title="My account">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            <span class="label">My account</span>
+        </div>
+    </nav>
+</aside>
+
+<section class="social-container" id="social-container">
+    <!-- Trending Topics -->
+    <aside class="trending-panel" id="trending-panel">
+        <div class="trending-header">
+            <h3>🔥 Trending Health Topics</h3>
+            <div class="trending-stats">
+                <span id="trending-count">0</span> trending topics
+            </div>
+        </div>
+        <div class="trending-list" id="trending-list">
+            <!-- Trending topics will be loaded here -->
+            <div class="trending-loading">
+                <div class="mini-spinner"></div>
+                <p>Loading trends...</p>
+            </div>
+        </div>
+        
+        <div class="trending-header">
+            <h3>📊 Global Health Stats</h3>
+        </div>
+        <div class="health-stats" id="health-stats">
+            <div class="stat-item">
+                <div class="stat-number" id="total-news">0</div>
+                <div class="stat-label">News Articles</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="total-sources">0</div>
+                <div class="stat-label">Sources</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="total-countries">0</div>
+                <div class="stat-label">Countries</div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Feed -->
+    <main class="social-feed" id="social-feed">
+        <div class="feed-header">
+            <h2>🌍 Global Health Feed</h2>
+            <p class="feed-subtitle">Real-time health news from trusted sources worldwide</p>
+            <div class="feed-controls">
+                <button id="filter-btn" class="filter-btn" aria-label="Filter content">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 6h18M7 12h10M9 18h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    Filter
+                </button>
+                <select id="sort-select" class="sort-select">
+                    <option value="latest">Latest</option>
+                    <option value="trending">Trending</option>
+                    <option value="most-liked">Most Liked</option>
+                    <option value="most-shared">Most Shared</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="content-grid" id="content-grid">
+            <!-- Health content will be loaded here -->
+            <div class="loading-state">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p>Fetching global health content...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Load More Button -->
+        <div class="load-more-container">
+            <button id="load-more-btn" class="load-more-btn">Load More Content</button>
+        </div>
+    </main>
+
+    <!-- Filter Modal -->
+    <div class="filter-modal" id="filter-modal" hidden>
+        <div class="modal-overlay" id="filter-overlay"></div>
+        <div class="filter-content">
+            <div class="filter-header">
+                <h3>Filter Health Content</h3>
+                <button id="close-filter" class="close-filter">×</button>
+            </div>
+            <div class="filter-body">
+                <div class="filter-section">
+                    <h4>Health Categories</h4>
+                    <div class="filter-grid">
+                        <label><input type="checkbox" value="covid" data-filter="category"> COVID-19</label>
+                        <label><input type="checkbox" value="vaccines" data-filter="category"> Vaccines</label>
+                        <label><input type="checkbox" value="nutrition" data-filter="category"> Nutrition</label>
+                        <label><input type="checkbox" value="fitness" data-filter="category"> Fitness</label>
+                        <label><input type="checkbox" value="mental" data-filter="category"> Mental Health</label>
+                        <label><input type="checkbox" value="technology" data-filter="category"> Health Tech</label>
+                        <label><input type="checkbox" value="research" data-filter="category"> Research</label>
+                        <label><input type="checkbox" value="policy" data-filter="category"> Health Policy</label>
+                    </div>
+                </div>
+                <div class="filter-section">
+                    <h4>Content Type</h4>
+                    <div class="filter-grid">
+                        <label><input type="checkbox" value="article" data-filter="type" checked> Articles</label>
+                        <label><input type="checkbox" value="video" data-filter="type"> Videos</label>
+                        <label><input type="checkbox" value="image" data-filter="type"> Images</label>
+                        <label><input type="checkbox" value="document" data-filter="type"> Documents</label>
+                        <label><input type="checkbox" value="infographic" data-filter="type"> Infographics</label>
+                        <label><input type="checkbox" value="podcast" data-filter="type"> Podcasts</label>
+                    </div>
+                </div>
+                <div class="filter-section">
+                    <h4>Source Region</h4>
+                    <div class="filter-grid">
+                        <label><input type="checkbox" value="global" data-filter="region" checked> Global</label>
+                        <label><input type="checkbox" value="americas" data-filter="region"> Americas</label>
+                        <label><input type="checkbox" value="europe" data-filter="region"> Europe</label>
+                        <label><input type="checkbox" value="asia" data-filter="region"> Asia</label>
+                        <label><input type="checkbox" value="africa" data-filter="region"> Africa</label>
+                        <label><input type="checkbox" value="middle-east" data-filter="region"> Middle East</label>
+                    </div>
+                </div>
+            </div>
+            <div class="filter-actions">
+                <button id="apply-filters" class="apply-filters">Apply Filters</button>
+                <button id="reset-filters" class="reset-filters">Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Detail Modal -->
+    <div class="content-modal" id="content-modal" hidden>
+        <div class="modal-overlay" id="content-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="content-close">×</button>
+            <div class="modal-body" id="content-body">
+                <!-- Full content details will be loaded here -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="../global/logout-helper.js"></script>
+<script src="../global/translations.js"></script>
+<script src="../global/language-selector.js"></script>
+<script src="health-social.js"></script>
+</body>
+</html>

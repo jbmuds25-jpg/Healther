@@ -1,0 +1,12 @@
+[
+    {
+        "id": 1,
+        "name": "Welcome Badge",
+        "description": "Awarded for registering on Healther"
+    },
+    {
+        "id": 2,
+        "name": "Health Contributor",
+        "description": "Awarded for posting on Exploration Hub"
+    }
+]

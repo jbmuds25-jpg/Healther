@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healther Image Gallery Demo</title>
+    <script>try{var t=localStorage.getItem('theme'); if(t) document.documentElement.setAttribute('data-theme', t);}catch(e){};</script>
+    <link rel="stylesheet" href="../global/style.css">
+    <link rel="stylesheet" href="citizen.css">
+    <link rel="stylesheet" href="image-gallery.css">
+    <style>
+        .demo-section {
+            margin: 40px 0;
+            padding: 20px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+        
+        .demo-title {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .demo-description {
+            margin-bottom: 20px;
+            color: var(--text);
+            opacity: 0.8;
+        }
+        
+        .controls {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background: var(--primary);
+            color: white;
+            transition: background 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: var(--primary-dark);
+        }
+        
+        .btn.secondary {
+            background: var(--secondary);
+        }
+        
+        .btn.success {
+            background: var(--success);
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-left">
+            <h1 class="header-title">Healther Image Gallery Demo</h1>
+        </div>
+    </header>
+
+    <main style="padding: 20px; max-width: 1200px; margin: 0 auto;">
+        
+        <!-- Pharmacy Gallery -->
+        <section class="demo-section">
+            <h2 class="demo-title">🏥 Pharmacy Images</h2>
+            <p class="demo-description">Medical supplies and pharmacy products</p>
+            
+            <div class="controls">
+                <button class="btn" onclick="loadPharmacyGallery()">Load Gallery</button>
+                <button class="btn secondary" onclick="loadPharmacyGrid()">Load Grid</button>
+                <button class="btn success" onclick="loadRandomPharmacy()">Random Image</button>
+            </div>
+            
+            <div id="pharmacy-gallery" class="healther-gallery pharmacy-gallery gallery-grid-3"></div>
+        </section>
+
+        <!-- Healthcare Gallery -->
+        <section class="demo-section">
+            <h2 class="demo-title">🩺 Healthcare Images</h2>
+            <p class="demo-description">Medical services and healthcare professionals</p>
+            
+            <div class="controls">
+                <button class="btn" onclick="loadHealthcareGallery()">Load Gallery</button>
+                <button class="btn secondary" onclick="loadHealthcareMasonry()">Masonry Layout</button>
+                <button class="btn success" onclick="preloadHealthcare()">Preload Images</button>
+            </div>
+            
+            <div id="healthcare-gallery" class="healther-gallery healthcare-gallery"></div>
+        </section>
+
+        <!-- Wellness Gallery -->
+        <section class="demo-section">
+            <h2 class="demo-title">🧘 Wellness Images</h2>
+            <p class="demo-description">Fitness, wellness, and lifestyle products</p>
+            
+            <div class="controls">
+                <button class="btn" onclick="loadWellnessGallery()">Load Gallery</button>
+                <button class="btn secondary" onclick="loadWellnessGrid()">4-Column Grid</button>
+                <button class="btn success" onclick="shuffleWellness()">Shuffle</button>
+            </div>
+            
+            <div id="wellness-gallery" class="healther-gallery wellness-gallery"></div>
+        </section>
+
+        <!-- Lab Tests Gallery -->
+        <section class="demo-section">
+            <h2 class="demo-title">🔬 Lab Test Images</h2>
+            <p class="demo-description">Medical tests and diagnostic procedures</p>
+            
+            <div class="controls">
+                <button class="btn" onclick="loadLabTestsGallery()">Load Gallery</button>
+                <button class="btn secondary" onclick="loadLabTestsGrid()">Compact Grid</button>
+                <button class="btn success" onclick="showLabTestInfo()">Show Info</button>
+            </div>
+            
+            <div id="labtests-gallery" class="healther-gallery labtests-gallery"></div>
+        </section>
+
+        <!-- Mixed Gallery -->
+        <section class="demo-section">
+            <h2 class="demo-title">🎨 Mixed Category Gallery</h2>
+            <p class="demo-description">Random selection from all categories</p>
+            
+            <div class="controls">
+                <button class="btn" onclick="loadMixedGallery()">Load Mixed</button>
+                <button class="btn secondary" onclick="clearAllGalleries()">Clear All</button>
+                <button class="btn success" onclick="showStatistics()">Show Stats</button>
+            </div>
+            
+            <div id="mixed-gallery" class="healther-gallery gallery-grid-4"></div>
+        </section>
+
+    </main>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="image-lightbox">
+        <button class="image-lightbox-close" onclick="closeLightbox()">×</button>
+        <img id="lightbox-image" src="" alt="">
+    </div>
+
+    <!-- Scripts -->
+    <script src="image-loader.js"></script>
+    <script>
+        // Demo functions
+        async function loadPharmacyGallery() {
+            await window.healtherImageLoader.createGallery('#pharmacy-gallery', 'pharmacy', {
+                columns: 3,
+                maxImages: 9
+            });
+        }
+
+        async function loadPharmacyGrid() {
+            await window.healtherImageLoader.populateContainer('#pharmacy-gallery', 'pharmacy', {
+                maxImages: 12,
+                className: 'gallery-image',
+                shuffle: true
+            });
+        }
+
+        async function loadRandomPharmacy() {
+            const randomImage = window.healtherImageLoader.getRandomImage('pharmacy');
+            if (randomImage) {
+                const container = document.getElementById('pharmacy-gallery');
+                container.innerHTML = '';
+                const img = window.healtherImageLoader.createImageElement(randomImage, 'gallery-image');
+                container.appendChild(img);
+            }
+        }
+
+        async function loadHealthcareGallery() {
+            await window.healtherImageLoader.createGallery('#healthcare-gallery', 'healthcare', {
+                columns: 4,
+                maxImages: 12
+            });
+        }
+
+        async function loadHealthcareMasonry() {
+            const container = document.getElementById('healthcare-gallery');
+            container.className = 'healther-gallery healthcare-gallery gallery-masonry';
+            await window.healtherImageLoader.populateContainer('#healthcare-gallery', 'healthcare', {
+                maxImages: 15,
+                className: 'gallery-image',
+                shuffle: true
+            });
+        }
+
+        async function preloadHealthcare() {
+            await window.healtherImageLoader.preloadImages('healthcare', 20);
+        }
+
+        async function loadWellnessGallery() {
+            await window.healtherImageLoader.createGallery('#wellness-gallery', 'wellness', {
+                columns: 3,
+                maxImages: 9
+            });
+        }
+
+        async function loadWellnessGrid() {
+            const container = document.getElementById('wellness-gallery');
+            container.className = 'healther-gallery wellness-gallery gallery-grid-4';
+            await window.healtherImageLoader.populateContainer('#wellness-gallery', 'wellness', {
+                maxImages: 16,
+                className: 'gallery-image'
+            });
+        }
+
+        async function shuffleWellness() {
+            await window.healtherImageLoader.populateContainer('#wellness-gallery', 'wellness', {
+                maxImages: 12,
+                className: 'gallery-image',
+                shuffle: true
+            });
+        }
+
+        async function loadLabTestsGallery() {
+            await window.healtherImageLoader.createGallery('#labtests-gallery', 'labtests', {
+                columns: 3,
+                maxImages: 9
+            });
+        }
+
+        async function loadLabTestsGrid() {
+            const container = document.getElementById('labtests-gallery');
+            container.className = 'healther-gallery labtests-gallery gallery-grid-5';
+            await window.healtherImageLoader.populateContainer('#labtests-gallery', 'labtests', {
+                maxImages: 20,
+                className: 'gallery-image'
+            });
+        }
+
+        function showLabTestInfo() {
+            const images = window.healtherImageLoader.getImagesByCategory('labtests');
+            alert(`Total Lab Test Images: ${images.length}\nFirst 5: ${images.slice(0, 5).map(img => img.name).join(', ')}`);
+        }
+
+        async function loadMixedGallery() {
+            const container = document.getElementById('mixed-gallery');
+            container.innerHTML = '';
+            
+            const categories = ['pharmacy', 'healthcare', 'wellness', 'labtests'];
+            const mixedImages = [];
+            
+            categories.forEach(category => {
+                const randomImage = window.healtherImageLoader.getRandomImage(category);
+                if (randomImage) {
+                    mixedImages.push(randomImage);
+                }
+            });
+            
+            // Add more random images
+            for (let i = 0; i < 8; i++) {
+                const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+                const randomImage = window.healtherImageLoader.getRandomImage(randomCategory);
+                if (randomImage) {
+                    mixedImages.push(randomImage);
+                }
+            }
+            
+            mixedImages.forEach(imageData => {
+                const img = window.healtherImageLoader.createImageElement(imageData, 'gallery-image');
+                container.appendChild(img);
+            });
+        }
+
+        function clearAllGalleries() {
+            ['pharmacy-gallery', 'healthcare-gallery', 'wellness-gallery', 'labtests-gallery', 'mixed-gallery'].forEach(id => {
+                document.getElementById(id).innerHTML = '';
+            });
+        }
+
+        function showStatistics() {
+            const stats = {
+                pharmacy: window.healtherImageLoader.getImagesByCategory('pharmacy').length,
+                healthcare: window.healtherImageLoader.getImagesByCategory('healthcare').length,
+                wellness: window.healtherImageLoader.getImagesByCategory('wellness').length,
+                labtests: window.healtherImageLoader.getImagesByCategory('labtests').length
+            };
+            
+            const total = Object.values(stats).reduce((a, b) => a + b, 0);
+            const message = `Image Statistics:\n\nPharmacy: ${stats.pharmacy}\nHealthcare: ${stats.healthcare}\nWellness: ${stats.wellness}\nLab Tests: ${stats.labtests}\n\nTotal: ${total} images`;
+            
+            alert(message);
+        }
+
+        // Lightbox functionality
+        function openLightbox(imageSrc) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImage = document.getElementById('lightbox-image');
+            
+            lightboxImage.src = imageSrc;
+            lightbox.classList.add('active');
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+        }
+
+        // Add click handlers to all images
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('gallery-image')) {
+                openLightbox(e.target.src);
+            }
+        });
+
+        // Close lightbox on background click
+        document.getElementById('lightbox').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLightbox();
+            }
+        });
+
+        // Close lightbox on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+
+        // Auto-load first gallery on page load
+        document.addEventListener('DOMContentLoaded', async () => {
+            setTimeout(() => {
+                loadPharmacyGallery();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

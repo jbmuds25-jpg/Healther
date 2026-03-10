@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healther - Offline</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #28a745 0%, #17a2b8 50%, #007bff 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            transition: background 0.3s ease;
+        }
+
+        [data-theme="dark"] body {
+            background: linear-gradient(135deg, #1e7e34 0%, #138496 50%, #0056b3 100%);
+            color: #fff;
+        }
+
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 500px;
+            text-align: center;
+            animation: slideUp 0.6s ease-out;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        [data-theme="dark"] .container {
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        h1 {
+            color: #28a745;
+            font-size: 28px;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+
+        [data-theme="dark"] h1 {
+            color: #22c55e;
+        }
+
+        p {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            transition: color 0.3s ease;
+        }
+
+        [data-theme="dark"] p {
+            color: #ccc;
+        }
+
+        .status {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 30px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        [data-theme="dark"] .status {
+            background: #2d2d2d;
+            color: #ccc;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ff6b6b;
+            margin-right: 8px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .tips {
+            text-align: left;
+            background: #f0f7ff;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-left: 4px solid #28a745;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        [data-theme="dark"] .tips {
+            background: #2d3748;
+            border-left-color: #22c55e;
+        }
+
+        .tips h3 {
+            color: #28a745;
+            margin-bottom: 10px;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        [data-theme="dark"] .tips h3 {
+            color: #22c55e;
+        }
+
+        .tips ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tips li {
+            padding: 8px 0;
+            color: #555;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s ease;
+        }
+
+        [data-theme="dark"] .tips li {
+            color: #ccc;
+        }
+
+        .tips li:before {
+            content: "✓";
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        [data-theme="dark"] .tips li:before {
+            color: #22c55e;
+        }
+
+        .cached-content {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            text-align: left;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        [data-theme="dark"] .cached-content {
+            background: #2d2d2d;
+            color: #fff;
+        }
+
+        .cached-content h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        [data-theme="dark"] .cached-content h3 {
+            color: #fff;
+        }
+
+        .cached-content a {
+            display: block;
+            padding: 12px;
+            margin: 8px 0;
+            background: linear-gradient(135deg, #28a745 0%, #17a2b8 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background 0.3s;
+            font-size: 14px;
+        }
+
+        .cached-content a:hover {
+            background: linear-gradient(135deg, #218838 0%, #138496 100%);
+        }
+
+        .retry-button {
+            background: linear-gradient(135deg, #28a745 0%, #17a2b8 100%);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
+        }
+
+        .retry-button:hover {
+            background: linear-gradient(135deg, #218838 0%, #138496 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(40, 167, 69, 0.4);
+        }
+
+        .retry-button:active {
+            transform: translateY(0);
+        }
+
+        .countdown {
+            color: #999;
+            font-size: 12px;
+            margin-top: 10px;
+            transition: color 0.3s ease;
+        }
+
+        [data-theme="dark"] .countdown {
+            color: #ccc;
+        }
+    </style>
+    <script>
+        (function(){
+            function setFaviconForTheme(theme){
+                var ico = document.getElementById('favicon-ico');
+                if(!ico){
+                    ico = document.createElement('link');
+                    ico.id = 'favicon-ico';
+                    ico.rel = 'icon';
+                    ico.type = 'image/x-icon';
+                    document.head.appendChild(ico);
+                }
+                ico.href = (theme === 'dark') ? 'assets/healther.ico' : 'assets/health2.ico';
+            }
+            try{
+                var current = document.documentElement.getAttribute('data-theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                setFaviconForTheme(current);
+            }catch(e){}
+            new MutationObserver(function(mutations){
+                mutations.forEach(function(m){
+                    if(m.attributeName === 'data-theme'){
+                        setFaviconForTheme(document.documentElement.getAttribute('data-theme'));
+                    }
+                });
+            }).observe(document.documentElement,{attributes:true});
+        })();
+    </script>
+    <link rel="icon" href="assets/images/healther-icon.svg" type="image/svg+xml">
+</head>
+<body>
+    <div class="container">
+        <div class="icon">📡</div>
+        
+        <h1>You're Offline</h1>
+        <p>Healther couldn't reach the server, but you can still access cached content.</p>
+
+        <div class="status">
+            <span class="status-indicator"></span>
+            <span id="status-text">Reconnecting...</span>
+        </div>
+
+        <div class="cached-content">
+            <h3>Available Offline</h3>
+            <a href="citizen/citizen.html">👤 Your Profile</a>
+            <a href="citizen/citizen.html?action=wellness">📊 Wellness Tracker</a>
+            <a href="auth/auth.html">🔐 Account Settings</a>
+        </div>
+
+        <div class="tips">
+            <h3>What You Can Do:</h3>
+            <ul>
+                <li>View your cached health profile</li>
+                <li>Read previous conversations</li>
+                <li>Update wellness metrics (syncs when online)</li>
+                <li>Queue new messages (sent automatically)</li>
+            </ul>
+        </div>
+
+        <button class="retry-button" onclick="retryConnection()">
+            🔄 Try Reconnecting
+        </button>
+
+        <div class="countdown">
+            Auto-retry in <span id="countdown">30</span>s
+        </div>
+    </div>
+
+    <script>
+        // Check connection status with 30-second wait cycle
+        function checkConnection() {
+            document.getElementById('status-text').textContent = 'Checking connection...';
+            
+            fetch('/api/ai/health', { method: 'HEAD' })
+                .then(() => {
+                    // Network is available - get user info and redirect to their citizen platform
+                    document.getElementById('status-text').textContent = 'Connected! Loading your account...';
+                    document.getElementById('countdown').textContent = '...';
+                    
+                    // Get user info from localStorage to determine correct redirect
+                    try {
+                        const user = JSON.parse(localStorage.getItem('user')) || JSON.parse(localStorage.getItem('citizenData'));
+                        if (user && user.username) {
+                            // Redirect to specific citizen platform for the registered account
+                            setTimeout(() => {
+                                window.location.href = `citizen/citizen.html?user=${encodeURIComponent(user.username)}`;
+                            }, 1500);
+                        } else {
+                            // Fallback to generic citizen platform
+                            setTimeout(() => {
+                                window.location.href = 'citizen/citizen.html';
+                            }, 1500);
+                        }
+                    } catch (error) {
+                        console.warn('Could not retrieve user info, using fallback:', error);
+                        // Fallback to generic citizen platform
+                        setTimeout(() => {
+                            window.location.href = 'citizen/citizen.html';
+                        }, 1500);
+                    }
+                })
+                .catch(() => {
+                    // No network connection - restart 30-second cycle
+                    updateStatus();
+                    startCountdown();
+                });
+        }
+
+        // Update status display
+        function updateStatus() {
+            const now = new Date().toLocaleTimeString();
+            document.getElementById('status-text').textContent = `Offline • Last check: ${now}`;
+        }
+
+        // Start 30-second countdown
+        function startCountdown() {
+            let countdown = 30;
+            document.getElementById('countdown').textContent = countdown;
+            
+            const countdownInterval = setInterval(() => {
+                countdown--;
+                document.getElementById('countdown').textContent = countdown;
+                
+                if (countdown <= 0) {
+                    clearInterval(countdownInterval);
+                    checkConnection(); // Check connection after 30 seconds
+                }
+            }, 1000);
+        }
+
+        // Retry connection manually
+        function retryConnection() {
+            document.getElementById('countdown').textContent = '...';
+            checkConnection();
+        }
+
+        // Initialize
+        updateStatus();
+        checkConnection();
+
+        // Handle online event
+        window.addEventListener('online', () => {
+            checkConnection();
+        });
+    </script>
+</body>
+</html>

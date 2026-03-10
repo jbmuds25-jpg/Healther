@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" data-ai-platform="citizen">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Settings — Healther</title>
+    <script>try{var t=localStorage.getItem('theme'); if(t) document.documentElement.setAttribute('data-theme', t);}catch(e){};</script>
+    <script>
+        (function(){
+            function setFaviconForTheme(theme){
+                var ico = document.getElementById('favicon-ico');
+                if(!ico){
+                    ico = document.createElement('link');
+                    ico.id = 'favicon-ico';
+                    ico.rel = 'icon';
+                    ico.type = 'image/x-icon';
+                    document.head.appendChild(ico);
+                }
+                ico.href = (theme === 'dark') ? '../assets/healther.ico' : '../assets/health2.ico';
+            }
+            try{
+                var current = document.documentElement.getAttribute('data-theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                setFaviconForTheme(current);
+            }catch(e){}
+            new MutationObserver(function(mutations){
+                mutations.forEach(function(m){
+                    if(m.attributeName === 'data-theme'){
+                        setFaviconForTheme(document.documentElement.getAttribute('data-theme'));
+                    }
+                });
+            }).observe(document.documentElement,{attributes:true});
+        })();
+    </script>
+    <link rel="stylesheet" href="../global/style.css">
+    <link rel="stylesheet" href="../global/nav.css">
+    <link rel="stylesheet" href="../global/ai-assistant.css">
+    <link rel="stylesheet" href="citizen.css">
+    <link rel="icon" href="../assets/images/healther-icon.svg" type="image/svg+xml">
+</head>
+<body>
+<header class="app-header">
+    <div class="brand">
+        <div class="brand-title">Healther</div>
+        <div class="brand-subtitle">Citizen platform</div>
+    </div>
+    <div class="header-search">
+        <div class="search-container">
+            <button id="search-btn" class="search-btn" aria-label="Search">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+            </button>
+            <input type="text" id="search-input" class="search-input" placeholder="Search...">
+            <button id="clear-search" class="clear-search" aria-label="Clear search" hidden>×</button>
+        </div>
+        <div id="search-results" class="search-results" hidden>
+            <div class="results-header">
+                <h3>Search Results</h3>
+                <button id="close-results" class="close-results" aria-label="Close results">×</button>
+            </div>
+            <div class="results-list" id="results-list"></div>
+        </div>
+    </div>
+    <div class="header-actions">
+        <button id="more-options" aria-haspopup="true" aria-expanded="false" aria-label="Open options">⋮</button>
+        <div id="options-tile" class="options-tile" hidden>
+            <ul>
+                <li><button class="opt-btn" data-action="profile">Profile</button></li>
+                <li><button class="opt-btn" data-action="settings">Settings</button></li>
+                <li><button class="opt-btn" data-action="help">Help</button></li>
+                <li><button class="opt-btn" data-action="logout">Logout</button></li>
+            </ul>
+        </div>
+        <div id="settings-tile" class="settings-tile" hidden>
+            <ul>
+                <li><button class="setting-btn" data-setting="ai-mods">Healther AI Modifications</button></li>
+                <li><button class="setting-btn" data-setting="accounts">Accounts Centre</button></li>
+                <li><button class="setting-btn" data-setting="language">Language</button></li>
+                <li><button class="setting-btn" data-setting="theme">Theme</button></li>
+                <li><button class="setting-btn" data-setting="tutorials">Tutorials</button></li>
+            </ul>
+    </div>
+</header>
+
+<!-- Platform navigation removed per design request -->
+
+<aside class="sidebar" aria-label="Primary">
+    <nav>
+        <div class="nav-item" data-name="Home" data-key="home" title="Home">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 11.5L12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V11.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="label">Home</span>
+        </div>
+        <div id="theme-tile" class="theme-tile" hidden>
+            <ul>
+                <li><button class="theme-option" data-theme="dark">Dark theme</button></li>
+                <li><button class="theme-option" data-theme="light">Light theme</button></li>
+            </ul>
+        </div>
+        <div class="nav-item" data-name="Explore Hub" data-key="explore" title="Explore Hub">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span class="label">Explore Hub</span>
+        </div>
+        <div class="nav-item" data-name="Market" data-key="market" title="Market">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 6h18v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="label">Market</span>
+        </div>
+        <div class="nav-item" data-name="Notifications" data-key="notifications" title="Notifications">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0 1 18 14.158V11a6 6 0 1 0-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span class="label">Notifications</span>
+        </div>
+        <div class="nav-item" data-name="My account" data-key="account" title="My account">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            <span class="label">My account</span>
+        </div>
+    </nav>
+</aside>
+
+<main>
+    <section class="account-page" id="account-page">
+        <div class="account-card">
+            <h2 class="account-heading">Account Settings</h2>
+        
+        <div class="account-profile-section">
+            <div class="account-avatar-wrap">
+                <img id="account-avatar" class="account-avatar" src="" alt="Profile" />
+                <label class="account-avatar-upload" for="account-avatar-input">
+                    <span>Change photo</span>
+                    <input type="file" id="account-avatar-input" accept="image/*" hidden>
+                </label>
+                <button type="button" class="account-avatar-remove" id="account-avatar-remove">Remove photo</button>
+            </div>
+            <div class="account-name-wrap">
+                <p class="account-value account-fullname" id="account-fullname">—</p>
+                <p class="account-subvalue account-username-inline" id="account-username">—</p>
+            </div>
+        </div>
+
+        <div class="account-details">
+            <div class="account-row">
+                <span class="account-label">Full name</span>
+                <span class="account-value"><input id="fullName" type="text" style="width:100%;"/></span>
+            </div>
+            <div class="account-row">
+                <span class="account-label">Username</span>
+                <span class="account-value"><input id="username" type="text" style="width:100%;"/></span>
+            </div>
+            <div class="account-row">
+                <span class="account-label">Email</span>
+                <span class="account-value"><input id="email" type="email" style="width:100%;"/></span>
+            </div>
+            <div class="account-row">
+                <span class="account-label">Healther ID</span>
+                <span class="account-value" id="account-healtherid">—</span>
+            </div>
+            <div class="account-row">
+                <span class="account-label">Role</span>
+                <span class="account-value" id="account-role">—</span>
+            </div>
+            <div class="account-row">
+                <span class="account-label">Member since</span>
+                <span class="account-value" id="account-member-since">—</span>
+            </div>
+        </div>
+
+        <div class="account-badges-section">
+            <h3 class="account-subheading">Badges</h3>
+            <ul class="account-badges-list" id="account-badges-list"></ul>
+        </div>
+
+        <div class="account-actions">
+            <button type="button" class="btn" id="saveProfile">Save Changes</button>
+            <button type="button" class="account-back-btn" id="account-back-btn">Cancel</button>
+        </div>
+    </div>
+</section>
+</main>
+
+<script src="../global/logout-helper.js"></script>
+<script src="account-settings.js"></script>
+<!-- Cross-platform navigation removed for citizen-only platform -->
+<script src="../global/ai-assistant.js"></script>
+</body>
+</html>

@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en" data-ai-platform="citizen">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness - Healther Market</title>
+    <script>try{var t=localStorage.getItem('theme'); if(t) document.documentElement.setAttribute('data-theme', t);}catch(e){};</script>
+    <script>
+        (function(){
+            function setFaviconForTheme(theme){
+                var ico = document.getElementById('favicon-ico');
+                if(!ico){
+                    ico = document.createElement('link');
+                    ico.id = 'favicon-ico';
+                    ico.rel = 'icon';
+                    ico.type = 'image/x-icon';
+                    document.head.appendChild(ico);
+                }
+                ico.href = (theme === 'dark') ? '../assets/healther.ico' : '../assets/health2.ico';
+            }
+            try{
+                var current = document.documentElement.getAttribute('data-theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                setFaviconForTheme(current);
+            }catch(e){}
+            new MutationObserver(function(mutations){
+                mutations.forEach(function(m){
+                    if(m.attributeName === 'data-theme'){
+                        setFaviconForTheme(document.documentElement.getAttribute('data-theme'));
+                    }
+                });
+            }).observe(document.documentElement,{attributes:true});
+        })();
+    </script>
+    <link rel="stylesheet" href="../global/style.css">
+    <link rel="stylesheet" href="../global/nav.css">
+    <link rel="stylesheet" href="../global/ai-assistant.css">
+    <link rel="stylesheet" href="citizen.css">
+    <link rel="icon" href="../assets/images/healther-icon.svg" type="image/svg+xml">
+    <script src="../global/ai-assistant.js"></script>
+</head>
+<body>
+
+<header class="app-header">
+    <div class="brand">
+        <div class="brand-title">Healther</div>
+        <div class="brand-subtitle">Citizen platform</div>
+    </div>
+    <div class="header-search">
+        <div class="search-container">
+            <button id="search-btn" class="search-btn" aria-label="Search">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+            </button>
+            <input type="text" id="search-input" class="search-input" placeholder="Search fitness products...">
+            <button id="clear-search" class="clear-search" aria-label="Clear search" hidden>×</button>
+        </div>
+        <div id="search-results" class="search-results" hidden>
+            <div class="results-header">
+                <h3>Search Results</h3>
+                <button id="close-results" class="close-results" aria-label="Close results">×</button>
+            </div>
+            <div class="results-list" id="results-list"></div>
+        </div>
+    </div>
+    <div class="header-actions">
+        <button id="more-options" aria-haspopup="true" aria-expanded="false" aria-label="Open options">⋮</button>
+        <div id="options-tile" class="options-tile" hidden>
+            <ul>
+                <li><button class="opt-btn" data-action="profile">Profile</button></li>
+                <li><button class="opt-btn" data-action="settings">Settings</button></li>
+                <li><button class="opt-btn" data-action="help">Help</button></li>
+                <li><button class="opt-btn" data-action="logout">Logout</button></li>
+            </ul>
+        </div>
+        <div id="settings-tile" class="settings-tile" hidden>
+            <ul>
+                <li><button class="setting-btn" data-setting="ai-mods">Healther AI Modifications</button></li>
+                <li><button class="setting-btn" data-setting="accounts">Accounts Centre</button></li>
+                <li><button class="setting-btn" data-setting="language">Language</button></li>
+                <li><button class="setting-btn" data-setting="theme">Theme</button></li>
+                <li><button class="setting-btn" data-setting="tutorials">Tutorials</button></li>
+            </ul>
+        </div>
+    </div>
+</header>
+
+<aside class="sidebar" aria-label="Primary">
+    <nav>
+        <div class="nav-item" data-name="Home" data-key="home" title="Home">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 11.5L12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V11.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="label">Home</span>
+        </div>
+        <div id="theme-tile" class="theme-tile" hidden>
+            <ul>
+                <li><button class="theme-option" data-theme="dark">Dark theme</button></li>
+                <li><button class="theme-option" data-theme="light">Light theme</button></li>
+            </ul>
+        </div>
+        <div class="nav-item" data-name="Explore Hub" data-key="explore" title="Explore Hub">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span class="label">Explore Hub</span>
+        </div>
+        <div class="nav-item" data-name="Market" data-key="market" title="Market">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 6h18v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="label">Market</span>
+        </div>
+        <div class="nav-item" data-name="Notifications" data-key="notifications" title="Notifications">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0 1 18 14.158V11a6 6 0 1 0-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span class="label">Notifications</span>
+        </div>
+        <div class="nav-item" data-name="My account" data-key="account" title="My account">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            <span class="label">My account</span>
+        </div>
+    </nav>
+</aside>
+
+<main class="main-content">
+    <div class="category-header">
+        <button onclick="history.back()" class="back-btn">← Back to Market</button>
+        <h1>🏃 Fitness</h1>
+        <p>Exercise equipment, fitness gear, and workout accessories</p>
+    </div>
+
+    <div class="products-container">
+        <div class="products-grid" id="fitness-products">
+            <!-- Products will be loaded dynamically -->
+        </div>
+        
+        <div class="loading-indicator" id="loading-indicator">
+            <div class="spinner"></div>
+            <p>Loading fitness products...</p>
+        </div>
+    </div>
+</main>
+
+<script src="../global/nav.js"></script>
+<script src="citizen.js"></script>
+
+<style>
+    .main-content {
+        padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .category-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .category-header h1 {
+        color: #28a745;
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+
+    .category-header p {
+        color: #666;
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+    }
+
+    .back-btn {
+        background: #6c757d;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        margin-bottom: 20px;
+    }
+
+    .back-btn:hover {
+        background: #5a6268;
+    }
+
+    .products-container {
+        position: relative;
+    }
+
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+    }
+
+    .product-card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: transform 0.2s, box-shadow 0.2s;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .product-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+    }
+
+    .product-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        background: #f8f9fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        color: #666;
+    }
+
+    .product-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .product-info {
+        padding: 20px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .product-title {
+        color: #333;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 8px;
+        line-height: 1.4;
+    }
+
+    .product-description {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 12px;
+        flex: 1;
+        line-height: 1.5;
+    }
+
+    .product-price {
+        color: #28a745;
+        font-size: 1.3rem;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .product-rating {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        margin-bottom: 12px;
+        color: #ffc107;
+        font-size: 0.9rem;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #28a745 0%, #17a2b8 100%);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background 0.3s;
+        font-weight: 500;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #218838 0%, #138496 100%);
+    }
+
+    .loading-indicator {
+        display: none;
+        text-align: center;
+        padding: 40px;
+    }
+
+    .loading-indicator.active {
+        display: block;
+    }
+
+    .spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #28a745;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    [data-theme="dark"] .product-card {
+        background: #2d2d2d;
+        color: #fff;
+    }
+
+    [data-theme="dark"] .product-title {
+        color: #fff;
+    }
+
+    [data-theme="dark"] .product-description,
+    [data-theme="dark"] .category-header p {
+        color: #ccc;
+    }
+
+    [data-theme="dark"] .back-btn {
+        background: #5a6268;
+    }
+
+    [data-theme="dark"] .back-btn:hover {
+        background: #495057;
+    }
+</style>
+
+<script>
+    // Fitness products data
+    const fitnessProducts = [
+        {
+            id: 1,
+            name: "Resistance Bands Set",
+            description: "5 resistance levels for full body workout. Includes door anchor and handles. Compact storage bag.",
+            price: "$19.99",
+            rating: 4.5,
+            image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=200&fit=crop",
+            source: "FitGear"
+        },
+        {
+            id: 2,
+            name: "Yoga Mat Premium",
+            description: "Non-slip surface with alignment markers. 6mm thick for joint protection. Eco-friendly materials.",
+            price: "$34.99",
+            rating: 4.8,
+            image: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=300&h=200&fit=crop",
+            source: "YogaLife"
+        },
+        {
+            id: 3,
+            name: "Smart Fitness Tracker",
+            description: "Heart rate, steps, sleep tracking. 7-day battery life. Water-resistant with GPS.",
+            price: "$79.99",
+            rating: 4.6,
+            image: "https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?w=300&h=200&fit=crop",
+            source: "TechFit"
+        },
+        {
+            id: 4,
+            name: "Adjustable Dumbbells",
+            description: "5-50 lbs adjustable weight set. Space-saving design. Quick-change weight system.",
+            price: "$199.99",
+            rating: 4.7,
+            image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=200&fit=crop",
+            source: "PowerFit"
+        },
+        {
+            id: 5,
+            name: "Foam Roller",
+            description: "High-density foam for muscle recovery. 13-inch length with textured surface. Includes exercise guide.",
+            price: "$24.99",
+            rating: 4.4,
+            image: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=300&h=200&fit=crop",
+            source: "RecoveryRoll"
+        },
+        {
+            id: 6,
+            name: "Jump Rope Speed",
+            description: "Adjustable length speed rope. Ball bearing system for smooth rotation. Comfortable foam grips.",
+            price: "$12.99",
+            rating: 4.3,
+            image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=200&fit=crop",
+            source: "JumpPro"
+        },
+        {
+            id: 7,
+            name: "Exercise Ball",
+            description: "65cm anti-burst stability ball. Includes pump and exercise poster. Supports up to 600 lbs.",
+            price: "$29.99",
+            rating: 4.5,
+            image: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=300&h=200&fit=crop",
+            source: "BalanceFit"
+        },
+        {
+            id: 8,
+            name: "Wireless Earbuds Sport",
+            description: "Sweat-resistant earbuds with secure fit. 8-hour battery life. Crystal clear sound.",
+            price: "$49.99",
+            rating: 4.6,
+            image: "https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?w=300&h=200&fit=crop",
+            source: "AudioFit"
+        },
+        {
+            id: 9,
+            name: "Pull Up Bar Doorway",
+            description: "Multi-grip doorway pull-up bar. No drilling required. Supports up to 300 lbs.",
+            price: "$39.99",
+            rating: 4.4,
+            image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=200&fit=crop",
+            source: "UpperBody"
+        },
+        {
+            id: 10,
+            name: "Kettlebell Set",
+            description: "Cast iron kettlebells: 10, 15, 20 lbs. Powder-coated finish. Wide handle for comfort.",
+            price: "$89.99",
+            rating: 4.7,
+            image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=200&fit=crop",
+            source: "KettleKing"
+        },
+        {
+            id: 11,
+            name: "Workout Gloves",
+            description: "Padded leather gym gloves. Wrist support and breathable design. Machine washable.",
+            price: "$18.99",
+            rating: 4.2,
+            image: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=300&h=200&fit=crop",
+            source: "GripPro"
+        },
+        {
+            id: 12,
+            name: "Resistance Loop Bands",
+            description: "Set of 5 fabric loop bands. Non-slip and comfortable. Perfect for glute activation.",
+            price: "$15.99",
+            rating: 4.5,
+            image: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=300&h=200&fit=crop",
+            source: "LoopFit"
+        },
+        {
+            id: 13,
+            name: "Smart Scale",
+            description: "Bluetooth body composition scale. Tracks weight, BMI, body fat. App integration.",
+            price: "$59.99",
+            rating: 4.6,
+            image: "https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?w=300&h=200&fit=crop",
+            source: "SmartHealth"
+        },
+        {
+            id: 14,
+            name: "Exercise Bike Folding",
+            description: "Compact folding exercise bike. 8 resistance levels. Digital display with heart rate.",
+            price: "$149.99",
+            rating: 4.4,
+            image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=200&fit=crop",
+            source: "CycleFit"
+        },
+        {
+            id: 15,
+            name: "Battle Rope",
+            description: "40-foot battle rope set. 1.5-inch diameter with protective sleeves. Includes anchor strap.",
+            price: "$69.99",
+            rating: 4.5,
+            image: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=300&h=200&fit=crop",
+            source: "BattleFit"
+        },
+        {
+            id: 16,
+            name: "Agility Ladder",
+            description: "15-foot speed agility ladder. Adjustable rung spacing. Includes carrying bag.",
+            price: "$22.99",
+            rating: 4.3,
+            image: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=300&h=200&fit=crop",
+            source: "SpeedFit"
+        },
+        {
+            id: 17,
+            name: "Weightlifting Belt",
+            description: "4-inch leather lifting belt. Lumbar support and steel buckle. Competition approved.",
+            price: "$34.99",
+            rating: 4.6,
+            image: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=300&h=200&fit=crop",
+            source: "LiftStrong"
+        },
+        {
+            id: 18,
+            name: "Medicine Ball",
+            description: "12lb weighted medicine ball. Textured surface for grip. Suitable for wall balls and slams.",
+            price: "$44.99",
+            rating: 4.4,
+            image: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=300&h=200&fit=crop",
+            source: "MedBall"
+        }
+    ];
+
+    // Render products
+    function renderProducts(products, containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        container.innerHTML = '';
+
+        products.forEach(product => {
+            const productCard = document.createElement('div');
+            productCard.className = 'product-card';
+            productCard.innerHTML = `
+                <div class="product-image">
+                    <img src="${product.image}" alt="${product.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='🏃';">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">${product.name}</h3>
+                    <p class="product-description">${product.description}</p>
+                    <div class="product-rating">
+                        ${generateStars(product.rating)}
+                        <span>${product.rating} (${Math.floor(Math.random() * 100) + 20} reviews)</span>
+                    </div>
+                    <p class="product-price">${product.price}</p>
+                    <p style="font-size: 0.8rem; color: #666; margin-bottom: 10px;">Sold by ${product.source}</p>
+                    <button class="btn-primary" onclick="viewProductDetails(${product.id})">View Details</button>
+                </div>
+            `;
+            container.appendChild(productCard);
+        });
+    }
+
+    // Generate star rating
+    function generateStars(rating) {
+        const fullStars = Math.floor(rating);
+        const halfStar = rating % 1 >= 0.5 ? 1 : 0;
+        const emptyStars = 5 - fullStars - halfStar;
+        
+        let stars = '';
+        for (let i = 0; i < fullStars; i++) {
+            stars += '⭐';
+        }
+        if (halfStar) {
+            stars += '⭐';
+        }
+        for (let i = 0; i < emptyStars; i++) {
+            stars += '☆';
+        }
+        return stars;
+    }
+
+    // View product details
+    function viewProductDetails(productId) {
+        const product = fitnessProducts.find(p => p.id === productId);
+        if (product) {
+            alert(`Product Details:\n\nName: ${product.name}\nDescription: ${product.description}\nPrice: ${product.price}\nRating: ${product.rating}⭐\nSource: ${product.source}\n\nThis would open a detailed product view in a real application.`);
+        }
+    }
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log('Fitness page loaded');
+        
+        const loadingIndicator = document.getElementById('loading-indicator');
+        loadingIndicator.classList.add('active');
+
+        // Simulate loading delay
+        setTimeout(() => {
+            renderProducts(fitnessProducts, 'fitness-products');
+            loadingIndicator.classList.remove('active');
+        }, 1000);
+
+        // Handle navigation clicks
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const key = this.getAttribute('data-key');
+                if (key === 'home') {
+                    window.location.href = 'citizen.html';
+                } else if (key === 'explore') {
+                    window.location.href = 'explore.html';
+                } else if (key === 'market') {
+                    window.location.href = 'market.html';
+                } else if (key === 'notifications') {
+                    console.log('Notifications clicked');
+                } else if (key === 'account') {
+                    window.location.href = 'account-settings.html';
+                }
+            });
+        });
+
+        // Initialize Healther AI Assistant
+        window.HealtherAI.init({
+            theme: document.documentElement.getAttribute('data-theme') || 'light',
+            autoOpen: false
+        });
+    });
+</script>
+</body>
+</html>

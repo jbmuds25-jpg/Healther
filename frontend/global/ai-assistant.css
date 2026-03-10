@@ -1,0 +1,309 @@
+/**
+ * HEALTHER AI Assistant - Styles for Jotform Agent Integration
+ * 
+ * Custom styling for Jotform Agent to match Healther theme
+ * Removes Jotform branding and adds Healther branding
+ */
+
+/* Root Variables for Healther Theme */
+:root {
+    --healther-primary: #28a745;
+    --healther-primary-dark: #218838;
+    --healther-secondary: #17a2b8;
+    --healther-bg: #ffffff;
+    --healther-bg-dark: #2d2d2d;
+    --healther-border: #e0e0e0;
+    --healther-text: #333333;
+    --healther-text-light: #666666;
+    --healther-shadow: 0 8px 32px rgba(0,0,0,0.15);
+}
+
+/* Dark Mode */
+[data-theme="dark"] {
+    --healther-bg: #2d2d2d;
+    --healther-bg-dark: #3d3d3d;
+    --healther-border: #444444;
+    --healther-text: #ffffff;
+    --healther-text-light: #cccccc;
+}
+
+/* Jotform Agent Customization */
+[class*="agent"] {
+    /* Override Jotform default styles */
+    --healther-primary: var(--healther-primary) !important;
+    --healther-secondary: var(--healther-secondary) !important;
+    --healther-bg: var(--healther-bg) !important;
+    --healther-text: var(--healther-text) !important;
+}
+
+/* Hide Jotform Branding */
+[class*="jotform"],
+[id*="jotform"],
+[data*="jotform"],
+[href*="jotform"],
+[class*="branding"],
+[class*="watermark"],
+[class*="logo"][alt*="Jotform"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Agent Container */
+[class*="agent"] {
+    background: var(--healther-bg) !important;
+    border: 1px solid var(--healther-border) !important;
+    border-radius: 12px !important;
+    box-shadow: var(--healther-shadow) !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+/* Agent Header */
+[class*="agent"] [class*="header"],
+[class*="agent"] [class*="title"] {
+    background: var(--healther-primary) !important;
+    color: white !important;
+    border-radius: 12px 12px 0 0 !important;
+    padding: 16px 20px !important;
+    font-weight: 600 !important;
+    font-size: 1.1rem !important;
+}
+
+/* Agent Messages Container */
+[class*="agent"] [class*="messages"],
+[class*="agent"] [class*="chat"] {
+    background: var(--healther-bg) !important;
+    color: var(--healther-text) !important;
+    padding: 16px !important;
+    max-height: 400px !important;
+    overflow-y: auto !important;
+}
+
+/* Agent Messages */
+[class*="agent"] [class*="message"] {
+    background: var(--healther-bg-dark) !important;
+    color: var(--healther-text) !important;
+    border-radius: 8px !important;
+    padding: 12px 16px !important;
+    margin-bottom: 8px !important;
+    border: 1px solid var(--healther-border) !important;
+}
+
+/* Agent Input Area */
+[class*="agent"] [class*="input"],
+[class*="agent"] [class*="footer"] {
+    background: var(--healther-bg) !important;
+    border-top: 1px solid var(--healther-border) !important;
+    padding: 16px !important;
+}
+
+/* Agent Input Field */
+[class*="agent"] input,
+[class*="agent"] textarea {
+    background: var(--healther-bg-dark) !important;
+    color: var(--healther-text) !important;
+    border: 1px solid var(--healther-border) !important;
+    border-radius: 8px !important;
+    padding: 12px 16px !important;
+    font-size: 14px !important;
+    outline: none !important;
+}
+
+[class*="agent"] input:focus,
+[class*="agent"] textarea:focus {
+    border-color: var(--healther-primary) !important;
+    box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.2) !important;
+}
+
+/* Agent Buttons */
+[class*="agent"] [class*="button"],
+[class*="agent"] [class*="send"],
+[class*="agent"] [class*="submit"] {
+    background: var(--healther-primary) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 12px 20px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+[class*="agent"] [class*="button"]:hover,
+[class*="agent"] [class*="send"]:hover,
+[class*="agent"] [class*="submit"]:hover {
+    background: var(--healther-primary-dark) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Close Button */
+[class*="agent"] [class*="close"],
+[class*="agent"] [class*="minimize"] {
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 50% !important;
+    width: 32px !important;
+    height: 32px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: background 0.2s ease !important;
+}
+
+[class*="agent"] [class*="close"]:hover,
+[class*="agent"] [class*="minimize"]:hover {
+    background: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Healther Branding */
+#healther-branding {
+    position: absolute !important;
+    bottom: 8px !important;
+    right: 8px !important;
+    font-size: 10px !important;
+    color: var(--healther-text-light) !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    z-index: 9999 !important;
+    pointer-events: none !important;
+    opacity: 0.7 !important;
+    font-weight: 500 !important;
+}
+
+/* Floating Trigger Button */
+[class*="agent"] [class*="trigger"],
+[class*="agent"] [class*="floating"] {
+    /* AI Agent Indicator Circle */
+.healther-ai-indicator {
+    position: fixed !important;
+    bottom: 20px !important;
+    left: 20px !important;
+    width: 40px !important;
+    height: 40px !important;
+    background: var(--healther-primary) !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: white !important;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    box-shadow: var(--healther-shadow) !important;
+    z-index: 999 !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    opacity: 0.8 !important;
+}
+
+.healther-ai-indicator:hover {
+    background: var(--healther-primary-dark) !important;
+    transform: scale(1.1) !important;
+    opacity: 1 !important;
+}
+
+.healther-ai-indicator.active {
+    opacity: 1 !important;
+    transform: scale(1.2) !important;
+}
+
+    background: var(--healther-primary) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 50% !important;
+    width: 56px !important;
+    height: 56px !important;
+    box-shadow: var(--healther-shadow) !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+}
+
+[class*="agent"] [class*="trigger"]:hover,
+[class*="agent"] [class*="floating"]:hover {
+    background: var(--healther-primary-dark) !important;
+    transform: scale(1.1) !important;
+}
+
+/* Hide default Jotform trigger when using custom indicator */
+[class*="agent"][class*="trigger"],
+[class*="agent"][class*="floating"] {
+    display: none !important;
+}
+
+/* Dark Theme Overrides */
+[data-theme="dark"] [class*="agent"] {
+    background: var(--healther-bg-dark) !important;
+    border-color: var(--healther-border) !important;
+}
+
+[data-theme="dark"] [class*="agent"] [class*="message"] {
+    background: #3d3d3d !important;
+    border-color: #555555 !important;
+}
+
+[data-theme="dark"] [class*="agent"] input,
+[data-theme="dark"] [class*="agent"] textarea {
+    background: #3d3d3d !important;
+    border-color: #555555 !important;
+    color: white !important;
+}
+
+[data-theme="dark"] #healther-branding {
+    color: #cccccc !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    [class*="agent"] {
+        width: calc(100vw - 40px) !important;
+        right: 20px !important;
+        left: 20px !important;
+        bottom: 20px !important;
+    }
+    
+    [class*="agent"] [class*="trigger"],
+    [class*="agent"] [class*="floating"] {
+        bottom: 16px !important;
+        right: 16px !important;
+        width: 48px !important;
+        height: 48px !important;
+    }
+}
+
+/* Animation */
+@keyframes healther-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+[class*="agent"] {
+    animation: healther-fade-in 0.3s ease-out !important;
+}
+
+/* Remove all Jotform watermarks and branding */
+[class*="watermark"],
+[class*="powered"],
+[class*="footer"] a[href*="jotform"],
+[class*="branding"] a[href*="jotform"],
+img[alt*="Jotform"],
+img[src*="jotform"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    position: absolute !important;
+    left: -9999px !important;
+    top: -9999px !important;
+}

@@ -1,0 +1,132 @@
+.app-header {
+    background: var(--card);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.app-header .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+#theme-toggle {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Platform Navigation */
+.platform-nav {
+    background: var(--card);
+    padding: 10px 20px;
+    border-bottom: 2px solid var(--border);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.nav-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.nav-btn {
+    padding: 8px 16px;
+    background: transparent;
+    border: 2px solid var(--border);
+    color: var(--text);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.nav-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+/* Header actions (shared) */
+.app-header { position: relative; }
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.header-actions #more-options{
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 6px;
+    color: var(--text);
+}
+.header-actions #more-options:hover{ background: rgba(0,0,0,0.04); }
+
+.options-tile{
+    position: absolute;
+    top: 48px;
+    right: 16px;
+    min-width: 160px;
+    background: var(--card);
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    border: 1px solid rgba(0,0,0,0.06);
+    z-index: 9999;
+    overflow: hidden;
+}
+.options-tile ul{ list-style:none; margin:0; padding:8px 0; }
+.options-tile li{ padding:0 8px; }
+.options-tile .opt-btn{
+    width:100%;
+    text-align:left;
+    background: transparent;
+    border: none;
+    padding:10px 12px;
+    cursor: pointer;
+    color: var(--text);
+    font-size: 0.95rem;
+}
+.options-tile .opt-btn:hover{ background: rgba(46,139,87,0.06); }
+
+.settings-tile{
+    position: absolute;
+    top: 48px;
+    right: 16px;
+    min-width: 240px;
+    background: var(--card);
+    border-radius: 8px;
+    box-shadow: 0 12px 34px rgba(0,0,0,0.14);
+    border: 1px solid rgba(0,0,0,0.06);
+    z-index: 10000;
+    overflow: hidden;
+}
+.settings-tile ul{ list-style:none; margin:0; padding:8px 0; }
+.settings-tile li{ padding:0 8px; }
+.settings-tile .setting-btn{
+    width:100%;
+    text-align:left;
+    background: transparent;
+    border: none;
+    padding:10px 12px;
+    cursor: pointer;
+    color: var(--text);
+    font-size: 0.95rem;
+}
+.settings-tile .setting-btn:hover{ background: rgba(46,139,87,0.06); }
+

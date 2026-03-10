@@ -1,0 +1,19 @@
+[
+  {
+    "id": "1771443997005",
+    "healtherId": "H-0UZM29RV",
+    "name": "Jbmuds",
+    "username": "Jbmuds_Legen",
+    "email": "jbmuds25@gmail.com",
+    "password": "$2b$10$FyD9AWWqFvOH5RmCSgMjKeHTZkeVEN9EQxuO6IKSsEuwWJXXXn6H6",
+    "role": "patient",
+    "otp": "ra3DqE",
+    "verified": true,
+    "dateOfBirth": "2008-03-19",
+    "nationality": "Kenya",
+    "countryCode": "+254",
+    "mobileNumber": "+25471544744",
+    "idNumber": "12345678",
+    "birthCertificateNumber": "12345678"
+  }
+]
