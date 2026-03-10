@@ -133,14 +133,6 @@
             </svg>
             <span class="label">My account</span>
         </div>
-        <div class="nav-item" data-name="My Health Status" data-key="health-status" title="My Health Status">
-            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M3 19h3v-4H3v4zM8 19h3v-7H8v7zM13 19h3v-10h-3v10z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M15 6l4-4v4h-4z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M16 3v3h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <span class="label">My Health Status</span>
-        </div>
     </nav>
 </aside>
 
@@ -213,311 +205,6 @@
 
         <div class="account-actions">
             <button type="button" class="account-back-btn" id="account-back-btn" data-i18n="account_back">Back to Home</button>
-        </div>
-    </div>
-</section>
-
-<!-- My Health Status page -->
-<section class="health-status-page" id="health-status-page" hidden>
-    <div class="health-status-card">
-        <div class="health-status-header">
-            <button class="back-btn" onclick="navigateToPage('home')">← Back to Dashboard</button>
-            <h2 class="health-status-heading">My Health Status</h2>
-        </div>
-        
-        <div class="health-status-content">
-            <!-- My Progress Section -->
-            <div class="my-progress-section">
-                <div class="section-header">
-                    <h3>My Progress</h3>
-                    <p>Track your health journey and achievements</p>
-                </div>
-                
-                <div class="progress-grid">
-                    <div class="progress-card">
-                        <div class="progress-icon">🎯</div>
-                        <div class="progress-content">
-                            <h4>Health Goals</h4>
-                            <div class="progress-stats">
-                                <div class="stat-item">
-                                    <span class="stat-number">8</span>
-                                    <span class="stat-label">Goals Set</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-number">5</span>
-                                    <span class="stat-label">Completed</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-number">62%</span>
-                                    <span class="stat-label">Success Rate</span>
-                                </div>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 62%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="progress-card">
-                        <div class="progress-icon">📊</div>
-                        <div class="progress-content">
-                            <h4>Health Metrics</h4>
-                            <div class="progress-stats">
-                                <div class="stat-item">
-                                    <span class="stat-number">72</span>
-                                    <span class="stat-label">Avg Heart Rate</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-number">120/80</span>
-                                    <span class="stat-label">Blood Pressure</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-number">22.5</span>
-                                    <span class="stat-label">BMI</span>
-                                </div>
-                            </div>
-                            <div class="trend-indicator positive">
-                                <span>📈 Improving</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="progress-card">
-                        <div class="progress-icon">🏆</div>
-                        <div class="progress-content">
-                            <h4>Achievements</h4>
-                            <div class="achievements-list">
-                                <div class="achievement-badge">
-                                    <span class="achievement-icon">🥇</span>
-                                    <span class="achievement-text">7-Day Streak</span>
-                                </div>
-                                <div class="achievement-badge">
-                                    <span class="achievement-icon">💪</span>
-                                    <span class="achievement-text">Fitness Goal</span>
-                                </div>
-                                <div class="achievement-badge">
-                                    <span class="achievement-icon">🥗</span>
-                                    <span class="achievement-text">Healthy Week</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- My Recommendations Section -->
-            <div class="my-recommendations-section">
-                <div class="section-header">
-                    <h3>My Recommendations</h3>
-                    <p>Personalized health suggestions for you</p>
-                </div>
-                
-                <div class="recommendations-grid">
-                    <div class="recommendation-card">
-                        <div class="recommendation-icon">🥗</div>
-                        <div class="recommendation-content">
-                            <h4>Increase Physical Activity</h4>
-                            <p>Based on your health profile, add 30 minutes of moderate exercise daily</p>
-                            <div class="recommendation-priority high">High Priority</div>
-                            <div class="recommendation-action">
-                                <button class="action-btn">Start Plan</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="recommendation-card">
-                        <div class="recommendation-icon">🥦</div>
-                        <div class="recommendation-content">
-                            <h4>Improve Nutrition</h4>
-                            <p>Add more vegetables and whole grains to your daily meals</p>
-                            <div class="recommendation-priority medium">Medium Priority</div>
-                            <div class="recommendation-action">
-                                <button class="action-btn">View Meal Plan</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="recommendation-card">
-                        <div class="recommendation-icon">😴</div>
-                        <div class="recommendation-content">
-                            <h4>Better Sleep Schedule</h4>
-                            <p>Aim for 7-8 hours of quality sleep each night</p>
-                            <div class="recommendation-priority medium">Medium Priority</div>
-                            <div class="recommendation-action">
-                                <button class="action-btn">Sleep Tips</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="recommendation-card">
-                        <div class="recommendation-icon">💧</div>
-                        <div class="recommendation-content">
-                            <h4>Stay Hydrated</h4>
-                            <p>Drink at least 8 glasses of water throughout day</p>
-                            <div class="recommendation-priority low">Low Priority</div>
-                            <div class="recommendation-action">
-                                <button class="action-btn">Hydration Tracker</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- My Health Guide Section -->
-            <div class="my-health-guide-section">
-                <div class="section-header">
-                    <h3>My Health Guide</h3>
-                    <p>Your personalized health companion and resources</p>
-                </div>
-                
-                <div class="guide-grid">
-                    <div class="guide-card">
-                        <div class="guide-icon">📚</div>
-                        <div class="guide-content">
-                            <h4>Health Library</h4>
-                            <p>Access articles, videos, and guides on various health topics</p>
-                            <div class="guide-stats">
-                                <span class="guide-stat">250+ Articles</span>
-                                <span class="guide-stat">50+ Videos</span>
-                            </div>
-                            <div class="guide-action">
-                                <button class="action-btn">Browse Library</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="guide-card">
-                        <div class="guide-icon">📅</div>
-                        <div class="guide-content">
-                            <h4>Appointment Scheduler</h4>
-                            <p>Book and manage your healthcare appointments</p>
-                            <div class="guide-stats">
-                                <span class="guide-stat">2 Upcoming</span>
-                                <span class="guide-stat">12 Past</span>
-                            </div>
-                            <div class="guide-action">
-                                <button class="action-btn">Manage Appointments</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="guide-card">
-                        <div class="guide-icon">💊</div>
-                        <div class="guide-content">
-                            <h4>Medication Tracker</h4>
-                            <p>Keep track of your medications and reminders</p>
-                            <div class="guide-stats">
-                                <span class="guide-stat">3 Active</span>
-                                <span class="guide-stat">95% Adherence</span>
-                            </div>
-                            <div class="guide-action">
-                                <button class="action-btn">View Tracker</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="guide-card">
-                        <div class="guide-icon">📈</div>
-                        <div class="guide-content">
-                            <h4>Health Analytics</h4>
-                            <p>View trends and insights from your health data</p>
-                            <div class="guide-stats">
-                                <span class="guide-stat">30-Day Trends</span>
-                                <span class="guide-stat">15+ Metrics</span>
-                            </div>
-                            <div class="guide-action">
-                                <button class="action-btn">View Analytics</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- My Insurance Section -->
-            <div class="my-insurance-section">
-                <div class="section-header">
-                    <h3>My Insurance</h3>
-                    <p>Manage your insurance coverage and claims</p>
-                </div>
-                
-                <div class="insurance-grid">
-                    <div class="insurance-card">
-                        <div class="insurance-icon">🛡️</div>
-                        <div class="insurance-content">
-                            <h4>Current Coverage</h4>
-                            <div class="insurance-details">
-                                <div class="insurance-item">
-                                    <span class="insurance-label">Provider:</span>
-                                    <span class="insurance-value">HealthPlus Premium</span>
-                                </div>
-                                <div class="insurance-item">
-                                    <span class="insurance-label">Policy Number:</span>
-                                    <span class="insurance-value">HP-2024-8472</span>
-                                </div>
-                                <div class="insurance-item">
-                                    <span class="insurance-label">Coverage:</span>
-                                    <span class="insurance-value">Comprehensive</span>
-                                </div>
-                                <div class="insurance-item">
-                                    <span class="insurance-label">Status:</span>
-                                    <span class="insurance-value active">Active</span>
-                                </div>
-                            </div>
-                            <div class="insurance-action">
-                                <button class="action-btn">View Details</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="insurance-card">
-                        <div class="insurance-icon">📋</div>
-                        <div class="insurance-content">
-                            <h4>Claims</h4>
-                            <div class="claims-summary">
-                                <div class="claim-stat">
-                                    <span class="claim-number">3</span>
-                                    <span class="claim-label">Submitted</span>
-                                </div>
-                                <div class="claim-stat">
-                                    <span class="claim-number">2</span>
-                                    <span class="claim-label">Approved</span>
-                                </div>
-                                <div class="claim-stat">
-                                    <span class="claim-number">1</span>
-                                    <span class="claim-label">Pending</span>
-                                </div>
-                            </div>
-                            <div class="insurance-action">
-                                <button class="action-btn">Manage Claims</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="insurance-card">
-                        <div class="insurance-icon">💳</div>
-                        <div class="insurance-content">
-                            <h4>Benefits</h4>
-                            <div class="benefits-list">
-                                <div class="benefit-item">
-                                    <span class="benefit-icon">✅</span>
-                                    <span class="benefit-text">Preventive Care - 100%</span>
-                                </div>
-                                <div class="benefit-item">
-                                    <span class="benefit-icon">✅</span>
-                                    <span class="benefit-text">Specialist Visits - 80%</span>
-                                </div>
-                                <div class="benefit-item">
-                                    <span class="benefit-icon">✅</span>
-                                    <span class="benefit-text">Prescription Coverage - 70%</span>
-                                </div>
-                            </div>
-                            <div class="insurance-action">
-                                <button class="action-btn">View All Benefits</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </section>
@@ -3254,7 +2941,7 @@
 </section>
 
 <section class="dashboard" id="dashboard">
-    <div class="card status-card" onclick="navigateToPage('health-status')">
+    <div class="card status-card" onclick="window.location.href='health-status.html'">
         <div class="status-icon" aria-hidden="true">
             <!-- stairs + upward arrow improvement icon -->
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -3325,191 +3012,100 @@ window.navigateWithLoading = function(callback) {
 };
 
 // Simple direct navigation handler
-// Navigate to page function (simulates nav item click)
-window.navigateToPage = function(pageKey) {
-    console.log(`navigateToPage called with: ${pageKey}`);
-    const navItem = document.querySelector(`.nav-item[data-key="${pageKey}"]`);
-    
-    if (navItem) {
-        console.log(`Found nav item for ${pageKey}, clicking...`);
-        navItem.click();
-    } else {
-        console.error(`Nav item not found for key: ${pageKey}`);
-        // Fallback: try to handle navigation directly
-        handleDirectNavigation(pageKey);
-    }
-};
+console.log('=== DIRECT NAVIGATION SETUP ===');
+const navItems = document.querySelectorAll('.sidebar .nav-item');
+console.log('Navigation items found:', navItems.length);
 
-// Fallback navigation handler
-function handleDirectNavigation(pageKey) {
-    console.log(`Using fallback navigation for: ${pageKey}`);
+navItems.forEach((item) => {
+    const key = item.getAttribute('data-key');
+    console.log('Setting up navigation for:', key);
     
-    // Clear all active states
-    const navItems = document.querySelectorAll('.sidebar .nav-item');
-    navItems.forEach(nav => nav.classList.remove('active'));
-    
-    // Set active state
-    const targetNavItem = document.querySelector(`.nav-item[data-key="${pageKey}"]`);
-    if (targetNavItem) {
-        targetNavItem.classList.add('active');
-    }
-    
-    // Handle navigation directly
-    switch(pageKey) {
-        case 'health-status':
-            console.log('Direct fallback: Navigating to Health Status');
-            const healthStatusPage = document.getElementById('health-status-page');
-            const healthDash = document.getElementById('dashboard');
-            const healthAccount = document.getElementById('account-page');
-            const healthExplore = document.getElementById('explore-page');
-            const healthMarket = document.getElementById('market-page');
-            
-            if (healthStatusPage) healthStatusPage.removeAttribute('hidden');
-            if (healthDash) healthDash.style.display = 'none';
-            if (healthAccount) healthAccount.setAttribute('hidden', '');
-            if (healthExplore) healthExplore.setAttribute('hidden', '');
-            if (healthMarket) healthMarket.setAttribute('hidden', '');
-            
-            // Hide all trading pages
-            if (typeof hideAllTradingPages === 'function') {
-                hideAllTradingPages();
-            }
-            break;
-            
-        case 'home':
-            console.log('Direct fallback: Navigating to Home');
-            const homeDashboard = document.getElementById('dashboard');
-            const homeAccountPage = document.getElementById('account-page');
-            const homeExplorePage = document.getElementById('explore-page');
-            const homeMarketPage = document.getElementById('market-page');
-            
-            if (homeDashboard) homeDashboard.style.display = '';
-            if (homeAccountPage) homeAccountPage.setAttribute('hidden', '');
-            if (homeExplorePage) homeExplorePage.setAttribute('hidden', '');
-            if (homeMarketPage) homeMarketPage.setAttribute('hidden', '');
-            
-            if (typeof hideAllTradingPages === 'function') {
-                hideAllTradingPages();
-            }
-            break;
-    }
-}
-
-// Set up navigation after DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('=== DIRECT NAVIGATION SETUP ===');
-    const navItems = document.querySelectorAll('.sidebar .nav-item');
-    console.log('Navigation items found:', navItems.length);
-
-    navItems.forEach((item) => {
-        const key = item.getAttribute('data-key');
-        console.log('Setting up navigation for:', key);
+    item.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('Direct navigation clicked:', key);
         
-        item.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log('Direct navigation clicked:', key);
-            
-            // Clear all active states
-            navItems.forEach(nav => nav.classList.remove('active'));
-            
-            // Set active state
-            this.classList.add('active');
-            
-            // Handle navigation
-            switch(key) {
-                case 'home':
-                    console.log('Navigating to Home');
-                    const homeDashboard = document.getElementById('dashboard');
-                    const homeAccountPage = document.getElementById('account-page');
-                    const homeExplorePage = document.getElementById('explore-page');
-                    const homeMarketPage = document.getElementById('market-page');
-                    
-                    if (homeDashboard) homeDashboard.style.display = '';
-                    if (homeAccountPage) homeAccountPage.setAttribute('hidden', '');
-                    if (homeExplorePage) homeExplorePage.setAttribute('hidden', '');
-                    if (homeMarketPage) homeMarketPage.setAttribute('hidden', '');
-                    
-                    // Hide all trading pages
-                    hideAllTradingPages();
-                    break;
-                    
-                case 'explore':
-                    console.log('Navigating to Explore');
-                    const explorePageElement = document.getElementById('explore-page');
-                    const exploreDash = document.getElementById('dashboard');
-                    const exploreAccount = document.getElementById('account-page');
-                    const exploreMarket = document.getElementById('market-page');
-                    
-                    if (explorePageElement) explorePageElement.removeAttribute('hidden');
-                    if (exploreDash) exploreDash.style.display = 'none';
-                    if (exploreAccount) exploreAccount.setAttribute('hidden', '');
-                    if (exploreMarket) exploreMarket.setAttribute('hidden', '');
-                    
-                    // Hide all trading pages
-                    hideAllTradingPages();
-                    break;
-                    
-                case 'market':
-                    console.log('Navigating to Market');
-                    const marketPage = document.getElementById('market-page');
-                    const marketDash = document.getElementById('dashboard');
-                    const marketAccount = document.getElementById('account-page');
-                    const marketExplore = document.getElementById('explore-page');
-                    
-                    if (marketPage) marketPage.removeAttribute('hidden');
-                    if (marketDash) marketDash.style.display = 'none';
-                    if (marketAccount) marketAccount.setAttribute('hidden', '');
-                    if (marketExplore) marketExplore.setAttribute('hidden', '');
-                    
-                    // Hide all trading pages
-                    hideAllTradingPages();
-                    break;
-                    
-                case 'health-status':
-                    console.log('Navigating to Health Status');
-                    const healthStatusPage = document.getElementById('health-status-page');
-                    const healthDash = document.getElementById('dashboard');
-                    const healthAccount = document.getElementById('account-page');
-                    const healthExplore = document.getElementById('explore-page');
-                    const healthMarket = document.getElementById('market-page');
-                    
-                    if (healthStatusPage) healthStatusPage.removeAttribute('hidden');
-                    if (healthDash) healthDash.style.display = 'none';
-                    if (healthAccount) healthAccount.setAttribute('hidden', '');
-                    if (healthExplore) healthExplore.setAttribute('hidden', '');
-                    if (healthMarket) healthMarket.setAttribute('hidden', '');
-                    
-                    // Hide all trading pages
-                    hideAllTradingPages();
-                    break;
-                    
-                case 'notifications':
-                    console.log('Notifications clicked');
-                    // Let citizen.js handle notifications properly
-                    break;
-                    
-                case 'account':
-                    console.log('Navigating to Account');
-                    const acctPage = document.getElementById('account-page');
-                    const dashb = document.getElementById('dashboard');
-                    const exploreElement = document.getElementById('explore-page');
-                    const marketElement = document.getElementById('market-page');
-                    
-                    if (acctPage) acctPage.removeAttribute('hidden');
-                    if (dashb) dashb.style.display = 'none';
-                    if (exploreElement) exploreElement.setAttribute('hidden', '');
-                    if (marketElement) marketElement.setAttribute('hidden', '');
-                    
-                    // Hide all trading pages
-                    hideAllTradingPages();
-                    break;
-            }
-        });
+        // Clear all active states
+        navItems.forEach(nav => nav.classList.remove('active'));
+        
+        // Set active state
+        this.classList.add('active');
+        
+        // Handle navigation
+        switch(key) {
+            case 'home':
+                console.log('Navigating to Home');
+                const homeDashboard = document.getElementById('dashboard');
+                const homeAccountPage = document.getElementById('account-page');
+                const homeExplorePage = document.getElementById('explore-page');
+                const homeMarketPage = document.getElementById('market-page');
+                
+                if (homeDashboard) homeDashboard.style.display = '';
+                if (homeAccountPage) homeAccountPage.setAttribute('hidden', '');
+                if (homeExplorePage) homeExplorePage.setAttribute('hidden', '');
+                if (homeMarketPage) homeMarketPage.setAttribute('hidden', '');
+                
+                // Hide all trading pages
+                hideAllTradingPages();
+                break;
+                
+            case 'explore':
+                console.log('Navigating to Explore');
+                const explorePageElement = document.getElementById('explore-page');
+                const exploreDash = document.getElementById('dashboard');
+                const exploreAccount = document.getElementById('account-page');
+                const exploreMarket = document.getElementById('market-page');
+                
+                if (explorePageElement) explorePageElement.removeAttribute('hidden');
+                if (exploreDash) exploreDash.style.display = 'none';
+                if (exploreAccount) exploreAccount.setAttribute('hidden', '');
+                if (exploreMarket) exploreMarket.setAttribute('hidden', '');
+                
+                // Hide all trading pages
+                hideAllTradingPages();
+                break;
+                
+            case 'market':
+                console.log('Navigating to Market');
+                const marketPage = document.getElementById('market-page');
+                const marketDash = document.getElementById('dashboard');
+                const marketAccount = document.getElementById('account-page');
+                const marketExplore = document.getElementById('explore-page');
+                
+                if (marketPage) marketPage.removeAttribute('hidden');
+                if (marketDash) marketDash.style.display = 'none';
+                if (marketAccount) marketAccount.setAttribute('hidden', '');
+                if (marketExplore) marketExplore.setAttribute('hidden', '');
+                
+                // Hide all trading pages
+                hideAllTradingPages();
+                break;
+                
+            case 'notifications':
+                console.log('Notifications clicked');
+                // Let citizen.js handle notifications properly
+                break;
+                
+            case 'account':
+                console.log('Navigating to Account');
+                const acctPage = document.getElementById('account-page');
+                const dashb = document.getElementById('dashboard');
+                const exploreElement = document.getElementById('explore-page');
+                const marketElement = document.getElementById('market-page');
+                
+                if (acctPage) acctPage.removeAttribute('hidden');
+                if (dashb) dashb.style.display = 'none';
+                if (exploreElement) exploreElement.setAttribute('hidden', '');
+                if (marketElement) marketElement.setAttribute('hidden', '');
+                
+                // Hide all trading pages
+                hideAllTradingPages();
+                break;
+        }
     });
-
-    console.log('Direct navigation setup complete');
 });
+
+console.log('Direct navigation setup complete');
 
 // Market page functionality
 document.addEventListener('DOMContentLoaded', function() {
