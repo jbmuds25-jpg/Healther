@@ -302,10 +302,13 @@
                     </div>
                 </div>
                 
-                <!-- News Section with Left Sidebar Categories -->
-                <div class="news-layout">
-                    <!-- Left Sidebar - Category Bars -->
-                    <div class="news-sidebar">
+                <!-- Fixed Category Tile - Stays Intact During Scrolling -->
+                <div class="category-tile">
+                    <div class="category-tile-header">
+                        <h4>News Categories</h4>
+                        <p>Filter by topic</p>
+                    </div>
+                    <div class="category-tile-content">
                         <div class="category-nav">
                             <div class="category-item active" data-category="policy">
                                 <div class="category-bar">
@@ -345,68 +348,20 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                
+                <!-- News Content Area - Scrollable -->
+                <div class="news-content-area">
+                    <div class="news-content-header">
+                        <h3 id="current-category-title">Health Policy</h3>
+                        <p id="current-category-desc">Government regulations and health guidelines</p>
+                    </div>
                     
-                    <!-- Main Content Area -->
-                    <div class="news-content">
-                        <!-- Category Content Sections -->
-                        <div class="category-content active" id="policy-content">
-                            <div class="content-header">
-                                <h3>Health Policy</h3>
-                                <p>Government regulations and health guidelines</p>
-                            </div>
-                            <div class="news-grid" id="policy-news">
-                                <!-- Policy news items will be loaded here -->
-                            </div>
-                        </div>
-                        
-                        <div class="category-content" id="research-content">
-                            <div class="content-header">
-                                <h3>Medical Research</h3>
-                                <p>Latest scientific discoveries and breakthroughs</p>
-                            </div>
-                            <div class="news-grid" id="research-news">
-                                <!-- Research news items will be loaded here -->
-                            </div>
-                        </div>
-                        
-                        <div class="category-content" id="mental-content">
-                            <div class="content-header">
-                                <h3>Mental Health</h3>
-                                <p>Wellness, psychology, and mental wellness</p>
-                            </div>
-                            <div class="news-grid" id="mental-news">
-                                <!-- Mental health news items will be loaded here -->
-                            </div>
-                        </div>
-                        
-                        <div class="category-content" id="nutrition-content">
-                            <div class="content-header">
-                                <h3>Nutrition</h3>
-                                <p>Dietary guidelines, nutrition science, and healthy eating</p>
-                            </div>
-                            <div class="news-grid" id="nutrition-news">
-                                <!-- Nutrition news items will be loaded here -->
-                            </div>
-                        </div>
-                        
-                        <div class="category-content" id="technology-content">
-                            <div class="content-header">
-                                <h3>Health Technology</h3>
-                                <p>Digital health, AI, and medical innovations</p>
-                            </div>
-                            <div class="news-grid" id="technology-news">
-                                <!-- Technology news items will be loaded here -->
-                            </div>
-                        </div>
-                        
-                        <div class="category-content" id="fitness-content">
-                            <div class="content-header">
-                                <h3>Fitness</h3>
-                                <p>Exercise, sports medicine, and physical wellness</p>
-                            </div>
-                            <div class="news-grid" id="fitness-news">
-                                <!-- Fitness news items will be loaded here -->
-                            </div>
+                    <div class="news-grid" id="news-grid-container">
+                        <!-- News items will be loaded here -->
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                            <p>Loading health news...</p>
                         </div>
                     </div>
                 </div>

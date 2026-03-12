@@ -497,29 +497,115 @@ window.initializeExplore = function() {
     // This will be called when explore page is shown
     console.log('Explore page initialized');
     
-    // Setup category navigation
+    // Setup category navigation for fixed tile
     const categoryItems = document.querySelectorAll('.category-item');
-    const categoryContents = document.querySelectorAll('.category-content');
+    const categoryTitle = document.getElementById('current-category-title');
+    const categoryDesc = document.getElementById('current-category-desc');
+    const newsGrid = document.getElementById('news-grid-container');
+    
+    // Category information
+    const categoryInfo = {
+        policy: {
+            title: 'Health Policy',
+            description: 'Government regulations and health guidelines'
+        },
+        research: {
+            title: 'Medical Research',
+            description: 'Latest scientific discoveries and breakthroughs'
+        },
+        mental: {
+            title: 'Mental Health',
+            description: 'Wellness, psychology, and mental wellness'
+        },
+        nutrition: {
+            title: 'Nutrition',
+            description: 'Dietary guidelines, nutrition science, and healthy eating'
+        },
+        technology: {
+            title: 'Health Technology',
+            description: 'Digital health, AI, and medical innovations'
+        },
+        fitness: {
+            title: 'Fitness',
+            description: 'Exercise, sports medicine, and physical wellness'
+        }
+    };
     
     // Category switching functionality
     categoryItems.forEach(item => {
         item.addEventListener('click', () => {
             const category = item.getAttribute('data-category');
             
-            // Remove active class from all items and contents
+            // Remove active class from all items
             categoryItems.forEach(cat => cat.classList.remove('active'));
-            categoryContents.forEach(content => content.classList.remove('active'));
             
-            // Add active class to clicked item and corresponding content
+            // Add active class to clicked item
             item.classList.add('active');
-            const targetContent = document.getElementById(`${category}-content`);
-            if (targetContent) {
-                targetContent.classList.add('active');
+            
+            // Update content header
+            const info = categoryInfo[category];
+            if (info) {
+                categoryTitle.textContent = info.title;
+                categoryDesc.textContent = info.description;
             }
+            
+            // Load news for the selected category
+            loadCategoryNews(category);
             
             console.log(`Switched to category: ${category}`);
         });
     });
+    
+    // Function to load news for a specific category
+    function loadCategoryNews(category) {
+        if (!newsGrid) return;
+        
+        // Show loading spinner
+        newsGrid.innerHTML = `
+            <div class="loading-spinner">
+                <div class="spinner"></div>
+                <p>Loading ${category} news...</p>
+            </div>
+        `;
+        
+        // Simulate loading delay and then show news
+        setTimeout(() => {
+            const newsItems = healthNewsData[category] || [];
+            
+            if (newsItems.length === 0) {
+                newsGrid.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #666; grid-column: 1 / -1;">
+                        <div style="font-size: 2rem; margin-bottom: 10px;">📰</div>
+                        <p>No news available in this category</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            newsGrid.innerHTML = newsItems.map(news => `
+                <div class="news-item" data-id="${news.id}">
+                    <div class="news-image">
+                        <img src="${news.image}" alt="${news.title}" loading="lazy">
+                        ${news.trending ? '<span class="trending-badge">🔥 Trending</span>' : ''}
+                    </div>
+                    <div class="news-content">
+                        <h4 class="news-title">${news.title}</h4>
+                        <p class="news-excerpt">${news.excerpt}</p>
+                        <div class="news-footer">
+                            <div class="news-date">📅 ${news.date}</div>
+                            <div class="news-stats">
+                                <span class="news-likes">❤️ ${news.likes}</span>
+                                <span class="news-shares">🔄 ${news.shares}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }, 800);
+    }
+    
+    // Load initial category (policy)
+    loadCategoryNews('policy');
     
     // Setup explore event listeners
     const exploreSearchInput = document.getElementById('explore-search-input');
