@@ -497,6 +497,30 @@ window.initializeExplore = function() {
     // This will be called when explore page is shown
     console.log('Explore page initialized');
     
+    // Setup category navigation
+    const categoryItems = document.querySelectorAll('.category-item');
+    const categoryContents = document.querySelectorAll('.category-content');
+    
+    // Category switching functionality
+    categoryItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const category = item.getAttribute('data-category');
+            
+            // Remove active class from all items and contents
+            categoryItems.forEach(cat => cat.classList.remove('active'));
+            categoryContents.forEach(content => content.classList.remove('active'));
+            
+            // Add active class to clicked item and corresponding content
+            item.classList.add('active');
+            const targetContent = document.getElementById(`${category}-content`);
+            if (targetContent) {
+                targetContent.classList.add('active');
+            }
+            
+            console.log(`Switched to category: ${category}`);
+        });
+    });
+    
     // Setup explore event listeners
     const exploreSearchInput = document.getElementById('explore-search-input');
     const exploreClearSearch = document.getElementById('explore-clear-search');
