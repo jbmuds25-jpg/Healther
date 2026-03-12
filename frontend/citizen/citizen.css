@@ -189,47 +189,6 @@ input:-internal-autofill-previewed {
     font-size: 0.9rem;
 }
 
-.feature-icon {
-    width: 120px;
-    height: 120px;
-    background: white;
-    border-radius: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.feature-icon:hover {
-    transform: scale(1.05);
-}
-
-.feature-icon .icon {
-    font-size: 40px;
-    margin-bottom: 10px;
-}
-
-.feature-icon p {
-    margin: 0;
-    font-weight: 600;
-    color: var(--text);
-    font-size: 0.9rem;
-}
-
-/* Dark theme for feature icon */
-[data-theme="dark"] .feature-icon {
-    background: var(--card);
-    border-color: var(--border);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-[data-theme="dark"] .feature-icon p {
-    color: var(--text);
-}
-
 /* Dark theme for home page */
 [data-theme="dark"] .action-card {
     background: var(--card);
@@ -238,6 +197,95 @@ input:-internal-autofill-previewed {
 
 [data-theme="dark"] .action-card:hover {
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* Healther AI Page Styles */
+.ai-page {
+    padding: 20px;
+    min-height: 100vh;
+    background: var(--background);
+}
+
+.ai-card {
+    background: var(--card);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    height: calc(100vh - 40px);
+    display: flex;
+    flex-direction: column;
+}
+
+.ai-header {
+    padding: 20px;
+    background: linear-gradient(135deg, #0a66ff, #0052cc);
+    color: white;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+}
+
+.ai-heading {
+    margin: 0 0 8px 0;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.ai-subtitle {
+    margin: 0;
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+.ai-container {
+    flex: 1;
+    width: 100%;
+    overflow: hidden;
+}
+
+.ai-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: white;
+}
+
+/* Dark theme for AI page */
+[data-theme="dark"] .ai-card {
+    background: var(--card);
+    border-color: var(--border);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .ai-header {
+    background: linear-gradient(135deg, #1e3a8a, #1e40af);
+}
+
+[data-theme="dark"] .ai-container iframe {
+    background: #1a1a2e;
+}
+
+/* Responsive AI page */
+@media (max-width: 768px) {
+    .ai-page {
+        padding: 10px;
+    }
+    
+    .ai-card {
+        height: calc(100vh - 20px);
+    }
+    
+    .ai-header {
+        padding: 15px;
+    }
+    
+    .ai-heading {
+        font-size: 1.5rem;
+    }
+    
+    .ai-subtitle {
+        font-size: 0.9rem;
+    }
 }
 
 /* Responsive design */
