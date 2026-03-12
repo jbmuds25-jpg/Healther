@@ -1,3 +1,46 @@
+/* CSS Root Variables */
+:root {
+    --primary: #2e8b57;
+    --primary-dark: #006644;
+    --secondary: #6c757d;
+    --success: #28a745;
+    --danger: #dc3545;
+    --warning: #ffc107;
+    --info: #17a2b8;
+    --light: #f8f9fa;
+    --dark: #343a40;
+    
+    --bg: #ffffff;
+    --card: #ffffff;
+    --text: #333333;
+    --text-secondary: #666666;
+    --muted: #999999;
+    --border: #e0e0e0;
+    --hover: #f8f9fa;
+    --focus: #2e8b57;
+}
+
+[data-theme="dark"] {
+    --primary: #2e8b57;
+    --primary-dark: #26a069;
+    --secondary: #6c757d;
+    --success: #28a745;
+    --danger: #dc3545;
+    --warning: #ffc107;
+    --info: #17a2b8;
+    --light: #f8f9fa;
+    --dark: #343a40;
+    
+    --bg: #1a1a1a;
+    --card: #2d2d2d;
+    --text: #ffffff;
+    --text-secondary: #cccccc;
+    --muted: #999999;
+    --border: #444444;
+    --hover: #3d3d3d;
+    --focus: #2e8b57;
+}
+
 /* Remove browser autofill indicators */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -214,7 +257,7 @@ input:-internal-autofill-previewed {
 }
 
 .category-btn:hover {
-    background: #218838;
+    background: var(--primary);
 }
 
 .market-featured {
@@ -298,7 +341,7 @@ input:-internal-autofill-previewed {
 }
 
 .featured-btn:hover {
-    background: #218838;
+    background: var(--primary);
 }
 
 .market-actions {
@@ -340,80 +383,6 @@ input:-internal-autofill-previewed {
     }
 }
 
-/* Account Center Overlay Styles */
-.account-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-}
-
-.account-modal {
-    background: var(--card);
-    border-radius: 12px;
-    width: 90%;
-    max-width: 600px;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-}
-
-.account-modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 20px 0 20px;
-    border-bottom: 1px solid var(--border);
-}
-
-.account-modal-header h2 {
-    margin: 0;
-    color: var(--text);
-}
-
-.close-modal {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: var(--text-secondary);
-    padding: 0;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-}
-
-.close-modal:hover {
-    background: var(--hover);
-    color: var(--text);
-}
-
-.account-modal-content {
-    padding: 20px;
-}
-
-/* Use existing account styles from global CSS */
-.account-modal-content .account-profile-section,
-.account-modal-content .account-details,
-.account-modal-content .account-badges-section,
-.account-modal-content .account-actions {
-    margin-bottom: 20px;
-}
-
-.account-modal-content .account-actions {
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-}
 .status-card h2{
     font-size: 1.9rem; /* keep prominent but balanced */
     margin: 4px 0 8px 0;
@@ -799,6 +768,145 @@ section.dashboard {
     display: none;
 }
 
+/* Search Results Overlay */
+.search-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.search-header {
+    background: var(--card);
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search-header h3 {
+    margin: 0;
+    color: var(--text);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.close-btn:hover {
+    background: var(--hover);
+}
+
+.search-content {
+    background: var(--card);
+    margin-top: 20px;
+    border-radius: 12px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.results-list {
+    padding: 16px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.result-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.result-item:hover {
+    background: var(--hover);
+}
+
+.result-item:last-child {
+    border-bottom: none;
+}
+
+[data-theme="dark"] .search-overlay {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+[data-theme="dark"] .search-header {
+    background: var(--card);
+    border-color: var(--border);
+}
+
+[data-theme="dark"] .search-content {
+    background: var(--card);
+}
+
+/* Loading Overlay */
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.loading-page {
+    background: var(--card);
+    padding: 40px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--border);
+    border-top: 4px solid var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+.loading-text {
+    color: var(--text);
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+[data-theme="dark"] #loading-overlay {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+[data-theme="dark"] .loading-page {
+    background: var(--card);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
 /* Header actions (top-right options) */
 .header-actions {
     display: flex;
@@ -1111,7 +1219,7 @@ html:not([data-theme="dark"]) .theme-tile .theme-option[data-theme="dark"] {
 }
 
 .trade-btn:hover {
-    background: #218838;
+    background: var(--primary);
 }
 
 .details-btn {
@@ -1407,7 +1515,7 @@ html:not([data-theme="dark"]) .theme-tile .theme-option[data-theme="dark"] {
     transition: background 0.2s, transform 0.1s;
 }
 .account-back-btn:hover {
-    background: #008f48;
+    background: var(--primary-dark);
     transform: translateY(-1px);
 }
 [data-theme="dark"] .account-row {
@@ -2055,6 +2163,7 @@ html:not([data-theme="dark"]) .theme-tile .theme-option[data-theme="dark"] {
     flex: 1 !important;
     display: -webkit-box !important;
     -webkit-line-clamp: 3 !important;
+    line-clamp: 3 !important;
     -webkit-box-orient: vertical !important;
     overflow: hidden !important;
 }
@@ -2174,6 +2283,7 @@ html:not([data-theme="dark"]) .theme-tile .theme-option[data-theme="dark"] {
     .news-excerpt {
         font-size: 0.75rem !important;
         -webkit-line-clamp: 2 !important;
+        line-clamp: 2 !important;
     }
     
     .news-footer {

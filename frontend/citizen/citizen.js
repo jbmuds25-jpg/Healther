@@ -290,90 +290,11 @@ window.navigateWithLoading = navigateWithLoading;
 
 // Theme toggle removed for citizen platform
 
-// Exploration Hub mock
-const postsList = document.getElementById("posts-list");
-const postInput = document.getElementById("post-input");
-const postBtn = document.getElementById("post-btn");
-
-function loadPosts(){
-    if (!postsList) return;
-    postsList.innerHTML = "";
-    fetch(`${API}/posts`)
-        .then(res => {
-            if (!res.ok) {
-                throw new Error(`HTTP error! status: ${res.status}`);
-            }
-            return res.json();
-        })
-        .then(posts => {
-            if (!posts || posts.length === 0) {
-                postsList.innerHTML = "<li>No posts available</li>";
-                return;
-            }
-            posts.forEach(p => {
-                const li = document.createElement("li");
-                li.textContent = `[${p.role}] ${p.author}: ${p.content}`;
-                postsList.appendChild(li);
-            });
-        }).catch(err => {
-            console.warn('API not available, using sample posts:', err.message);
-            // Fallback with sample posts
-            postsList.innerHTML = "";
-            const samplePosts = [
-                { role: 'citizen', author: 'johndoe', content: 'Feeling great today!' },
-                { role: 'doctor', author: 'drsmith', content: 'Remember to stay hydrated' },
-                { role: 'citizen', author: 'janedoe', content: 'Just completed my exercise routine' }
-            ];
-            samplePosts.forEach(p => {
-                const li = document.createElement("li");
-                li.textContent = `[${p.role}] ${p.author}: ${p.content}`;
-                postsList.appendChild(li);
-            });
-        });
-}
-
-if (postBtn && postInput && postsList) {
-    postBtn.addEventListener("click", () => {
-        if(postInput.value.trim() !== ""){
-            const payload = {
-                author: currentUser.username,
-                role: currentUser.role,
-                content: postInput.value
-            };
-            fetch(`${API}/posts`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            }).then(r => {
-                if (!r.ok) {
-                    throw new Error(`HTTP error! status: ${r.status}`);
-                }
-                return r.json();
-            })
-            .then(post => {
-                const li = document.createElement("li");
-                li.textContent = `[${post.role}] ${post.author}: ${post.content}`;
-                postsList.appendChild(li);
-                postInput.value = "";
-            }).catch(err => {
-                console.warn('API not available, adding post locally:', err.message);
-                // Fallback: add post locally without API
-                const li = document.createElement("li");
-                li.textContent = `[${payload.role}] ${payload.author}: ${payload.content}`;
-                postsList.appendChild(li);
-                postInput.value = "";
-            });
-        }
-    });
-}
-
-loadPosts();
-
 // Badges
 const badgeList = document.getElementById("badge-list");
 function loadBadges(){
     if (!badgeList) return;
-    badgeList.innerHTML = "";
+    const fragment = document.createDocumentFragment();
     // Don't display badges on the third tile - leave empty
     // refresh current user from API to get latest badges/upgrades
     // fetch(`${API}/users/${currentUser.id}`)
@@ -388,7 +309,7 @@ function loadBadges(){
     //         (currentUser.badges || []).forEach(b => {
     //             const li = document.createElement("li");
     //             li.textContent = b;
-    //             badgeList.appendChild(li);
+    //             fragment.appendChild(li);
     //         });
     //     }).catch(err => {
     //         console.warn('API not available, using local badges:', err.message);
@@ -396,8 +317,10 @@ function loadBadges(){
     //         (currentUser.badges || []).forEach(b => {
     //             const li = document.createElement("li");
     //             li.textContent = b;
-    //             badgeList.appendChild(li);
+    //             fragment.appendChild(li);
     //         });
+    //     }).finally(() => {
+    //         badgeList.appendChild(fragment);
     //     });
 }
 loadBadges();
@@ -477,7 +400,19 @@ document.addEventListener('DOMContentLoaded', function() {
                             // Fallback: redirect to market page if not embedded
                             window.location.href = 'market.html';
                         }
+                    } else if (key === 'home') {
+                        // Show dashboard/home page
+                        if (accountPage) {
+                            accountPage.setAttribute('hidden', '');
+                        }
+                        if (dashboard) dashboard.style.display = '';
+                        // Hide other pages
+                        const explorePage = document.getElementById('explore-page');
+                        const marketPage = document.getElementById('market-page');
+                        if (explorePage) explorePage.setAttribute('hidden', '');
+                        if (marketPage) marketPage.setAttribute('hidden', '');
                     } else {
+                        // Default behavior for any other navigation
                         if (accountPage) {
                             accountPage.setAttribute('hidden', '');
                             if (dashboard) dashboard.style.display = '';
@@ -939,7 +874,6 @@ window.initSearch = function() {
         const closeResults = document.getElementById('close-results');
         const resultsList = document.getElementById('results-list');
         
-        const postsListEl = document.getElementById('posts-list');
         const badgeListEl = document.getElementById('badge-list');
         
         if (!searchInput || !searchResults || !resultsList) {
@@ -957,30 +891,12 @@ window.initSearch = function() {
         
         // Add sample data if empty
         function ensureDataExists() {
-            // Add sample posts if empty
-            if (postsListEl && postsListEl.children.length === 0) {
-                const samplePosts = [
-                    'Welcome to Healther Community!',
-                    'Health tip: Drink 8 glasses of water daily',
-                    'New wellness challenge starting next week',
-                    'Share your fitness journey with others',
-                    'Mental health matters - take breaks regularly'
-                ];
-                samplePosts.forEach(post => {
-                    const li = document.createElement('li');
-                    li.textContent = post;
-                    postsListEl.appendChild(li);
-                });
-            }
-            
             // Add sample badges if empty
             if (badgeListEl && badgeListEl.children.length === 0) {
                 const sampleBadges = [
-                    '🏃 Fitness Enthusiast',
-                    '🥗 Nutrition Expert',
-                    '💪 Wellness Champion',
-                    '🧘 Mindfulness Master',
-                    '💊 Health Advocate'
+                    'Health Champion',
+                    'Wellness Warrior',
+                    'Fitness Enthusiast'
                 ];
                 sampleBadges.forEach(badge => {
                     const li = document.createElement('li');
@@ -991,28 +907,14 @@ window.initSearch = function() {
         }
         
         // Collect all searchable data
-        function collectData() {
+        function collectSearchData() {
             const results = [];
-            
-            // Collect posts
-            if (postsListEl) {
-                Array.from(postsListEl.querySelectorAll('li')).forEach(li => {
-                    const text = li.textContent.trim();
-                    if (text && text !== 'No posts available') {
-                        results.push({
-                            type: 'post',
-                            text: text,
-                            element: li
-                        });
-                    }
-                });
-            }
             
             // Collect badges
             if (badgeListEl) {
                 Array.from(badgeListEl.querySelectorAll('li')).forEach(li => {
                     const text = li.textContent.trim();
-                    if (text && text !== 'No badges yet') {
+                    if (text) {
                         results.push({
                             type: 'badge',
                             text: text,
@@ -1022,11 +924,10 @@ window.initSearch = function() {
                 });
             }
             
-            // Add searchable page content
+            // Add page content
             const pageContent = [
-                { type: 'page', text: 'Dashboard - Your health overview', element: document.body },
-                { type: 'page', text: 'Account Settings - Manage your profile', element: document.body },
-                { type: 'page', text: 'Explore Hub - Health news and trends', element: document.body },
+                { type: 'page', text: 'Home - Dashboard', element: document.body },
+                { type: 'page', text: 'Explore Hub - Discover health content', element: document.body },
                 { type: 'page', text: 'Market - Health products and services', element: document.body },
                 { type: 'page', text: 'Notifications - Stay updated', element: document.body }
             ];
@@ -1345,20 +1246,10 @@ if (document.readyState === 'loading') {
         if (!badgesList) return;
         
         badgesList.innerHTML = '';
-        // Don't display badges - leave empty
-        // if (currentUser.badges && currentUser.badges.length > 0) {
-        //     currentUser.badges.forEach(badge => {
-        //         const li = document.createElement('li');
-        //         li.className = 'badge-item';
-        //         li.textContent = badge;
-        //         badgesList.appendChild(li);
-        //     });
-        // } else {
-            const li = document.createElement('li');
-            li.className = 'badge-item';
-            li.textContent = 'No badges yet';
-            badgesList.appendChild(li);
-        }
+        const li = document.createElement('li');
+        li.className = 'badge-item';
+        li.textContent = 'No badges yet';
+        badgesList.appendChild(li);
     }
     
     // Make account functions globally accessible
@@ -1486,6 +1377,21 @@ class NotificationSystem {
             notificationsNavItem.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
+                
+                // Hide dashboard when notifications are opened
+                const dashboard = document.getElementById('dashboard');
+                if (dashboard) {
+                    dashboard.style.display = 'none';
+                }
+                
+                // Hide other pages
+                const accountPage = document.getElementById('account-page');
+                const explorePage = document.getElementById('explore-page');
+                const marketPage = document.getElementById('market-page');
+                if (accountPage) accountPage.setAttribute('hidden', '');
+                if (explorePage) explorePage.setAttribute('hidden', '');
+                if (marketPage) marketPage.setAttribute('hidden', '');
+                
                 // Show immediately without any loading
                 this.showNotificationsTile();
             });
@@ -1495,6 +1401,18 @@ class NotificationSystem {
             closeNotificationsBtn.addEventListener('click', () => {
                 // Hide immediately without any loading
                 this.hideNotificationsTile();
+                
+                // Show dashboard when notifications are closed
+                const dashboard = document.getElementById('dashboard');
+                if (dashboard) {
+                    dashboard.style.display = '';
+                }
+                
+                // Update sidebar active state to home
+                document.querySelectorAll('.sidebar .nav-item').forEach(function (i) {
+                    i.classList.remove('active');
+                    if (i.getAttribute('data-key') === 'home') i.classList.add('active');
+                });
             });
         }
 
@@ -1508,7 +1426,23 @@ class NotificationSystem {
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.nav-item[data-key="notifications"]') && 
                 !e.target.closest('#notifications-tile')) {
-                this.hideNotificationsTile();
+                
+                const notificationsTile = document.getElementById('notifications-tile');
+                if (notificationsTile && !notificationsTile.hidden) {
+                    this.hideNotificationsTile();
+                    
+                    // Show dashboard when notifications are closed
+                    const dashboard = document.getElementById('dashboard');
+                    if (dashboard) {
+                        dashboard.style.display = '';
+                    }
+                    
+                    // Update sidebar active state to home
+                    document.querySelectorAll('.sidebar .nav-item').forEach(function (i) {
+                        i.classList.remove('active');
+                        if (i.getAttribute('data-key') === 'home') i.classList.add('active');
+                    });
+                }
             }
         });
     }
@@ -1993,6 +1927,42 @@ document.addEventListener('DOMContentLoaded', () => {
         autoOpen: false
     });
 });
+
+// Health Status Page Navigation
+window.showHealthStatusPage = function() {
+    // Hide all other pages
+    const dashboard = document.getElementById('dashboard');
+    const accountPage = document.getElementById('account-page');
+    const explorePage = document.getElementById('explore-page');
+    const marketPage = document.getElementById('market-page');
+    const healthStatusPage = document.getElementById('health-status-page');
+    
+    // Hide all pages
+    if (dashboard) dashboard.style.display = 'none';
+    if (accountPage) accountPage.setAttribute('hidden', '');
+    if (explorePage) explorePage.setAttribute('hidden', '');
+    if (marketPage) marketPage.setAttribute('hidden', '');
+    
+    // Hide all trading pages
+    const tradingPages = ['pharmacy-page', 'healthcare-page', 'wellness-page', 'labtests-page'];
+    tradingPages.forEach(pageId => {
+        const page = document.getElementById(pageId);
+        if (page) page.setAttribute('hidden', '');
+    });
+    
+    // Show health status page
+    if (healthStatusPage) {
+        healthStatusPage.removeAttribute('hidden');
+        console.log('Health Status page shown');
+    }
+    
+    // Update sidebar active state
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => item.classList.remove('active'));
+    
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+};
 
 // Make it globally available
 window.notificationSystem = notificationSystem;

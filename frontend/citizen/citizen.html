@@ -97,6 +97,19 @@
 </header>
 <!-- Platform navigation removed per design request -->
 
+<!-- Search Results Overlay -->
+<div id="search-results" class="search-overlay" hidden>
+    <div class="search-header">
+        <h3>Search Results</h3>
+        <button id="close-results" class="close-btn">&times;</button>
+    </div>
+    <div class="search-content">
+        <div id="results-list" class="results-list">
+            <!-- Search results will be loaded dynamically -->
+        </div>
+    </div>
+</div>
+
 <aside class="sidebar" aria-label="Primary">
     <nav>
         <div class="nav-item" data-name="Home" data-key="home" title="Home">
@@ -151,7 +164,7 @@
         
         <div class="account-profile-section">
             <div class="account-avatar-wrap">
-                <img id="account-avatar" class="account-avatar" src="" alt="Profile" />
+                <img id="account-avatar" class="account-avatar" src="" alt="User profile picture" />
             </div>
             <div class="account-name-wrap">
                 <p class="account-value account-fullname" id="account-fullname">—</p>
@@ -2970,12 +2983,7 @@
         </div>
         <h2>My Community</h2>
         <p class="status-summary">Your community at a glance.</p>
-        <div class="hidden-posts" style="display:none;">
-            <ul id="posts-list"></ul>
-            <input type="text" id="post-input" placeholder="Share your health post">
-            <button id="post-btn">Post</button>
-        </div>
-    </div>
+            </div>
 
     <div class="card badge-card">
         <div class="status-icon" aria-hidden="true">
@@ -2992,6 +3000,15 @@
 
 <script src="../global/logout-helper.js"></script>
 <script src="../global/translations.js"></script>
+
+<!-- Loading Overlay -->
+<div id="loading-overlay" style="display: none;">
+    <div class="loading-page">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Loading...</div>
+    </div>
+</div>
+
 <script src="citizen.js"></script>
 <script src="explore.js"></script>
 <!-- Cross-platform navigation removed for citizen-only platform -->
@@ -3384,13 +3401,7 @@ themeOptions.forEach((option) => {
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Initializing simple notification system...');
             
-            // Initialize community and badges
-            if (typeof window.initializeCommunity === 'function') {
-                window.initializeCommunity();
-            }
-            if (typeof window.initializeBadges === 'function') {
-                window.initializeBadges();
-            }
+            // Initialize notification system
             
             const notificationsNavItem = document.querySelector('.nav-item[data-key="notifications"]');
             const notificationsTile = document.getElementById('notifications-tile');
