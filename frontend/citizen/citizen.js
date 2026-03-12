@@ -1266,34 +1266,111 @@ if (document.readyState === 'loading') {
     }
 })();
 
-// Simple Notification Tile System
-const notifications = [
-    {
-        id: 1,
-        type: 'emergency',
-        title: 'Emergency Alert',
-        message: 'Medical emergency reported in your area.',
-        time: '2 min ago',
-        unread: true
-    },
-    {
-        id: 2,
-        type: 'info',
-        title: 'Appointment Reminder',
-        message: 'Doctor appointment scheduled for tomorrow.',
-        time: '1 hour ago',
-        unread: true
-    },
-    {
-        id: 3,
-        type: 'success',
-        title: 'Order Confirmed',
-        message: 'Your pharmacy order has been shipped.',
-        time: '3 hours ago',
-        unread: false
-    }
-];
+// ========================================
+// NOTIFICATION SYSTEM WITH CATEGORIES
+// ========================================
 
+// Notification data organized by categories
+const notificationsData = {
+    emergency: [
+        {
+            id: 1,
+            title: 'Medical Emergency Alert',
+            message: 'Emergency services have been dispatched to downtown area. Please avoid the location.',
+            time: '2 minutes ago',
+            unread: true
+        },
+        {
+            id: 2,
+            title: 'Critical System Alert',
+            message: 'Your account security has been compromised. Please change your password immediately.',
+            time: '15 minutes ago',
+            unread: true
+        }
+    ],
+    spam: [
+        {
+            id: 3,
+            title: 'Suspicious Login Attempt',
+            message: 'Someone tried to access your account from an unrecognized device.',
+            time: '1 hour ago',
+            unread: true
+        },
+        {
+            id: 4,
+            title: 'Phishing Email Blocked',
+            message: 'We blocked a phishing email pretending to be from Healther support.',
+            time: '2 hours ago',
+            unread: false
+        }
+    ],
+    updates: [
+        {
+            id: 5,
+            title: 'Platform Update Available',
+            message: 'New features have been added to your health dashboard. Check them out!',
+            time: '3 hours ago',
+            unread: false
+        },
+        {
+            id: 6,
+            title: 'Security Patch Applied',
+            message: 'Latest security updates have been successfully installed on your account.',
+            time: '5 hours ago',
+            unread: false
+        }
+    ],
+    explore: [
+        {
+            id: 7,
+            title: 'New Health Article Published',
+            message: 'Read our latest article on nutrition tips for better health.',
+            time: '6 hours ago',
+            unread: false
+        },
+        {
+            id: 8,
+            title: 'Community Challenge Started',
+            message: 'Join the weekly fitness challenge and compete with other users.',
+            time: '1 day ago',
+            unread: false
+        }
+    ],
+    wellness: [
+        {
+            id: 9,
+            title: 'Daily Meditation Reminder',
+            message: 'Time for your daily mindfulness session. Take 10 minutes for mental wellness.',
+            time: '2 hours ago',
+            unread: true
+        },
+        {
+            id: 10,
+            title: 'Hydration Goal Achieved',
+            message: 'Congratulations! You\'ve reached your daily water intake goal.',
+            time: '4 hours ago',
+            unread: false
+        }
+    ],
+    medical: [
+        {
+            id: 11,
+            title: 'Appointment Reminder',
+            message: 'Doctor appointment scheduled for tomorrow at 10:00 AM.',
+            time: '1 day ago',
+            unread: true
+        },
+        {
+            id: 12,
+            title: 'Lab Results Available',
+            message: 'Your recent blood test results are now available in your medical records.',
+            time: '2 days ago',
+            unread: false
+        }
+    ]
+};
+
+// Notification system functions
 function showNotificationsTile() {
     const notificationsTile = document.getElementById('notifications-tile');
     if (notificationsTile) {
@@ -1315,28 +1392,124 @@ function renderNotifications() {
     
     notificationsList.innerHTML = '';
     
-    notifications.forEach(notification => {
-        const div = document.createElement('div');
-        div.className = `notification-item ${notification.unread ? 'unread' : ''}`;
-        div.innerHTML = `
-            <div class="notification-content">
-                <div class="notification-title">${notification.title}</div>
-                <div class="notification-message">${notification.message}</div>
-                <div class="notification-time">${notification.time}</div>
-            </div>
+    // Render each category
+    Object.keys(notificationsData).forEach(category => {
+        const categoryNotifications = notificationsData[category];
+        if (categoryNotifications.length === 0) return;
+        
+        // Create category section
+        const categoryDiv = document.createElement('div');
+        categoryDiv.className = 'notification-category';
+        
+        // Category header
+        const headerDiv = document.createElement('div');
+        headerDiv.className = 'category-header';
+        headerDiv.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+        
+        // Category title with count
+        const titleDiv = document.createElement('div');
+        titleDiv.className = 'category-title';
+        titleDiv.innerHTML = `
+            <span class="category-name">${category.charAt(0).toUpperCase() + category.slice(1)}</span>
+            <span class="category-count">${categoryNotifications.filter(n => n.unread).length}</span>
         `;
-        notificationsList.appendChild(div);
+        
+        categoryDiv.appendChild(headerDiv);
+        categoryDiv.appendChild(titleDiv);
+        
+        // Render notifications in this category
+        categoryNotifications.forEach(notification => {
+            const notificationDiv = document.createElement('div');
+            notificationDiv.className = `notification-item ${notification.unread ? 'unread' : ''} ${category}`;
+            notificationDiv.innerHTML = `
+                <div class="notification-content">
+                    <div class="notification-title">${notification.title}</div>
+                    <div class="notification-message">${notification.message}</div>
+                    <div class="notification-time">${notification.time}</div>
+                </div>
+                <div class="notification-actions">
+                    <button class="notification-btn mark-read" onclick="markAsRead(${notification.id}, '${category}')">Mark as read</button>
+                    <button class="notification-btn report" onclick="reportNotification(${notification.id}, '${category}')">Report</button>
+                    <button class="notification-btn view" onclick="viewNotification(${notification.id}, '${category}')">View</button>
+                </div>
+            `;
+            categoryDiv.appendChild(notificationDiv);
+        });
+        
+        notificationsList.appendChild(categoryDiv);
     });
     
     updateUnreadBadge();
 }
 
 function updateUnreadBadge() {
-    const unreadCount = notifications.filter(n => n.unread).length;
+    let totalUnread = 0;
+    Object.values(notificationsData).forEach(categoryNotifications => {
+        totalUnread += categoryNotifications.filter(n => n.unread).length;
+    });
+    
     const notificationsNavItem = document.querySelector('.nav-item[data-key="notifications"]');
     if (notificationsNavItem) {
-        notificationsNavItem.setAttribute('data-unread-count', unreadCount);
+        notificationsNavItem.setAttribute('data-unread-count', totalUnread);
     }
+}
+
+function markAsRead(notificationId, category) {
+    const notification = notificationsData[category].find(n => n.id === notificationId);
+    if (notification) {
+        notification.unread = false;
+        renderNotifications();
+    }
+}
+
+function reportNotification(notificationId, category) {
+    const notification = notificationsData[category].find(n => n.id === notificationId);
+    if (notification) {
+        // Remove the notification
+        const index = notificationsData[category].findIndex(n => n.id === notificationId);
+        if (index > -1) {
+            notificationsData[category].splice(index, 1);
+        }
+        renderNotifications();
+        alert('Notification has been reported and removed.');
+    }
+}
+
+function viewNotification(notificationId, category) {
+    const notification = notificationsData[category].find(n => n.id === notificationId);
+    if (notification) {
+        // Mark as read when viewed
+        if (notification.unread) {
+            markAsRead(notificationId, category);
+        }
+        
+        // Handle viewing based on category
+        switch (category) {
+            case 'medical':
+                alert(`Medical Notification:\n\n${notification.message}\n\nThis notification is related to your medical care.`);
+                break;
+            case 'wellness':
+                alert(`Wellness Tip:\n\n${notification.message}\n\nTake care of your mental and physical health.`);
+                break;
+            case 'explore':
+                alert(`Explore Hub:\n\n${notification.message}\n\nDiscover more health content.`);
+                break;
+            case 'updates':
+                alert(`Platform Update:\n\n${notification.message}\n\nStay informed about new features.`);
+                break;
+            default:
+                alert(`Notification:\n\n${notification.message}`);
+        }
+    }
+}
+
+function markAllAsRead() {
+    Object.values(notificationsData).forEach(categoryNotifications => {
+        categoryNotifications.forEach(notification => {
+            notification.unread = false;
+        });
+    });
+    renderNotifications();
 }
 
 // Initialize notifications
@@ -1389,8 +1562,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (markAllReadBtn) {
         markAllReadBtn.addEventListener('click', () => {
-            notifications.forEach(n => n.unread = false);
-            renderNotifications();
+            markAllAsRead();
         });
     }
     
