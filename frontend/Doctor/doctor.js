@@ -63,6 +63,44 @@
     }catch(e){ console.error('Options init error', e); }
 })();
 
+// Navigation functionality
+(function(){
+    try{
+        const dashboard = document.querySelector('.dashboard');
+        const patientsPage = document.getElementById('patients-page');
+        const appointmentsPage = document.getElementById('appointments-page');
+        const messagesPage = document.getElementById('messages-page');
+        const navItems = document.querySelectorAll('.sidebar .nav-item');
+        
+        navItems.forEach(item => {
+            item.addEventListener('click', function(){
+                const key = item.getAttribute('data-key');
+                
+                // Hide all pages
+                if (dashboard) dashboard.style.display = 'none';
+                if (patientsPage) patientsPage.setAttribute('hidden', '');
+                if (appointmentsPage) appointmentsPage.setAttribute('hidden', '');
+                if (messagesPage) messagesPage.setAttribute('hidden', '');
+                
+                // Show selected page
+                if (key === 'home') {
+                    if (dashboard) dashboard.style.display = '';
+                } else if (key === 'patients') {
+                    if (patientsPage) patientsPage.removeAttribute('hidden');
+                } else if (key === 'appointments') {
+                    if (appointmentsPage) appointmentsPage.removeAttribute('hidden');
+                } else if (key === 'messages') {
+                    if (messagesPage) messagesPage.removeAttribute('hidden');
+                }
+                
+                // Update active state
+                navItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+            });
+        });
+    }catch(e){ console.error('Navigation init error', e); }
+})();
+
 // Mock data
 const messages = [
     "Patient John Doe: Feeling unwell",
@@ -74,118 +112,21 @@ const appointments = [
 ];
 
 const messagesList = document.getElementById("messages-list");
-messagesList.innerHTML = "";
-messages.forEach(m => {
-    const li = document.createElement("li");
-    li.textContent = m;
-    messagesList.appendChild(li);
-});
+if (messagesList) {
+    messagesList.innerHTML = "";
+    messages.forEach(m => {
+        const li = document.createElement("li");
+        li.textContent = m;
+        messagesList.appendChild(li);
+    });
+}
 
 const appointmentsList = document.getElementById("appointments-list");
-appointmentsList.innerHTML = "";
-appointments.forEach(a => {
-    const li = document.createElement("li");
-    li.textContent = a;
-    appointmentsList.appendChild(li);
-});
-
-// Navigation system for doctor platform
-window.navigateToPage = function(pageKey) {
-    console.log(`navigateToPage called with: ${pageKey}`);
-    
-    // Hide all pages
-    const dashboard = document.getElementById('dashboard');
-    const healthStatusPage = document.getElementById('health-status-page');
-    const communityPage = document.getElementById('community-page');
-    const badgesPage = document.getElementById('badges-page');
-    
-    if (dashboard) dashboard.style.display = 'none';
-    if (healthStatusPage) healthStatusPage.setAttribute('hidden', '');
-    if (communityPage) communityPage.setAttribute('hidden', '');
-    if (badgesPage) badgesPage.setAttribute('hidden', '');
-    
-    // Show the requested page
-    switch(pageKey) {
-        case 'home':
-            console.log('Navigating to Home Dashboard');
-            if (dashboard) dashboard.style.display = '';
-            break;
-            
-        case 'health-status':
-            console.log('Navigating to Health Status');
-            if (healthStatusPage) healthStatusPage.removeAttribute('hidden');
-            break;
-            
-        case 'community':
-            console.log('Navigating to Community');
-            if (communityPage) communityPage.removeAttribute('hidden');
-            break;
-            
-        case 'badges':
-            console.log('Navigating to Badges');
-            if (badgesPage) badgesPage.removeAttribute('hidden');
-            break;
-            
-        default:
-            console.warn(`Unknown page key: ${pageKey}`);
-            // Fallback to home
-            if (dashboard) dashboard.style.display = '';
-            break;
-    }
-};
-
-// Set up navigation after DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('=== DOCTOR NAVIGATION SETUP ===');
-    
-    // Set up sidebar navigation
-    const navItems = document.querySelectorAll('.sidebar .nav-item');
-    console.log('Navigation items found:', navItems.length);
-    
-    navItems.forEach((item) => {
-        const key = item.getAttribute('data-key');
-        console.log('Setting up navigation for:', key);
-        
-        item.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log('Doctor navigation clicked:', key);
-            
-            // Clear all active states
-            navItems.forEach(nav => nav.classList.remove('active'));
-            
-            // Set active state
-            this.classList.add('active');
-            
-            // Handle navigation
-            switch(key) {
-                case 'home':
-                    console.log('Navigating to Home Dashboard');
-                    navigateToPage('home');
-                    break;
-                    
-                case 'patients':
-                    console.log('Navigating to Patients');
-                    navigateToPage('community');
-                    break;
-                    
-                case 'appointments':
-                    console.log('Navigating to Appointments');
-                    navigateToPage('badges');
-                    break;
-                    
-                case 'messages':
-                    console.log('Messages clicked');
-                    // Handle messages separately
-                    break;
-                    
-                case 'account':
-                    console.log('Navigating to Account');
-                    // Handle account separately
-                    break;
-            }
-        });
+if (appointmentsList) {
+    appointmentsList.innerHTML = "";
+    appointments.forEach(a => {
+        const li = document.createElement("li");
+        li.textContent = a;
+        appointmentsList.appendChild(li);
     });
-    
-    console.log('Doctor navigation setup complete');
-});
+}
