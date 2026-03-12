@@ -1270,6 +1270,11 @@ if (document.readyState === 'loading') {
 // NOTIFICATION SYSTEM WITH CATEGORIES
 // ========================================
 
+// Healther AI Integration
+function openHealtherAI() {
+    window.location.href = 'healther-ai.html';
+}
+
 // Notification data organized by categories
 const notificationsData = {
     emergency: [
