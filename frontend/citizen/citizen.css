@@ -1869,23 +1869,23 @@ html:not([data-theme="dark"]) .theme-tile .theme-option[data-theme="dark"] {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: #007bff;
+    background: var(--info);
 }
 
 .unread-indicator.emergency {
-    background: #dc3545;
+    background: var(--danger);
 }
 
 .unread-indicator.spam {
-    background: #ffc107;
+    background: var(--warning);
 }
 
 .unread-indicator.important {
-    background: #28a745;
+    background: var(--success);
 }
 
 .unread-indicator.info {
-    background: #17a2b8;
+    background: var(--info);
 }
 
 /* Notification badge on sidebar */
@@ -1894,7 +1894,7 @@ html:not([data-theme="dark"]) .theme-tile .theme-option[data-theme="dark"] {
     position: absolute;
     top: -4px;
     right: -8px;
-    background: #dc3545;
+    background: var(--danger);
     color: white;
     font-size: 0.7rem;
     padding: 2px 6px;

@@ -1418,7 +1418,7 @@ class NotificationSystem {
 
         if (markAllReadBtn) {
             markAllReadBtn.addEventListener('click', () => {
-                this.markAllAsRead();
+                notificationSystem.markAllAsRead();
             });
         }
 
@@ -1610,6 +1610,24 @@ class NotificationSystem {
 
 // Initialize notification system
 const notificationSystem = new NotificationSystem();
+
+// Make notification system globally available
+window.notificationSystem = notificationSystem;
+window.markAsRead = (id) => notificationSystem.markAsRead(id);
+window.deleteNotification = (id) => notificationSystem.deleteNotification(id);
+
+// Add a test notification to verify system is working
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        notificationSystem.addNotification({
+            type: 'info',
+            source: 'system',
+            title: 'Welcome Back!',
+            message: 'Your Healther platform is ready to use.',
+            icon: '👋'
+        });
+    }, 1000);
+});
 
 // ========================================
 // EXPLORE HUB FUNCTIONALITY
@@ -1963,6 +1981,3 @@ window.showHealthStatusPage = function() {
     // Scroll to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
 };
-
-// Make it globally available
-window.notificationSystem = notificationSystem;
