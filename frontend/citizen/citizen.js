@@ -1266,141 +1266,142 @@ if (document.readyState === 'loading') {
     }
 })();
 
-// Notification System
-class NotificationSystem {
-    constructor() {
-        this.notifications = [];
-        this.unreadCount = 0;
-        this.init();
+// Simple Notification Tile System
+const notifications = [
+    {
+        id: 1,
+        type: 'emergency',
+        title: 'Emergency Alert',
+        message: 'Medical emergency reported in your area.',
+        time: '2 min ago',
+        unread: true
+    },
+    {
+        id: 2,
+        type: 'info',
+        title: 'Appointment Reminder',
+        message: 'Doctor appointment scheduled for tomorrow.',
+        time: '1 hour ago',
+        unread: true
+    },
+    {
+        id: 3,
+        type: 'success',
+        title: 'Order Confirmed',
+        message: 'Your pharmacy order has been shipped.',
+        time: '3 hours ago',
+        unread: false
     }
+];
 
-    init() {
-        this.loadNotifications();
-        this.setupEventListeners();
-        this.updateUnreadBadge();
+function showNotificationsTile() {
+    const notificationsTile = document.getElementById('notifications-tile');
+    if (notificationsTile) {
+        notificationsTile.removeAttribute('hidden');
+        renderNotifications();
     }
+}
 
-    loadNotifications() {
-        // Sample notifications from different sources
-        this.notifications = [
-            {
-                id: 1,
-                type: 'emergency',
-                source: 'emergency',
-                title: 'Emergency Alert',
-                message: 'Medical emergency reported in your area. Please avoid downtown area.',
-                time: '2 minutes ago',
-                unread: true,
-                icon: '🚨'
-            },
-            {
-                id: 2,
-                type: 'spam',
-                source: 'system',
-                title: 'Suspicious Activity',
-                message: 'Unusual login attempt detected from unknown device.',
-                time: '15 minutes ago',
-                unread: true,
-                icon: '⚠️'
-            },
-            {
-                id: 3,
-                type: 'important',
-                source: 'market',
-                title: 'Order Confirmed',
-                message: 'Your pharmacy order has been shipped and will arrive tomorrow.',
-                time: '1 hour ago',
-                unread: true,
-                icon: '📦'
-            },
-            {
-                id: 4,
-                type: 'info',
-                source: 'fitness',
-                title: 'Workout Reminder',
-                message: 'Time for your daily fitness routine. You\'ve missed 2 days this week.',
-                time: '2 hours ago',
-                unread: false,
-                icon: '💪'
-            },
-            {
-                id: 5,
-                type: 'info',
-                source: 'explore',
-                title: 'New Health Article',
-                message: 'Check out our latest article on nutrition tips for better health.',
-                time: '3 hours ago',
-                unread: false,
-                icon: '📚'
-            },
-            {
-                id: 6,
-                type: 'important',
-                source: 'medical',
-                title: 'Appointment Reminder',
-                message: 'Doctor appointment scheduled for tomorrow at 10:00 AM.',
-                time: '5 hours ago',
-                unread: false,
-                icon: '🏥'
-            },
-            {
-                id: 7,
-                type: 'spam',
-                source: 'system',
-                title: 'Phishing Attempt',
-                message: 'We blocked a phishing email pretending to be from Healther support.',
-                time: '1 day ago',
-                unread: false,
-                icon: '🛡️'
-            },
-            {
-                id: 8,
-                type: 'info',
-                source: 'wellness',
-                title: 'Meditation Session',
-                message: 'Your daily meditation session is ready. Join now for stress relief.',
-                time: '1 day ago',
-                unread: false,
-                icon: '🧘'
+function hideNotificationsTile() {
+    const notificationsTile = document.getElementById('notifications-tile');
+    if (notificationsTile) {
+        notificationsTile.setAttribute('hidden', '');
+    }
+}
+
+function renderNotifications() {
+    const notificationsList = document.getElementById('notifications-list');
+    if (!notificationsList) return;
+    
+    notificationsList.innerHTML = '';
+    
+    notifications.forEach(notification => {
+        const div = document.createElement('div');
+        div.className = `notification-item ${notification.unread ? 'unread' : ''}`;
+        div.innerHTML = `
+            <div class="notification-content">
+                <div class="notification-title">${notification.title}</div>
+                <div class="notification-message">${notification.message}</div>
+                <div class="notification-time">${notification.time}</div>
+            </div>
+        `;
+        notificationsList.appendChild(div);
+    });
+    
+    updateUnreadBadge();
+}
+
+function updateUnreadBadge() {
+    const unreadCount = notifications.filter(n => n.unread).length;
+    const notificationsNavItem = document.querySelector('.nav-item[data-key="notifications"]');
+    if (notificationsNavItem) {
+        notificationsNavItem.setAttribute('data-unread-count', unreadCount);
+    }
+}
+
+// Initialize notifications
+document.addEventListener('DOMContentLoaded', () => {
+    // Notification tile toggle
+    const notificationsNavItem = document.querySelector('.nav-item[data-key="notifications"]');
+    const closeNotificationsBtn = document.getElementById('close-notifications');
+    const markAllReadBtn = document.getElementById('mark-all-read');
+    
+    if (notificationsNavItem) {
+        notificationsNavItem.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Hide home page when notifications are opened
+            const homePage = document.getElementById('home-page');
+            if (homePage) {
+                homePage.style.display = 'none';
             }
-        ];
+            
+            // Hide other pages
+            const accountPage = document.getElementById('account-page');
+            const explorePage = document.getElementById('explore-page');
+            const marketPage = document.getElementById('market-page');
+            if (accountPage) accountPage.setAttribute('hidden', '');
+            if (explorePage) explorePage.setAttribute('hidden', '');
+            if (marketPage) marketPage.setAttribute('hidden', '');
+            
+            showNotificationsTile();
+        });
     }
-
-    setupEventListeners() {
-        // Notification tile toggle
-        const notificationsNavItem = document.querySelector('.nav-item[data-key="notifications"]');
-        const notificationsTile = document.getElementById('notifications-tile');
-        const closeNotificationsBtn = document.getElementById('close-notifications');
-        const markAllReadBtn = document.getElementById('mark-all-read');
-
-        if (notificationsNavItem && notificationsTile) {
-            notificationsNavItem.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                // Hide home page when notifications are opened
-                const homePage = document.getElementById('home-page');
-                if (homePage) {
-                    homePage.style.display = 'none';
-                }
-                
-                // Hide other pages
-                const accountPage = document.getElementById('account-page');
-                const explorePage = document.getElementById('explore-page');
-                const marketPage = document.getElementById('market-page');
-                if (accountPage) accountPage.setAttribute('hidden', '');
-                if (explorePage) explorePage.setAttribute('hidden', '');
-                if (marketPage) marketPage.setAttribute('hidden', '');
-                
-                // Show immediately without any loading
-                this.showNotificationsTile();
+    
+    if (closeNotificationsBtn) {
+        closeNotificationsBtn.addEventListener('click', () => {
+            hideNotificationsTile();
+            
+            // Show home page when notifications are closed
+            const homePage = document.getElementById('home-page');
+            if (homePage) {
+                homePage.style.display = '';
+            }
+            
+            // Update sidebar active state to home
+            document.querySelectorAll('.sidebar .nav-item').forEach(function (i) {
+                i.classList.remove('active');
+                if (i.getAttribute('data-key') === 'home') i.classList.add('active');
             });
-        }
-
-        if (closeNotificationsBtn) {
-            closeNotificationsBtn.addEventListener('click', () => {
-                // Hide immediately without any loading
-                this.hideNotificationsTile();
+        });
+    }
+    
+    if (markAllReadBtn) {
+        markAllReadBtn.addEventListener('click', () => {
+            notifications.forEach(n => n.unread = false);
+            renderNotifications();
+        });
+    }
+    
+    // Close notifications when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.nav-item[data-key="notifications"]') && 
+            !e.target.closest('#notifications-tile')) {
+            
+            const notificationsTile = document.getElementById('notifications-tile');
+            if (notificationsTile && !notificationsTile.hidden) {
+                hideNotificationsTile();
                 
                 // Show home page when notifications are closed
                 const homePage = document.getElementById('home-page');
@@ -1413,220 +1414,12 @@ class NotificationSystem {
                     i.classList.remove('active');
                     if (i.getAttribute('data-key') === 'home') i.classList.add('active');
                 });
-            });
-        }
-
-        if (markAllReadBtn) {
-            markAllReadBtn.addEventListener('click', () => {
-                notificationSystem.markAllAsRead();
-            });
-        }
-
-        // Close notifications when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.nav-item[data-key="notifications"]') && 
-                !e.target.closest('#notifications-tile')) {
-                
-                const notificationsTile = document.getElementById('notifications-tile');
-                if (notificationsTile && !notificationsTile.hidden) {
-                    this.hideNotificationsTile();
-                    
-                    // Show home page when notifications are closed
-                    const homePage = document.getElementById('home-page');
-                    if (homePage) {
-                        homePage.style.display = '';
-                    }
-                    
-                    // Update sidebar active state to home
-                    document.querySelectorAll('.sidebar .nav-item').forEach(function (i) {
-                        i.classList.remove('active');
-                        if (i.getAttribute('data-key') === 'home') i.classList.add('active');
-                    });
-                }
             }
-        });
-    }
-
-    toggleNotificationsTile() {
-        const notificationsTile = document.getElementById('notifications-tile');
-        if (notificationsTile.hidden) {
-            this.showNotificationsTile();
-        } else {
-            this.hideNotificationsTile();
         }
-    }
-
-    showNotificationsTile() {
-        const notificationsTile = document.getElementById('notifications-tile');
-        notificationsTile.hidden = false;
-        // Show immediately without loading
-        this.renderNotifications();
-    }
-
-    hideNotificationsTile() {
-        const notificationsTile = document.getElementById('notifications-tile');
-        notificationsTile.hidden = true;
-    }
-
-    renderNotifications() {
-        const notificationsList = document.getElementById('notifications-list');
-        if (!notificationsList) return;
-
-        notificationsList.innerHTML = '';
-
-        if (this.notifications.length === 0) {
-            notificationsList.innerHTML = `
-                <div style="text-align: center; padding: 40px; color: #666;">
-                    <div style="font-size: 2rem; margin-bottom: 10px;">📭</div>
-                    <p>No notifications yet</p>
-                </div>
-            `;
-            return;
-        }
-
-        this.notifications.forEach(notification => {
-            const notificationElement = this.createNotificationElement(notification);
-            notificationsList.appendChild(notificationElement);
-        });
-    }
-
-    createNotificationElement(notification) {
-        const div = document.createElement('div');
-        div.className = `notification-item ${notification.unread ? 'unread' : ''} ${notification.type}`;
-        div.dataset.notificationId = notification.id;
-
-        div.innerHTML = `
-            <div class="notification-icon ${notification.type}">
-                ${notification.icon}
-            </div>
-            <div class="notification-content">
-                <div class="notification-title">${notification.title}</div>
-                <div class="notification-message">${notification.message}</div>
-                <div class="notification-time">${notification.time}</div>
-                ${notification.unread ? `
-                    <div class="notification-actions-row">
-                        <button class="notification-action-btn mark-read" onclick="notificationSystem.markAsRead(${notification.id})">Mark as read</button>
-                        <button class="notification-action-btn delete" onclick="notificationSystem.deleteNotification(${notification.id})">Delete</button>
-                    </div>
-                ` : ''}
-            </div>
-            ${notification.unread ? `<div class="unread-indicator ${notification.type}"></div>` : ''}
-        `;
-
-        // Add click handler for notification item
-        div.addEventListener('click', (e) => {
-            if (!e.target.closest('.notification-action-btn')) {
-                this.handleNotificationClick(notification);
-            }
-        });
-
-        return div;
-    }
-
-    handleNotificationClick(notification) {
-        // Mark as read if unread
-        if (notification.unread) {
-            this.markAsRead(notification.id);
-        }
-
-        // Handle navigation based on notification type
-        switch (notification.source) {
-            case 'market':
-                window.location.href = 'market.html';
-                break;
-            case 'fitness':
-                window.location.href = 'fitness.html';
-                break;
-            case 'explore':
-                window.location.href = 'explore.html';
-                break;
-            case 'medical':
-            case 'pharmacy':
-                window.location.href = 'medical.html';
-                break;
-            case 'wellness':
-                window.location.href = 'wellness.html';
-                break;
-            case 'emergency':
-                // Show emergency details
-                alert(`Emergency Details:\n\n${notification.message}\n\nPlease stay safe and follow local authorities' guidance.`);
-                break;
-            case 'system':
-                // Show system notification details
-                alert(`System Alert:\n\n${notification.message}\n\nThis is an important security notification.`);
-                break;
-            default:
-                console.log('Notification clicked:', notification);
-        }
-    }
-
-    markAsRead(notificationId) {
-        const notification = this.notifications.find(n => n.id === notificationId);
-        if (notification) {
-            notification.unread = false;
-            this.updateUnreadBadge();
-            this.renderNotifications();
-        }
-    }
-
-    markAllAsRead() {
-        this.notifications.forEach(notification => {
-            notification.unread = false;
-        });
-        this.updateUnreadBadge();
-        this.renderNotifications();
-    }
-
-    deleteNotification(notificationId) {
-        this.notifications = this.notifications.filter(n => n.id !== notificationId);
-        this.updateUnreadBadge();
-        this.renderNotifications();
-    }
-
-    updateUnreadBadge() {
-        this.unreadCount = this.notifications.filter(n => n.unread).length;
-        const notificationsNavItem = document.querySelector('.nav-item[data-key="notifications"]');
-        
-        if (notificationsNavItem) {
-            notificationsNavItem.setAttribute('data-unread-count', this.unreadCount);
-        }
-    }
-
-    addNotification(notification) {
-        notification.id = Date.now(); // Simple ID generation
-        notification.unread = true;
-        notification.time = 'Just now';
-        
-        this.notifications.unshift(notification);
-        this.updateUnreadBadge();
-        
-        // Show notification tile if it's open
-        const notificationsTile = document.getElementById('notifications-tile');
-        if (!notificationsTile.hidden) {
-            this.renderNotifications();
-        }
-    }
-}
-
-// Initialize notification system
-const notificationSystem = new NotificationSystem();
-
-// Make notification system globally available
-window.notificationSystem = notificationSystem;
-window.markAsRead = (id) => notificationSystem.markAsRead(id);
-window.deleteNotification = (id) => notificationSystem.deleteNotification(id);
-
-// Add a test notification to verify system is working
-document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-        notificationSystem.addNotification({
-            type: 'info',
-            source: 'system',
-            title: 'Welcome Back!',
-            message: 'Your Healther platform is ready to use.',
-            icon: '👋'
-        });
-    }, 1000);
+    });
+    
+    // Initialize
+    renderNotifications();
 });
 
 // ========================================
