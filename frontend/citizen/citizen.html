@@ -234,6 +234,57 @@
 
 <!-- Explore Hub page (shown when Explore Hub is clicked in sidebar) -->
 <section class="explore-page" id="explore-page" hidden>
+    <!-- Category Tile - Far Left Side -->
+    <div class="category-tile-outer">
+        <div class="category-tile">
+            <div class="category-tile-header">
+                <h4>News Categories</h4>
+                <p>Filter by topic</p>
+            </div>
+            <div class="category-tile-content">
+                <div class="category-nav">
+                    <div class="category-item active" data-category="policy">
+                        <div class="category-bar">
+                            <span class="category-icon">🏛️</span>
+                            <span class="category-name">Health Policy</span>
+                        </div>
+                    </div>
+                    <div class="category-item" data-category="research">
+                        <div class="category-bar">
+                            <span class="category-icon">🔬</span>
+                            <span class="category-name">Medical Research</span>
+                        </div>
+                    </div>
+                    <div class="category-item" data-category="mental">
+                        <div class="category-bar">
+                            <span class="category-icon">🧠</span>
+                            <span class="category-name">Mental Health</span>
+                        </div>
+                    </div>
+                    <div class="category-item" data-category="nutrition">
+                        <div class="category-bar">
+                            <span class="category-icon">🥗</span>
+                            <span class="category-name">Nutrition</span>
+                        </div>
+                    </div>
+                    <div class="category-item" data-category="technology">
+                        <div class="category-bar">
+                            <span class="category-icon">💻</span>
+                            <span class="category-name">Health Technology</span>
+                        </div>
+                    </div>
+                    <div class="category-item" data-category="fitness">
+                        <div class="category-bar">
+                            <span class="category-icon">🏃</span>
+                            <span class="category-name">Fitness</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Explore Card -->
     <div class="explore-card">
         <h2 class="explore-heading">Exploration Hub</h2>
         
@@ -299,54 +350,6 @@
                     <div class="filter-actions">
                         <button id="explore-reset-filters" class="reset-btn">Reset Filters</button>
                         <button id="explore-apply-filters" class="apply-btn">Apply Filters</button>
-                    </div>
-                </div>
-                
-                <!-- Fixed Category Tile - Stays Intact During Scrolling -->
-                <div class="category-tile">
-                    <div class="category-tile-header">
-                        <h4>News Categories</h4>
-                        <p>Filter by topic</p>
-                    </div>
-                    <div class="category-tile-content">
-                        <div class="category-nav">
-                            <div class="category-item active" data-category="policy">
-                                <div class="category-bar">
-                                    <span class="category-icon">🏛️</span>
-                                    <span class="category-name">Health Policy</span>
-                                </div>
-                            </div>
-                            <div class="category-item" data-category="research">
-                                <div class="category-bar">
-                                    <span class="category-icon">🔬</span>
-                                    <span class="category-name">Medical Research</span>
-                                </div>
-                            </div>
-                            <div class="category-item" data-category="mental">
-                                <div class="category-bar">
-                                    <span class="category-icon">🧠</span>
-                                    <span class="category-name">Mental Health</span>
-                                </div>
-                            </div>
-                            <div class="category-item" data-category="nutrition">
-                                <div class="category-bar">
-                                    <span class="category-icon">🥗</span>
-                                    <span class="category-name">Nutrition</span>
-                                </div>
-                            </div>
-                            <div class="category-item" data-category="technology">
-                                <div class="category-bar">
-                                    <span class="category-icon">💻</span>
-                                    <span class="category-name">Health Technology</span>
-                                </div>
-                            </div>
-                            <div class="category-item" data-category="fitness">
-                                <div class="category-bar">
-                                    <span class="category-icon">🏃</span>
-                                    <span class="category-name">Fitness</span>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 
