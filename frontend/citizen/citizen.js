@@ -1524,20 +1524,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             e.stopPropagation();
             
-            // Hide home page when notifications are opened
-            const homePage = document.getElementById('home-page');
-            if (homePage) {
-                homePage.style.display = 'none';
-            }
-            
-            // Hide other pages
-            const accountPage = document.getElementById('account-page');
-            const explorePage = document.getElementById('explore-page');
-            const marketPage = document.getElementById('market-page');
-            if (accountPage) accountPage.setAttribute('hidden', '');
-            if (explorePage) explorePage.setAttribute('hidden', '');
-            if (marketPage) marketPage.setAttribute('hidden', '');
-            
+            // Show notifications tile above current content
             showNotificationsTile();
         });
     }
@@ -1545,18 +1532,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (closeNotificationsBtn) {
         closeNotificationsBtn.addEventListener('click', () => {
             hideNotificationsTile();
-            
-            // Show home page when notifications are closed
-            const homePage = document.getElementById('home-page');
-            if (homePage) {
-                homePage.style.display = '';
-            }
-            
-            // Update sidebar active state to home
-            document.querySelectorAll('.sidebar .nav-item').forEach(function (i) {
-                i.classList.remove('active');
-                if (i.getAttribute('data-key') === 'home') i.classList.add('active');
-            });
         });
     }
     
@@ -1574,18 +1549,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const notificationsTile = document.getElementById('notifications-tile');
             if (notificationsTile && !notificationsTile.hidden) {
                 hideNotificationsTile();
-                
-                // Show home page when notifications are closed
-                const homePage = document.getElementById('home-page');
-                if (homePage) {
-                    homePage.style.display = '';
-                }
-                
-                // Update sidebar active state to home
-                document.querySelectorAll('.sidebar .nav-item').forEach(function (i) {
-                    i.classList.remove('active');
-                    if (i.getAttribute('data-key') === 'home') i.classList.add('active');
-                });
             }
         }
     });
