@@ -2954,268 +2954,57 @@
         </div>
         
         <div class="market-actions">
+            <button type="button" class="market-back-btn" id="market-back-btn">Back to Home</button>
+        </div>
+    </div>
+</section>
 
-                <!-- Healther AI Page -->
-                <section class="ai-page" id="healther-ai-page" hidden>
-                    <div class="ai-card">
-                        <div class="ai-container">
-                            <iframe src="https://healtherai.base44.app" title="Healther AI Assistant"></iframe>
-                        </div>
-                    </div>
-                </section>
+<!-- Healther AI Page -->
+<section class="ai-page" id="healther-ai-page" hidden>
+    <div class="ai-card">
+        <div class="ai-container">
+            <iframe src="https://healtherai.base44.app" title="Healther AI Assistant"></iframe>
+        </div>
+    </div>
+</section>
 
-                <!-- Community Page -->
-                <section class="community-page" id="community-page" hidden>
-                    <div class="community-card">
-                        <div class="community-header">
-                            <h2 class="community-heading">👥 My Community</h2>
-                            <p class="community-subtitle">Manage your family and friends' health</p>
-                        </div>
-                        
-                        <div class="community-content">
-                            <!-- Add Family Member Section -->
-                            <div class="add-member-section">
-                                <h3>Add Family Member or Friend</h3>
-                                <div class="add-member-form">
-                                    <div class="form-row">
-                                        <div class="form-group">
-                                            <label for="member-name">Full Name</label>
-                                            <input type="text" id="member-name" placeholder="Enter full name" class="form-input">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="member-relation">Relationship</label>
-                                            <select id="member-relation" class="form-select">
-                                                <option value="">Select relationship</option>
-                                                <option value="spouse">Spouse/Wife/Husband</option>
-                                                <option value="child">Child</option>
-                                                <option value="parent">Parent</option>
-                                                <option value="sibling">Sibling</option>
-                                                <option value="friend">Friend</option>
-                                                <option value="other">Other</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group">
-                                            <label for="member-email">Email Address</label>
-                                            <input type="email" id="member-email" placeholder="Enter email address" class="form-input">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="member-phone">Phone Number</label>
-                                            <input type="tel" id="member-phone" placeholder="Enter phone number" class="form-input">
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group">
-                                            <label for="member-dob">Date of Birth</label>
-                                            <input type="date" id="member-dob" class="form-input">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="member-gender">Gender</label>
-                                            <select id="member-gender" class="form-select">
-                                                <option value="">Select gender</option>
-                                                <option value="male">Male</option>
-                                                <option value="female">Female</option>
-                                                <option value="other">Other</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-actions">
-                                        <button type="button" class="add-member-btn" id="add-member-btn">
-                                            <span>➕</span> Add to Community
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Community Members List -->
-                            <div class="community-members-section">
-                                <h3>My Community Members</h3>
-                                <div class="members-grid" id="members-grid">
-                                    <!-- Sample family members -->
-                                    <div class="member-card">
-                                        <div class="member-avatar">
-                                            <img src="https://images.unsplash.com/photo-1494790108755-2616b6127d20?w=80&h=80&fit=crop&crop=face" alt="Sarah Johnson">
-                                        </div>
-                                        <div class="member-info">
-                                            <h4>Sarah Johnson</h4>
-                                            <p class="member-relation">Wife</p>
-                                            <p class="member-contact">sarah.johnson@email.com</p>
-                                            <div class="member-status">
-                                                <span class="status-indicator online"></span>
-                                                <span class="status-text">Healthy</span>
-                                            </div>
-                                        </div>
-                                        <div class="member-actions">
-                                            <button class="member-action-btn view-btn" onclick="viewMemberHealth('sarah')">📊 Health</button>
-                                            <button class="member-action-btn appointment-btn" onclick="bookAppointment('sarah')">📅 Book</button>
-                                            <button class="member-action-btn monitor-btn" onclick="monitorMember('sarah')">👁 Monitor</button>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="member-card">
-                                        <div class="member-avatar">
-                                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face" alt="Michael Johnson">
-                                        </div>
-                                        <div class="member-info">
-                                            <h4>Michael Johnson</h4>
-                                            <p class="member-relation">Son</p>
-                                            <p class="member-contact">michael.j@email.com</p>
-                                            <div class="member-status">
-                                                <span class="status-indicator good"></span>
-                                                <span class="status-text">Active</span>
-                                            </div>
-                                        </div>
-                                        <div class="member-actions">
-                                            <button class="member-action-btn view-btn" onclick="viewMemberHealth('michael')">📊 Health</button>
-                                            <button class="member-action-btn appointment-btn" onclick="bookAppointment('michael')">📅 Book</button>
-                                            <button class="member-action-btn monitor-btn" onclick="monitorMember('michael')">👁 Monitor</button>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="member-card">
-                                        <div class="member-avatar">
-                                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" alt="Emma Johnson">
-                                        </div>
-                                        <div class="member-info">
-                                            <h4>Emma Johnson</h4>
-                                            <p class="member-relation">Daughter</p>
-                                            <p class="member-contact">emma.j@email.com</p>
-                                            <div class="member-status">
-                                                <span class="status-indicator warning"></span>
-                                                <span class="status-text">Check-up Due</span>
-                                            </div>
-                                        </div>
-                                        <div class="member-actions">
-                                            <button class="member-action-btn view-btn" onclick="viewMemberHealth('emma')">📊 Health</button>
-                                            <button class="member-action-btn appointment-btn" onclick="bookAppointment('emma')">📅 Book</button>
-                                            <button class="member-action-btn monitor-btn" onclick="monitorMember('emma')">👁 Monitor</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Health Monitoring Dashboard -->
-                            <div class="monitoring-dashboard-section">
-                                <h3>Community Health Overview</h3>
-                                <div class="monitoring-grid">
-                                    <div class="monitor-card">
-                                        <div class="monitor-icon">📊</div>
-                                        <div class="monitor-content">
-                                            <h4>Health Status</h4>
-                                            <div class="monitor-stats">
-                                                <div class="stat-item">
-                                                    <span class="stat-label">Healthy</span>
-                                                    <span class="stat-value">2</span>
-                                                </div>
-                                                <div class="stat-item">
-                                                    <span class="stat-label">Attention</span>
-                                                    <span class="stat-value">1</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="monitor-card">
-                                        <div class="monitor-icon">📅</div>
-                                        <div class="monitor-content">
-                                            <h4>Upcoming Appointments</h4>
-                                            <div class="monitor-stats">
-                                                <div class="stat-item">
-                                                    <span class="stat-label">This Week</span>
-                                                    <span class="stat-value">3</span>
-                                                </div>
-                                                <div class="stat-item">
-                                                    <span class="stat-label">Next</span>
-                                                    <span class="stat-value">Tomorrow</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="monitor-card">
-                                        <div class="monitor-icon">💊</div>
-                                        <div class="monitor-content">
-                                            <h4>Medication Adherence</h4>
-                                            <div class="monitor-stats">
-                                                <div class="stat-item">
-                                                    <span class="stat-label">On Track</span>
-                                                    <span class="stat-value">85%</span>
-                                                </div>
-                                                <div class="stat-item">
-                                                    <span class="stat-label">Missed</span>
-                                                    <span class="stat-value">2</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="community-actions">
-                            <button type="button" class="community-back-btn" id="community-back-btn">Back to Home</button>
-                        </div>
-                    </div>
-                </section>
+<section class="home-page" id="home-page">
+    <div class="welcome-section">
+        <h1>Welcome to Healther</h1>
+        <p>Your personal health management platform</p>
+    </div>
+    
+    <div class="quick-actions">
+        <div class="action-card" onclick="window.location.href='health-status.html'">
+            <div class="action-icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 19h3v-4H3v4zM8 19h3v-7H8v7zM13 19h3v-10h-3v10z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M15 6l4-4v4h-4z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M16 3v3h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <h3>Health Status</h3>
+            <p>View your health information</p>
+        </div>
 
-                <section class="home-page" id="home-page">
-                    <div class="welcome-section">
-                        <h1>Welcome to Healther</h1>
-                        <p>Your personal health management platform</p>
-                    </div>
-                    
-                    <div class="quick-actions">
-                        <div class="action-card" onclick="showHealthStatusPage()">
-                            <div class="action-icon">
-                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M3 19h3v-4H3v4zM8 19h3v-7H8v7zM13 19h3v-10h-3v10z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M15 6l4-4v4h-4z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M16 3v3h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                            <h3>Health Status</h3>
-                            <p>View your health information</p>
-                        </div>
+        <div class="action-card">
+            <div class="action-icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="7" cy="8" r="2" stroke="currentColor" stroke-width="1.4"/>
+                    <path d="M5 11c0 1.5 1 2.5 2 2.5s2-1 2-2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="12" cy="7" r="2" stroke="currentColor" stroke-width="1.4"/>
+                    <path d="M10 10c0 1.5 1 2.5 2 2.5s2-1 2-2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="18" cy="9" r="1.6" stroke="currentColor" stroke-width="1.2"/>
+                    <path d="M17 11c0 1 0.7 1.6 1.4 1.6S20 12 20 11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <h3>Community</h3>
+            <p>Connect with others</p>
+        </div>
 
-                        <div class="action-card" onclick="showCommunityPage()">
-                            <div class="action-icon">
-                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="7" cy="8" r="2" stroke="currentColor" stroke-width="1.4"/>
-                                    <path d="M5 11c0 1.5 1 2.5 2 2.5s2-1 2-2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <circle cx="12" cy="7" r="2" stroke="currentColor" stroke-width="1.4"/>
-                                    <path d="M10 10c0 1.5 1 2.5 2 2.5s2-1 2-2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <circle cx="18" cy="9" r="1.6" stroke="currentColor" stroke-width="1.2"/>
-                                    <path d="M17 11c0 1 0.7 1.6 1.4 1.6S20 12 20 11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                            <h3>Community</h3>
-                            <p>Connect with others</p>
-                        </div>
-
-                        <div class="action-card" onclick="showHealtherAIPage()">
-                            <div class="action-icon">
-                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M12 8v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <circle cx="12" cy="15" r="1" fill="currentColor"/>
-                                </svg>
-                            </div>
-                            <h3>Healther AI</h3>
-                            <p>AI Health Assistant</p>
-                        </div>
-
-                        <div class="action-card">
-                            <div class="action-icon">
-                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12 2l2.9 5.88L21 9.27l-4.5 4.16L17.8 21 12 17.77 6.2 21l1.3-7.57L3 9.27l6.1-1.39L12 2z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                            <h3>Achievements</h3>
-                            <p>View your badges</p>
-                        </div>
-                    </div>
-                </section>
+        <div class="action-card">
+            <div class="action-icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 2l2.9 5.88L21 9.27l-4.5 4.16L17.8 21 12 17.77 6.2 21l1.3-7.57L3 9.27l6.1-1.39L12 2z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </div>
@@ -3323,11 +3112,6 @@ navItems.forEach((item) => {
                 
                 // Hide all trading pages
                 hideAllTradingPages();
-                break;
-                
-            case 'healther-ai':
-                console.log('Navigating to Healther AI');
-                showHealtherAIPage();
                 break;
                 
             case 'notifications':
