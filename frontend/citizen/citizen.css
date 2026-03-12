@@ -2314,27 +2314,32 @@ html:not([data-theme="dark"]) .theme-tile .theme-option[data-theme="dark"] {
     box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
 }
 
-/* Explore Page Layout with Category Tile on Far Left */
+/* Explore Page Layout with 200px spacing from sidebar */
 .explore-page {
     display: flex;
-    gap: 24px;
-    padding: 20px;
+    gap: 0; /* Remove gap, use margin instead */
+    padding: 12px 12px 12px 200px; /* 200px from left edge */
     background: var(--background);
     min-height: 100vh;
 }
 
-/* Category Tile - Far Left Side (Reduced Width) */
+/* Category Tile - 200px from left sidebar */
 .category-tile-outer {
-    width: 260px;
+    width: 25%;
+    min-width: 240px;
+    max-width: 300px;
     flex-shrink: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .category-tile {
     position: sticky;
-    top: 20px;
+    top: 12px;
+    left: 0;
     width: 100%;
     height: fit-content;
-    max-height: calc(100vh - 40px);
+    max-height: calc(100vh - 24px);
     background: var(--card);
     border-radius: 16px;
     border: 1px solid var(--border);
@@ -2423,18 +2428,19 @@ html:not([data-theme="dark"]) .theme-tile .theme-option[data-theme="dark"] {
     color: white;
 }
 
-/* Main Explore Card (Increased Width) */
+/* Main Explore Card - 3/4 Width (75%) */
 .explore-card {
     flex: 1;
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 28px;
+    padding: 32px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    margin-left: 12px; /* Small gap after 200px padding */
 }
 
-/* News Content Area - Scrollable (Increased Width) */
+/* News Content Area - 3/4 Width (75%) */
 .news-content-area {
     flex: 1;
     min-height: 0;
@@ -2442,19 +2448,19 @@ html:not([data-theme="dark"]) .theme-tile .theme-option[data-theme="dark"] {
     background: var(--background);
     border-radius: 12px;
     border: 1px solid var(--border);
-    padding: 28px;
+    padding: 32px;
     margin-top: 20px;
 }
 
 .news-content-header {
-    margin-bottom: 24px;
+    margin-bottom: 28px;
     padding-bottom: 16px;
     border-bottom: 1px solid var(--border);
 }
 
 .news-content-header h3 {
     margin: 0 0 8px 0;
-    font-size: 1.8rem;
+    font-size: 2rem;
     color: var(--text);
     font-weight: 700;
 }
@@ -2462,13 +2468,13 @@ html:not([data-theme="dark"]) .theme-tile .theme-option[data-theme="dark"] {
 .news-content-header p {
     margin: 0;
     color: var(--text-secondary);
-    font-size: 1rem;
+    font-size: 1.1rem;
 }
 
 .news-content-area .news-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 28px;
     min-height: 400px;
 }
 
@@ -2505,14 +2511,55 @@ html:not([data-theme="dark"]) .theme-tile .theme-option[data-theme="dark"] {
     border-color: var(--border);
 }
 
-/* Responsive Design */
+/* Responsive Design - Maintaining 200px spacing from sidebar */
+@media (max-width: 1200px) {
+    .category-tile-outer {
+        min-width: 220px;
+        max-width: 280px;
+    }
+    
+    .news-content-area .news-grid {
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 24px;
+    }
+    
+    .explore-card, .news-content-area {
+        padding: 28px;
+    }
+    
+    .explore-page {
+        padding: 8px 8px 8px 200px; /* Maintain 200px spacing */
+    }
+    
+    .explore-card {
+        margin-left: 8px;
+    }
+}
+
 @media (max-width: 1024px) {
     .category-tile-outer {
-        width: 240px;
+        min-width: 200px;
+        max-width: 260px;
     }
     
     .news-content-area .news-grid {
         grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    }
+    
+    .news-content-header h3 {
+        font-size: 1.8rem;
+    }
+    
+    .news-content-header p {
+        font-size: 1rem;
+    }
+    
+    .explore-page {
+        padding: 8px 8px 8px 200px; /* Maintain 200px spacing */
+    }
+    
+    .explore-card {
+        margin-left: 8px;
     }
 }
 
@@ -2520,17 +2567,22 @@ html:not([data-theme="dark"]) .theme-tile .theme-option[data-theme="dark"] {
     .explore-page {
         flex-direction: column;
         gap: 16px;
-        padding: 16px;
+        padding: 16px; /* Reset padding for mobile */
     }
     
     .category-tile-outer {
         width: 100%;
+        min-width: auto;
+        max-width: none;
         order: 2;
+        margin: 0;
+        padding: 0;
     }
     
     .category-tile {
         position: relative;
         top: 0;
+        left: 0;
         max-height: none;
     }
     
@@ -2569,6 +2621,7 @@ html:not([data-theme="dark"]) .theme-tile .theme-option[data-theme="dark"] {
     .explore-card {
         order: 1;
         padding: 20px;
+        margin-left: 0; /* Remove margin on mobile */
     }
     
     .news-content-area {
@@ -2578,6 +2631,14 @@ html:not([data-theme="dark"]) .theme-tile .theme-option[data-theme="dark"] {
     .news-content-area .news-grid {
         grid-template-columns: 1fr;
         gap: 16px;
+    }
+    
+    .news-content-header h3 {
+        font-size: 1.6rem;
+    }
+    
+    .news-content-header p {
+        font-size: 0.95rem;
     }
 }
 
