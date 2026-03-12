@@ -2040,6 +2040,47 @@ window.showHealthStatusPage = function() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
+// Healther AI Page Function
+function showHealtherAIPage() {
+    console.log('Showing Healther AI page');
+    
+    // Hide all main pages
+    const dashboard = document.getElementById('dashboard');
+    const accountPage = document.getElementById('account-page');
+    const explorePage = document.getElementById('explore-page');
+    const marketPage = document.getElementById('market-page');
+    const healthStatusPage = document.getElementById('health-status-page');
+    const communityPage = document.getElementById('community-page');
+    
+    if (dashboard) dashboard.style.display = 'none';
+    if (accountPage) accountPage.setAttribute('hidden', '');
+    if (explorePage) explorePage.setAttribute('hidden', '');
+    if (marketPage) marketPage.setAttribute('hidden', '');
+    if (healthStatusPage) healthStatusPage.setAttribute('hidden', '');
+    if (communityPage) communityPage.setAttribute('hidden', '');
+    
+    // Hide all trading pages
+    const tradingPages = ['pharmacy-page', 'healthcare-page', 'wellness-page', 'labtests-page'];
+    tradingPages.forEach(pageId => {
+        const page = document.getElementById(pageId);
+        if (page) page.setAttribute('hidden', '');
+    });
+    
+    // Show AI page
+    const aiPage = document.getElementById('healther-ai-page');
+    if (aiPage) {
+        aiPage.removeAttribute('hidden');
+        console.log('Healther AI page shown');
+    }
+    
+    // Update sidebar active state
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => item.classList.remove('active'));
+    
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 // Community Page Functions
 function showCommunityPage() {
     console.log('Showing Community page');

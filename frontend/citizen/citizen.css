@@ -2314,16 +2314,16 @@ html:not([data-theme="dark"]) .theme-tile .theme-option[data-theme="dark"] {
     box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
 }
 
-/* Explore Page Layout with 200px spacing from sidebar */
+/* Explore Page Layout with Category Bar at Absolute Furthest Left */
 .explore-page {
     display: flex;
-    gap: 0; /* Remove gap, use margin instead */
-    padding: 12px 12px 12px 200px; /* 200px from left edge */
+    gap: 12px;
+    padding: 12px 12px 12px 0;
     background: var(--background);
     min-height: 100vh;
 }
 
-/* Category Tile - 200px from left sidebar */
+/* Category Tile - Absolute Furthest Left Position */
 .category-tile-outer {
     width: 25%;
     min-width: 240px;
@@ -2437,7 +2437,6 @@ html:not([data-theme="dark"]) .theme-tile .theme-option[data-theme="dark"] {
     padding: 32px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    margin-left: 12px; /* Small gap after 200px padding */
 }
 
 /* News Content Area - 3/4 Width (75%) */
@@ -2511,7 +2510,7 @@ html:not([data-theme="dark"]) .theme-tile .theme-option[data-theme="dark"] {
     border-color: var(--border);
 }
 
-/* Responsive Design - Maintaining 200px spacing from sidebar */
+/* Responsive Design - Maintaining Absolute Furthest Left Position */
 @media (max-width: 1200px) {
     .category-tile-outer {
         min-width: 220px;
@@ -2528,11 +2527,8 @@ html:not([data-theme="dark"]) .theme-tile .theme-option[data-theme="dark"] {
     }
     
     .explore-page {
-        padding: 8px 8px 8px 200px; /* Maintain 200px spacing */
-    }
-    
-    .explore-card {
-        margin-left: 8px;
+        padding: 8px 8px 8px 0;
+        gap: 8px;
     }
 }
 
@@ -2555,11 +2551,8 @@ html:not([data-theme="dark"]) .theme-tile .theme-option[data-theme="dark"] {
     }
     
     .explore-page {
-        padding: 8px 8px 8px 200px; /* Maintain 200px spacing */
-    }
-    
-    .explore-card {
-        margin-left: 8px;
+        padding: 8px 8px 8px 0;
+        gap: 8px;
     }
 }
 
@@ -2567,7 +2560,7 @@ html:not([data-theme="dark"]) .theme-tile .theme-option[data-theme="dark"] {
     .explore-page {
         flex-direction: column;
         gap: 16px;
-        padding: 16px; /* Reset padding for mobile */
+        padding: 16px;
     }
     
     .category-tile-outer {
@@ -2621,7 +2614,6 @@ html:not([data-theme="dark"]) .theme-tile .theme-option[data-theme="dark"] {
     .explore-card {
         order: 1;
         padding: 20px;
-        margin-left: 0; /* Remove margin on mobile */
     }
     
     .news-content-area {

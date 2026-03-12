@@ -2955,6 +2955,15 @@
         
         <div class="market-actions">
 
+                <!-- Healther AI Page -->
+                <section class="ai-page" id="healther-ai-page" hidden>
+                    <div class="ai-card">
+                        <div class="ai-container">
+                            <iframe src="https://healtherai.base44.app" title="Healther AI Assistant"></iframe>
+                        </div>
+                    </div>
+                </section>
+
                 <!-- Community Page -->
                 <section class="community-page" id="community-page" hidden>
                     <div class="community-card">
@@ -3184,6 +3193,18 @@
                             <p>Connect with others</p>
                         </div>
 
+                        <div class="action-card" onclick="showHealtherAIPage()">
+                            <div class="action-icon">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M12 8v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <circle cx="12" cy="15" r="1" fill="currentColor"/>
+                                </svg>
+                            </div>
+                            <h3>Healther AI</h3>
+                            <p>AI Health Assistant</p>
+                        </div>
+
                         <div class="action-card">
                             <div class="action-icon">
                                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -3302,6 +3323,11 @@ navItems.forEach((item) => {
                 
                 // Hide all trading pages
                 hideAllTradingPages();
+                break;
+                
+            case 'healther-ai':
+                console.log('Navigating to Healther AI');
+                showHealtherAIPage();
                 break;
                 
             case 'notifications':
