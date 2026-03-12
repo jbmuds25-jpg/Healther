@@ -66,7 +66,7 @@
 // Navigation functionality
 (function(){
     try{
-        const dashboard = document.querySelector('.dashboard');
+        const homePage = document.querySelector('.home-page');
         const patientsPage = document.getElementById('patients-page');
         const appointmentsPage = document.getElementById('appointments-page');
         const messagesPage = document.getElementById('messages-page');
@@ -77,14 +77,14 @@
                 const key = item.getAttribute('data-key');
                 
                 // Hide all pages
-                if (dashboard) dashboard.style.display = 'none';
+                if (homePage) homePage.style.display = 'none';
                 if (patientsPage) patientsPage.setAttribute('hidden', '');
                 if (appointmentsPage) appointmentsPage.setAttribute('hidden', '');
                 if (messagesPage) messagesPage.setAttribute('hidden', '');
                 
                 // Show selected page
                 if (key === 'home') {
-                    if (dashboard) dashboard.style.display = '';
+                    if (homePage) homePage.style.display = '';
                 } else if (key === 'patients') {
                     if (patientsPage) patientsPage.removeAttribute('hidden');
                 } else if (key === 'appointments') {

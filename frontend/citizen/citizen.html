@@ -2953,49 +2953,50 @@
     </div>
 </section>
 
-<section class="dashboard" id="dashboard">
-    <div class="card status-card" onclick="window.location.href='health-status.html'">
-        <div class="status-icon" aria-hidden="true">
-            <!-- stairs + upward arrow improvement icon -->
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M3 19h3v-4H3v4zM8 19h3v-7H8v7zM13 19h3v-10h-3v10z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M15 6l4-4v4h-4z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M16 3v3h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </div>
-        <h2>My Health 
-            <br>
-            Status</h2>
-        <p class="status-summary">Your health at a glance.</p>
-    </div>
-
-    <div class="card community-card">
-        <div class="status-icon" aria-hidden="true">
-            <!-- family / community icon -->
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <circle cx="7" cy="8" r="2" stroke="currentColor" stroke-width="1.4"/>
-                <path d="M5 11c0 1.5 1 2.5 2 2.5s2-1 2-2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="12" cy="7" r="2" stroke="currentColor" stroke-width="1.4"/>
-                <path d="M10 10c0 1.5 1 2.5 2 2.5s2-1 2-2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="18" cy="9" r="1.6" stroke="currentColor" stroke-width="1.2"/>
-                <path d="M17 11c0 1 0.7 1.6 1.4 1.6S20 12 20 11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </div>
-        <h2>My Community</h2>
-        <p class="status-summary">Your community at a glance.</p>
-            </div>
-
-    <div class="card badge-card">
-        <div class="status-icon" aria-hidden="true">
-            <!-- badge icon -->
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M12 2l2.9 5.88L21 9.27l-4.5 4.16L17.8 21 12 17.77 6.2 21l1.3-7.57L3 9.27l6.1-1.39L12 2z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </div>
-        <h2>My Badges</h2>
-        <ul id="badge-list"></ul>
+<section class="home-page" id="home-page">
+    <div class="welcome-section">
+        <h1>Welcome to Healther</h1>
+        <p>Your personal health management platform</p>
     </div>
     
+    <div class="quick-actions">
+        <div class="action-card" onclick="window.location.href='health-status.html'">
+            <div class="action-icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 19h3v-4H3v4zM8 19h3v-7H8v7zM13 19h3v-10h-3v10z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M15 6l4-4v4h-4z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M16 3v3h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <h3>Health Status</h3>
+            <p>View your health information</p>
+        </div>
+
+        <div class="action-card">
+            <div class="action-icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="7" cy="8" r="2" stroke="currentColor" stroke-width="1.4"/>
+                    <path d="M5 11c0 1.5 1 2.5 2 2.5s2-1 2-2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="12" cy="7" r="2" stroke="currentColor" stroke-width="1.4"/>
+                    <path d="M10 10c0 1.5 1 2.5 2 2.5s2-1 2-2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="18" cy="9" r="1.6" stroke="currentColor" stroke-width="1.2"/>
+                    <path d="M17 11c0 1 0.7 1.6 1.4 1.6S20 12 20 11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <h3>Community</h3>
+            <p>Connect with others</p>
+        </div>
+
+        <div class="action-card">
+            <div class="action-icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2l2.9 5.88L21 9.27l-4.5 4.16L17.8 21 12 17.77 6.2 21l1.3-7.57L3 9.27l6.1-1.39L12 2z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <h3>Achievements</h3>
+            <p>View your badges</p>
+        </div>
+    </div>
 </section>
 
 <script src="../global/logout-helper.js"></script>

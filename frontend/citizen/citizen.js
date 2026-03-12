@@ -344,7 +344,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // Sidebar navigation behavior: show label only for clicked icon and mark active; Account opens account page
 (function(){
     try{
-        var dashboard = document.getElementById('dashboard');
+        var homePage = document.getElementById('home-page');
         var accountPage = document.getElementById('account-page');
         var items = document.querySelectorAll('.sidebar .nav-item');
         items.forEach(function(it){
@@ -365,7 +365,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (key === 'account') {
                         if (accountPage) {
                             accountPage.removeAttribute('hidden');
-                            if (dashboard) dashboard.style.display = 'none';
+                            if (homePage) homePage.style.display = 'none';
                             if (typeof window.renderAccountPage === 'function') window.renderAccountPage();
                         }
                     } else if (key === 'explore') {
@@ -373,7 +373,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         const explorePage = document.getElementById('explore-page');
                         if (explorePage) {
                             explorePage.removeAttribute('hidden');
-                            if (dashboard) dashboard.style.display = 'none';
+                            if (homePage) homePage.style.display = 'none';
                             if (accountPage) accountPage.setAttribute('hidden', '');
                             // Initialize explore functionality
                             if (typeof window.initializeExplore === 'function') {
@@ -385,7 +385,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         const marketPage = document.getElementById('market-page');
                         if (marketPage) {
                             marketPage.removeAttribute('hidden');
-                            if (dashboard) dashboard.style.display = 'none';
+                            if (homePage) homePage.style.display = 'none';
                             if (accountPage) accountPage.setAttribute('hidden', '');
                             // Hide explore page when market is shown
                             const explorePage = document.getElementById('explore-page');
@@ -405,7 +405,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         if (accountPage) {
                             accountPage.setAttribute('hidden', '');
                         }
-                        if (dashboard) dashboard.style.display = '';
+                        if (homePage) homePage.style.display = '';
                         // Hide other pages
                         const explorePage = document.getElementById('explore-page');
                         const marketPage = document.getElementById('market-page');
@@ -415,7 +415,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         // Default behavior for any other navigation
                         if (accountPage) {
                             accountPage.setAttribute('hidden', '');
-                            if (dashboard) dashboard.style.display = '';
+                            if (homePage) homePage.style.display = '';
                         }
                         // Hide explore page when other items are clicked
                         const explorePage = document.getElementById('explore-page');
@@ -444,7 +444,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const explorePage = document.getElementById('explore-page');
                 if (explorePage) {
                     explorePage.removeAttribute('hidden');
-                    if (dashboard) dashboard.style.display = 'none';
+                    if (homePage) homePage.style.display = 'none';
                     if (accountPage) accountPage.setAttribute('hidden', '');
                     if (typeof window.initializeExplore === 'function') window.initializeExplore();
                 }
@@ -460,10 +460,10 @@ document.addEventListener('DOMContentLoaded', function() {
 // Explore page navigation
 document.getElementById('explore-back-btn')?.addEventListener('click', () => {
     const explorePage = document.getElementById('explore-page');
-    const dashboard = document.getElementById('dashboard');
+    const homePage = document.getElementById('home-page');
     
     if (explorePage) explorePage.setAttribute('hidden', '');
-    if (dashboard) dashboard.style.display = '';
+    if (homePage) homePage.style.display = '';
     
     // Update sidebar active state
     document.querySelectorAll('.sidebar .nav-item').forEach(function(i){
@@ -848,14 +848,14 @@ window.renderAccountPage = renderAccountPage;
 (function () {
     const backBtn = document.getElementById('account-back-btn');
     const accountPage = document.getElementById('account-page');
-    const dashboard = document.getElementById('dashboard');
-    if (!backBtn || !accountPage || !dashboard) return;
+    const homePage = document.getElementById('home-page');
+    if (!backBtn || !accountPage || !homePage) return;
     
     // Back functionality
     backBtn.addEventListener('click', function () {
         navigateWithLoading(() => {
             accountPage.setAttribute('hidden', '');
-            dashboard.style.display = '';
+            homePage.style.display = '';
             document.querySelectorAll('.sidebar .nav-item').forEach(function (i) {
                 i.classList.remove('active');
                 if (i.getAttribute('data-key') === 'home') i.classList.add('active');
@@ -1378,10 +1378,10 @@ class NotificationSystem {
                 e.preventDefault();
                 e.stopPropagation();
                 
-                // Hide dashboard when notifications are opened
-                const dashboard = document.getElementById('dashboard');
-                if (dashboard) {
-                    dashboard.style.display = 'none';
+                // Hide home page when notifications are opened
+                const homePage = document.getElementById('home-page');
+                if (homePage) {
+                    homePage.style.display = 'none';
                 }
                 
                 // Hide other pages
@@ -1402,10 +1402,10 @@ class NotificationSystem {
                 // Hide immediately without any loading
                 this.hideNotificationsTile();
                 
-                // Show dashboard when notifications are closed
-                const dashboard = document.getElementById('dashboard');
-                if (dashboard) {
-                    dashboard.style.display = '';
+                // Show home page when notifications are closed
+                const homePage = document.getElementById('home-page');
+                if (homePage) {
+                    homePage.style.display = '';
                 }
                 
                 // Update sidebar active state to home
@@ -1431,10 +1431,10 @@ class NotificationSystem {
                 if (notificationsTile && !notificationsTile.hidden) {
                     this.hideNotificationsTile();
                     
-                    // Show dashboard when notifications are closed
-                    const dashboard = document.getElementById('dashboard');
-                    if (dashboard) {
-                        dashboard.style.display = '';
+                    // Show home page when notifications are closed
+                    const homePage = document.getElementById('home-page');
+                    if (homePage) {
+                        homePage.style.display = '';
                     }
                     
                     // Update sidebar active state to home
