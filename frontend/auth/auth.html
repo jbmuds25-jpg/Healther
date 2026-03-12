@@ -8,7 +8,7 @@
         // Apply persisted theme before CSS loads to avoid flash
         (function(){
             try{
-                var t = localStorage.getItem('theme');
+                var t = localStorage.gItem('theme');
                 if(t) document.documentElement.setAttribute('data-theme', t);
             }catch(e){}
         })();
