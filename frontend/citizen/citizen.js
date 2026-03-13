@@ -400,19 +400,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             // Fallback: redirect to market page if not embedded
                             window.location.href = 'market.html';
                         }
-                    } else if (key === 'healther-ai') {
-                        // Show Healther AI page within citizen platform
-                        const aiPage = document.getElementById('healther-ai-page');
-                        if (aiPage) {
-                            aiPage.removeAttribute('hidden');
-                            if (homePage) homePage.style.display = 'none';
-                            if (accountPage) accountPage.setAttribute('hidden', '');
-                            // Hide other pages
-                            const explorePage = document.getElementById('explore-page');
-                            const marketPage = document.getElementById('market-page');
-                            if (explorePage) explorePage.setAttribute('hidden', '');
-                            if (marketPage) marketPage.setAttribute('hidden', '');
-                        }
                     } else if (key === 'home') {
                         // Show dashboard/home page
                         if (accountPage) {
@@ -422,10 +409,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         // Hide other pages
                         const explorePage = document.getElementById('explore-page');
                         const marketPage = document.getElementById('market-page');
-                        const aiPage = document.getElementById('healther-ai-page');
                         if (explorePage) explorePage.setAttribute('hidden', '');
                         if (marketPage) marketPage.setAttribute('hidden', '');
-                        if (aiPage) aiPage.setAttribute('hidden', '');
                     } else {
                         // Default behavior for any other navigation
                         if (accountPage) {
