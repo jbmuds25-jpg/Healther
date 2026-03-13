@@ -492,6 +492,110 @@ document.getElementById('explore-back-btn')?.addEventListener('click', () => {
     });
 });
 
+// ========================================
+// MARKET FUNCTIONALITY
+// ========================================
+
+// Initialize market functionality
+window.initializeMarket = function() {
+    console.log('Market page initialized');
+    
+    // Setup market category buttons
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    categoryBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const categoryCard = this.closest('.category-card');
+            const categoryTitle = categoryCard.querySelector('h4').textContent;
+            console.log('Market category clicked:', categoryTitle);
+            
+            // Handle category navigation
+            handleMarketCategory(categoryTitle);
+        });
+    });
+    
+    // Setup featured buttons
+    const featuredBtns = document.querySelectorAll('.featured-btn');
+    featuredBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const featuredItem = this.closest('.featured-item');
+            const featuredTitle = featuredItem.querySelector('h4').textContent;
+            console.log('Featured deal clicked:', featuredTitle);
+            
+            // Handle featured deal
+            handleFeaturedDeal(featuredTitle);
+        });
+    });
+    
+    // Setup market back button
+    const marketBackBtn = document.getElementById('market-back-btn');
+    if (marketBackBtn) {
+        marketBackBtn.addEventListener('click', function() {
+            console.log('Market back button clicked');
+            
+            // Hide market page
+            const marketPage = document.getElementById('market-page');
+            if (marketPage) {
+                marketPage.setAttribute('hidden', '');
+            }
+            
+            // Show home page
+            const homePage = document.getElementById('dashboard');
+            if (homePage) {
+                homePage.style.display = '';
+            }
+            
+            // Update sidebar active state
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            const homeItem = document.querySelector('.nav-item[data-key="home"]');
+            if (homeItem) {
+                homeItem.classList.add('active');
+            }
+        });
+    }
+};
+
+// Handle market category navigation
+function handleMarketCategory(category) {
+    console.log('Navigating to market category:', category);
+    
+    // Map categories to their respective pages
+    const categoryMap = {
+        'Pharmacy': 'pharmacy-page',
+        'Healthcare Services': 'healthcare-page', 
+        'Wellness': 'wellness-page',
+        'Lab Tests': 'labtests-page'
+    };
+    
+    const targetPage = categoryMap[category];
+    
+    if (targetPage) {
+        // Hide market page
+        document.getElementById('market-page').setAttribute('hidden', '');
+        
+        // Show target page
+        const pageElement = document.getElementById(targetPage);
+        if (pageElement) {
+            pageElement.removeAttribute('hidden');
+            console.log(`Showing ${targetPage}`);
+        } else {
+            console.warn(`Page ${targetPage} not found`);
+        }
+    }
+}
+
+// Handle featured deals
+function handleFeaturedDeal(deal) {
+    console.log('Processing featured deal:', deal);
+    
+    // Show deal details or proceed with booking
+    if (deal.includes('Health Checkup')) {
+        alert('Booking Annual Health Checkup...\nThis will redirect to the booking system.');
+    } else if (deal.includes('Telemedicine')) {
+        alert('Starting Telemedicine Consultation...\nThis will connect you with a healthcare provider.');
+    }
+}
+
 // Initialize explore functionality
 window.initializeExplore = function() {
     // This will be called when explore page is shown

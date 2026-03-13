@@ -292,120 +292,6 @@ input:-internal-autofill-previewed {
     }
 }
 
-/* Universal Page Centering Styles */
-.page-container,
-.function-page,
-.main-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    min-height: 100vh;
-    padding: 20px;
-    margin: 0 auto;
-    max-width: 1400px;
-    width: 100%;
-}
-
-/* Center all main pages */
-.home-page,
-.account-page,
-.market-page,
-.community-page,
-.health-status-page,
-.pharmacy-page,
-.healthcare-page,
-.wellness-page,
-.labtests-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    min-height: 100vh;
-    margin: 0 auto;
-    width: 100%;
-    max-width: 1200px;
-}
-
-/* Center content containers */
-.content-wrapper,
-.page-wrapper,
-.main-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* Center cards and sections */
-.centered-section,
-.page-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    margin: 0 auto;
-}
-
-/* Grid centering */
-.centered-grid {
-    display: grid;
-    place-items: center;
-    width: 100%;
-}
-
-/* Special handling for explore page (maintains existing layout) */
-.explore-page {
-    display: flex;
-    align-items: stretch;
-    justify-content: center;
-    margin: 0 auto;
-    width: 100%;
-    max-width: 1400px;
-}
-
-/* Special handling for AI page (full screen) */
-.ai-page {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    max-width: none;
-}
-
-/* Responsive centering */
-@media (max-width: 768px) {
-    .page-container,
-    .function-page,
-    .main-content {
-        padding: 16px;
-        max-width: 100%;
-    }
-    
-    .home-page,
-    .account-page,
-    .market-page,
-    .community-page,
-    .health-status-page,
-    .pharmacy-page,
-    .healthcare-page,
-    .wellness-page,
-    .labtests-page {
-        padding: 16px;
-        max-width: 100%;
-    }
-    
-    .content-wrapper,
-    .page-wrapper,
-    .main-wrapper {
-        max-width: 100%;
-    }
-}
-
 .card {
     background: var(--card);
     position: relative;
@@ -544,7 +430,7 @@ input:-internal-autofill-previewed {
 }
 
 .category-btn:hover {
-    background: var(--primary);
+    background: var(--primary-dark);
 }
 
 .market-featured {
@@ -569,7 +455,13 @@ input:-internal-autofill-previewed {
     border-radius: 12px;
     padding: 20px;
     position: relative;
-    border: 1px solid rgba(46, 139, 87, 0.1);
+    border: 1px solid var(--border);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.featured-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
 .featured-badge {
@@ -628,17 +520,18 @@ input:-internal-autofill-previewed {
 }
 
 .featured-btn:hover {
-    background: var(--primary);
+    background: var(--primary-dark);
 }
 
 .market-actions {
     text-align: center;
+    margin-top: 32px;
 }
 
 .market-back-btn {
     background: transparent;
     color: var(--text);
-    border: 1px solid var(--text);
+    border: 1px solid var(--border);
     padding: 12px 24px;
     border-radius: 8px;
     cursor: pointer;
@@ -649,6 +542,36 @@ input:-internal-autofill-previewed {
 .market-back-btn:hover {
     background: var(--text);
     color: var(--bg);
+}
+
+/* Dark Theme for Market Page */
+[data-theme="dark"] .market-page {
+    background: var(--background);
+}
+
+[data-theme="dark"] .market-card {
+    background: var(--card);
+    border-color: var(--border);
+}
+
+[data-theme="dark"] .category-card {
+    background: var(--card);
+    border-color: var(--border);
+}
+
+[data-theme="dark"] .featured-item {
+    background: var(--card);
+    border-color: var(--border);
+}
+
+[data-theme="dark"] .market-back-btn {
+    color: var(--text);
+    border-color: var(--border);
+}
+
+[data-theme="dark"] .market-back-btn:hover {
+    background: var(--text);
+    color: var(--card);
 }
 
 /* Responsive Design */
@@ -1639,17 +1562,20 @@ html:not([data-theme="dark"]) .theme-tile .theme-option[data-theme="dark"] {
 }
 
 /* ========== Account page ========== */
-.account-card {
-    background: var(--card);
-    border-radius: 12px;
+.account-page {
     padding: 24px;
-    margin-bottom: 20px;
-    border: 1px solid var(--border);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-width: 640px;
+    margin: 0 auto;
 }
-
 .account-page[hidden] {
     display: none !important;
+}
+.account-card {
+    background: var(--card);
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    padding: 28px;
+    border: 1px solid rgba(0,0,0,0.06);
 }
 .account-heading {
     margin: 0 0 24px 0;
