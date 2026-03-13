@@ -1,3416 +1,6847 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Healther Citizen</title>
+
     <script>try{var t=localStorage.getItem('theme'); if(t) document.documentElement.setAttribute('data-theme', t);}catch(e){};</script>
+
     <script>
+
         (function(){
+
             function setFaviconForTheme(theme){
+
                 var ico = document.getElementById('favicon-ico');
+
                 if(!ico){
+
                     ico = document.createElement('link');
+
                     ico.id = 'favicon-ico';
+
                     ico.rel = 'icon';
+
                     ico.type = 'image/x-icon';
+
                     document.head.appendChild(ico);
+
                 }
+
                 ico.href = (theme === 'dark') ? '../assets/healther.ico' : '../assets/health2.ico';
+
             }
+
             try{
+
                 var current = document.documentElement.getAttribute('data-theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+
                 setFaviconForTheme(current);
+
             }catch(e){}
+
             new MutationObserver(function(mutations){
+
                 mutations.forEach(function(m){
+
                     if(m.attributeName === 'data-theme'){
+
                         setFaviconForTheme(document.documentElement.getAttribute('data-theme'));
+
                     }
+
                 });
+
             }).observe(document.documentElement,{attributes:true});
+
         })();
+
     </script>
+
     <link rel="stylesheet" href="../global/style.css">
+
     <link rel="stylesheet" href="../global/nav.css">
+
     <link rel="stylesheet" href="citizen.css">
+
     <link rel="stylesheet" href="explore.css">
+
     <link rel="icon" href="../assets/images/healther-icon.svg" type="image/svg+xml">
 
+
+
 </head>
+
 <body>
 
+
+
 <header class="app-header">
+
     <div class="header-left">
+
         <div class="icon-bar">
+
             <!-- Icon placeholder for future use -->
+
         </div>
+
         <div class="top-bar">
+
             <div class="top-bar-left">
+
                 <h1 class="header-title">Healther</h1>
+
             </div>
+
             <div class="top-bar-center">
+
                 <div class="search-container">
+
                     <button id="search-btn" class="search-btn" aria-label="Search">
+
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+
                             <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.5"/>
+
                             <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+
                         </svg>
+
                     </button>
+
                     <input type="text" id="search-input" class="search-input" placeholder="Search...">
+
                     <button id="clear-search" class="clear-search" aria-label="Clear search" hidden>×</button>
+
                 </div>
+
             </div>
+
             <div class="top-bar-right">
+
                 <button id="more-options" aria-haspopup="true" aria-expanded="false" aria-label="Open options">⋮</button>
+
             </div>
+
         </div>
+
     </div>
+
     <div id="options-tile" class="options-tile" hidden>
+
         <ul>
+
             <li><button class="opt-btn" data-action="profile">Profile</button></li>
+
             <li><button class="opt-btn" data-action="settings">Settings</button></li>
+
             <li><button class="opt-btn" data-action="help">Help</button></li>
+
             <li><button class="opt-btn" data-action="logout">Logout</button></li>
+
         </ul>
+
     </div>    <div id="settings-tile" class="settings-tile" hidden>
+
             <ul>
+
                 <li><button class="setting-btn" data-setting="accounts">Accounts Centre</button></li>
+
                 <li><button class="setting-btn" data-setting="language">Language</button></li>
+
                 <li><button class="setting-btn" data-setting="theme">Theme</button></li>
+
                 <li><button class="setting-btn" data-setting="tutorials">Tutorials</button></li>
+
             </ul>
+
         </div>
+
         <div id="notifications-tile" class="notifications-tile" hidden>
+
             <div class="notifications-header">
+
                 <h3>Notifications</h3>
+
                 <div class="notifications-actions">
+
                     <button id="mark-all-read" class="mark-all-read-btn">Mark all as read</button>
+
                     <button id="close-notifications" class="close-notifications-btn">×</button>
+
                 </div>
+
             </div>
+
             <div class="notifications-list" id="notifications-list">
+
                 <!-- Notifications will be loaded dynamically -->
+
             </div>
+
         </div>
+
     </div>
+
 </header>
+
 <!-- Platform navigation removed per design request -->
 
+
+
 <!-- Search Results Overlay -->
+
 <div id="search-results" class="search-overlay" hidden>
+
     <div class="search-header">
+
         <h3>Search Results</h3>
+
         <button id="close-results" class="close-btn">&times;</button>
+
     </div>
+
     <div class="search-content">
+
         <div id="results-list" class="results-list">
+
             <!-- Search results will be loaded dynamically -->
+
         </div>
+
     </div>
+
 </div>
+
+
 
 <aside class="sidebar" aria-label="Primary">
+
     <nav>
+
         <div class="nav-item" data-name="Home" data-key="home" title="Home">
+
             <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+
                 <path d="M3 11.5L12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V11.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
             </svg>
+
             <span class="label">Home</span>
+
         </div>
+
         <div class="nav-item" data-name="Explore Hub" data-key="explore" title="Explore Hub">
+
             <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+
                 <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.5"/>
+
                 <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+
             </svg>
+
             <span class="label">Explore Hub</span>
+
         </div>
+
         <div class="nav-item" data-name="Market" data-key="market" title="Market">
+
             <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M3 6h18M7 12h10M9 18h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+
+                <path d="M3 6h18v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+                <path d="M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
             </svg>
+
             <span class="label">Market</span>
+
         </div>
+
         <div class="nav-item" data-name="Healther AI" data-key="healther-ai" title="Healther AI">
+
             <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+
                 <path d="M12 2l2.9 5.88L21 9.27l-4.5 4.16L17.8 21 12 17.77 6.2 21l1.3-7.57L3 9.27l6.1-1.39L12 2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/>
+
+                <path d="M9 12a3 3 0 1 0 6 0 6 0 0-6 0z" stroke="currentColor" stroke-width="1.5"/>
+
+                <circle cx="17" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/>
+
             </svg>
+
             <span class="label">Healther AI</span>
+
         </div>
+
         <div class="nav-item" data-name="Notifications" data-key="notifications" title="Notifications">
+
             <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+
                 <path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0 1 18 14.158V11a6 6 0 1 0-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
                 <path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+
             </svg>
+
             <span class="label">Notifications</span>
+
         </div>
+
         <div class="nav-item" data-name="My account" data-key="account" title="My account">
+
             <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
                 <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.5"/>
+
             </svg>
+
             <span class="label">My account</span>
+
         </div>
+
     </nav>
+
 </aside>
 
+
+
 <!-- Theme tile (shown when Theme is clicked in settings) -->
+
 <div id="theme-tile" class="theme-tile" hidden>
+
     <ul>
+
         <li><button class="theme-option" data-theme="dark">Dark theme</button></li>
+
         <li><button class="theme-option" data-theme="light">Light theme</button></li>
+
     </ul>
+
 </div>
 
+
+
 <!-- Account page (shown when My account is clicked in sidebar) -->
+
 <section class="account-page" id="account-page" hidden>
+
     <div class="account-card">
+
         <h2 class="account-heading" data-i18n="account_title">My Account</h2>
+
         
+
         <div class="account-profile-section">
+
             <div class="account-avatar-wrap">
+
                 <img id="account-avatar" class="account-avatar" src="" alt="User profile picture" />
+
             </div>
+
             <div class="account-name-wrap">
+
                 <p class="account-value account-fullname" id="account-fullname">—</p>
+
                 <p class="account-subvalue account-username-inline" id="account-username">—</p>
+
             </div>
+
         </div>
+
+
 
         <div class="account-details">
+
             <div class="account-row">
+
                 <span class="account-label" data-i18n="account_fullname">Full name</span>
+
                 <span class="account-value account-fullname-detail" id="account-fullname-detail">—</span>
+
             </div>
+
             <div class="account-row">
+
                 <span class="account-label" data-i18n="account_username">Username</span>
+
                 <span class="account-value account-username-detail" id="account-username-detail">—</span>
+
             </div>
+
             <div class="account-row">
+
                 <span class="account-label" data-i18n="account_email">Email</span>
+
                 <span class="account-value" id="account-email">—</span>
+
             </div>
+
             <div class="account-row">
+
                 <span class="account-label" data-i18n="account_healtherid">Healther ID</span>
+
                 <span class="account-value" id="account-healtherid">—</span>
+
             </div>
+
             <div class="account-row">
+
                 <span class="account-label" data-i18n="account_dob">Date of Birth</span>
+
                 <span class="account-value" id="account-dob">—</span>
+
             </div>
+
             <div class="account-row">
+
                 <span class="account-label" data-i18n="account_nationality">Nationality</span>
+
                 <span class="account-value" id="account-nationality">—</span>
+
             </div>
+
             <div class="account-row">
+
                 <span class="account-label" data-i18n="account_mobile">Mobile Number</span>
+
                 <span class="account-value" id="account-mobile">—</span>
+
             </div>
+
             <div class="account-row">
+
                 <span class="account-label" data-i18n="account_idnumber">Identification Number</span>
+
                 <span class="account-value" id="account-idnumber">—</span>
+
             </div>
+
             <div class="account-row">
+
                 <span class="account-label" data-i18n="account_birthcert">Birth Certificate Number</span>
+
                 <span class="account-value" id="account-birthcert">—</span>
+
             </div>
+
         </div>
+
+
 
         <div class="account-badges-section">
+
             <h3 class="account-subheading" data-i18n="account_badges">Badges</h3>
+
             <ul class="account-badges-list" id="account-badges-list"></ul>
+
         </div>
 
+
+
         <div class="account-actions">
+
             <button type="button" class="account-back-btn" id="account-back-btn" data-i18n="account_back">Back to Home</button>
+
         </div>
+
     </div>
+
 </section>
+
+
+
+
 
 
 
 <!-- Explore Hub page (shown when Explore Hub is clicked in sidebar) -->
+
 <section class="explore-page" id="explore-page" hidden>
+
     <!-- Category Tile - Far Left Side -->
+
     <div class="category-tile-outer">
+
         <div class="category-tile">
+
             <div class="category-tile-header">
+
                 <h4>News Categories</h4>
+
                 <p>Filter by topic</p>
+
             </div>
+
             <div class="category-tile-content">
+
                 <div class="category-nav">
+
                     <div class="category-item active" data-category="policy">
+
                         <div class="category-bar">
+
                             <span class="category-icon">🏛️</span>
+
                             <span class="category-name">Health Policy</span>
+
                         </div>
+
                     </div>
+
                     <div class="category-item" data-category="research">
+
                         <div class="category-bar">
+
                             <span class="category-icon">🔬</span>
+
                             <span class="category-name">Medical Research</span>
+
                         </div>
+
                     </div>
+
                     <div class="category-item" data-category="mental">
+
                         <div class="category-bar">
+
                             <span class="category-icon">🧠</span>
+
                             <span class="category-name">Mental Health</span>
+
                         </div>
+
                     </div>
+
                     <div class="category-item" data-category="nutrition">
+
                         <div class="category-bar">
+
                             <span class="category-icon">🥗</span>
+
                             <span class="category-name">Nutrition</span>
+
                         </div>
+
                     </div>
+
                     <div class="category-item" data-category="technology">
+
                         <div class="category-bar">
+
                             <span class="category-icon">💻</span>
+
                             <span class="category-name">Health Technology</span>
+
                         </div>
+
                     </div>
+
                     <div class="category-item" data-category="fitness">
+
                         <div class="category-bar">
+
                             <span class="category-icon">🏃</span>
+
                             <span class="category-name">Fitness</span>
+
                         </div>
+
                     </div>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
+
     
+
     <!-- Main Explore Card -->
+
     <div class="explore-card">
+
         <h2 class="explore-heading">Exploration Hub</h2>
+
         
+
         <div class="explore-content">
+
             <div class="explore-section">
+
                 <h3>Global Health Trends & News</h3>
+
                 <p class="explore-subtitle">Curated health news from around the world</p>
+
                 
+
                 <div class="explore-toolbar">
+
                     <div class="toolbar-left">
+
                         <div class="search-container">
+
                             <input type="text" id="explore-search-input" class="search-input" placeholder="Search health news...">
+
                             <button id="explore-clear-search" class="clear-search" aria-label="Clear search" hidden>×</button>
+
                         </div>
+
                         <button id="explore-filter-btn" class="filter-btn" aria-label="Filter news">
+
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+
                                 <path d="M3 6h18M7 12h10M9 18h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+
                             </svg>
+
                             Filters
+
                         </button>
+
                     </div>
+
                     <div class="toolbar-right">
+
                         <select id="explore-sort-select" class="sort-select">
+
                             <option value="latest">Latest</option>
+
                             <option value="trending">Trending</option>
+
                             <option value="most-liked">Most Liked</option>
+
                             <option value="most-shared">Most Shared</option>
+
                         </select>
+
                         <button id="explore-refresh-btn" class="refresh-btn" aria-label="Refresh content">
+
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+
                                 <path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
                             </svg>
+
                         </button>
+
                     </div>
+
                 </div>
+
                 
+
                 <!-- Filter Panel -->
+
                 <div class="filter-panel" id="explore-filter-panel" hidden>
+
                     <div class="filter-header">
+
                         <h4>Filter News</h4>
+
                         <button id="explore-close-filter" class="close-filter">×</button>
+
                     </div>
+
                     <div class="filter-group">
+
                         <label>Category</label>
+
                         <div id="explore-category-filters" class="filter-options">
+
                             <label><input type="checkbox" value="policy" data-filter="category"> Health Policy</label>
+
                             <label><input type="checkbox" value="research" data-filter="category"> Research</label>
+
                             <label><input type="checkbox" value="mental" data-filter="category"> Mental Health</label>
+
                             <label><input type="checkbox" value="nutrition" data-filter="category"> Nutrition</label>
+
                             <label><input type="checkbox" value="technology" data-filter="category"> Health Tech</label>
+
                             <label><input type="checkbox" value="fitness" data-filter="category"> Fitness</label>
+
                         </div>
+
                     </div>
+
                     <div class="filter-group">
+
                         <label>Content Type</label>
+
                         <div id="explore-type-filters" class="filter-options">
+
                             <label><input type="checkbox" value="article" data-filter="type" checked> Articles</label>
+
                             <label><input type="checkbox" value="video" data-filter="type"> Videos</label>
+
                             <label><input type="checkbox" value="image" data-filter="type"> Images</label>
+
                             <label><input type="checkbox" value="infographic" data-filter="type"> Infographics</label>
+
                         </div>
+
                     </div>
+
                     <div class="filter-actions">
+
                         <button id="explore-reset-filters" class="reset-btn">Reset Filters</button>
+
                         <button id="explore-apply-filters" class="apply-btn">Apply Filters</button>
+
                     </div>
+
                 </div>
+
                 
+
                 <!-- News Content Area - Scrollable -->
+
                 <div class="news-content-area">
+
                     <div class="news-content-header">
+
                         <h3 id="current-category-title">Health Policy</h3>
+
                         <p id="current-category-desc">Government regulations and health guidelines</p>
+
                     </div>
+
                     
+
                     <div class="news-grid" id="news-grid-container">
+
                         <!-- News items will be loaded here -->
+
                         <div class="loading-spinner">
+
                             <div class="spinner"></div>
+
                             <p>Loading health news...</p>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <!-- News Feed -->
+
                 <div class="news-feed" id="explore-news-feed">
+
                     <div class="news-container" id="explore-news-container">
+
                         <!-- News items will be loaded here -->
+
                         <div class="loading-spinner">
+
                             <div class="spinner"></div>
+
                             <p>Loading health news...</p>
+
                         </div>
+
                     </div>
+
                     
+
                     <!-- Load More Button -->
+
                     <div class="load-more-container">
+
                         <button id="explore-load-more-btn" class="load-more-btn">Load More News</button>
+
                     </div>
+
                 </div>
+
                 
+
                 <!-- News Detail Modal -->
+
                 <div class="news-modal" id="explore-news-modal" hidden>
+
                     <div class="modal-overlay"></div>
+
                     <div class="modal-content">
+
                         <button class="modal-close" id="explore-modal-close">×</button>
+
                         <div class="modal-body" id="explore-modal-body">
+
                             <!-- Full news details will be loaded here -->
+
                         </div>
+
                     </div>
+
                 </div>
+
             </div>
+
         </div>
+
         
+
         <div class="explore-actions">
+
             <button type="button" class="btn" id="explore-filter-toggle">Filter News</button>
+
             <button type="button" class="explore-back-btn" id="explore-back-btn">Back to Home</button>
+
         </div>
+
     </div>
+
 </section>
+
+
 
 <!-- Pharmacy Trading Page -->
+
 <section class="trading-page" id="pharmacy-page" hidden>
+
     <div class="trading-card">
+
         <div class="trading-header">
+
             <button class="back-btn" id="pharmacy-back-btn">← Back to Market</button>
+
             <h2 class="trading-heading">Pharmacy Trading</h2>
+
         </div>
+
         
+
         <div class="trading-content">
+
             <div class="trading-filters">
+
                 <div class="filter-group">
+
                     <label>Category:</label>
+
                     <select class="filter-select">
+
                         <option>All Medications</option>
+
                         <option>Pain Relief</option>
+
                         <option>Antibiotics</option>
+
                         <option>Vitamins</option>
+
                         <option>First Aid</option>
+
                     </select>
+
                 </div>
+
                 <div class="filter-group">
+
                     <label>Price Range:</label>
+
                     <select class="filter-select">
+
                         <option>All Prices</option>
+
                         <option>Under $10</option>
+
                         <option>$10-$50</option>
+
                         <option>Over $50</option>
+
                     </select>
+
                 </div>
+
                 <div class="search-group">
+
                     <input type="text" class="trading-search" placeholder="Search medications...">
+
                     <button class="search-btn">🔍</button>
+
                 </div>
+
             </div>
+
             
+
             <div class="commodities-grid">
+
                 <div class="commodity-card">
+
                     <img src="../assets/images/pharmacy/bandages.jpg" alt="Aspirin" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Aspirin 500mg</h4>
+
                         <p class="commodity-desc">Pain relief medication for headaches and fever</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$8.99</span>
+
                             <span class="stock">In Stock: 150</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="../assets/images/pharmacy/bandages.jpg" alt="Bandages" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>First Aid Bandages</h4>
+
                         <p class="commodity-desc">Sterile wound care bandages</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$15.99</span>
+
                             <span class="stock">In Stock: 75</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="../assets/images/pharmacy/first_aid_kit.jpg" alt="Medical Kit" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Complete Medical Kit</h4>
+
                         <p class="commodity-desc">Emergency medical supplies kit</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$45.99</span>
+
                             <span class="stock">In Stock: 65</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1607619056934-87cb5b83461e?w=200&h=200&fit=crop" alt="Vitamin D" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Vitamin D3 5000IU</h4>
+
                         <p class="commodity-desc">Bone health and immunity supplement</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$18.99</span>
+
                             <span class="stock">In Stock: 150</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop" alt="First Aid Kit" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Advanced First Aid Kit</h4>
+
                         <p class="commodity-desc">Professional emergency medical kit</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$65.99</span>
+
                             <span class="stock">In Stock: 55</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559181567-c3190ca385978?w=200&h=200&fit=crop" alt="Thermometer" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Infrared Thermometer</h4>
+
                         <p class="commodity-desc">No-touch temperature scanner</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$39.99</span>
+
                             <span class="stock">In Stock: 75</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="../assets/images/pharmacy/medical_scale.jpg" alt="Medical Scale" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Digital Medical Scale</h4>
+
                         <p class="commodity-desc">Professional body weight scale</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$55.99</span>
+
                             <span class="stock">In Stock: 60</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="../assets/images/pharmacy/premium_medical.jpg" alt="Medical Supplies" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Premium Medical Supplies</h4>
+
                         <p class="commodity-desc">Complete home medical kit</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$125.99</span>
+
                             <span class="stock">In Stock: 30</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1576091160550-2173dba999efc?w=200&h=200&fit=crop" alt="Glucose Monitor" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Glucose Monitor</h4>
+
                         <p class="commodity-desc">Blood sugar testing device</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$89.99</span>
+
                             <span class="stock">In Stock: 45</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1605497785122-1c2e75dfb4b8?w=200&h=200&fit=crop" alt="Pulse Oximeter" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Pulse Oximeter</h4>
+
                         <p class="commodity-desc">Blood oxygen level monitoring</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$35.99</span>
+
                             <span class="stock">In Stock: 95</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1576091160550-2173dba999efc?w=200&h=200&fit=crop" alt="Compression Stockings" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Compression Stockings</h4>
+
                         <p class="commodity-desc">Medical grade compression therapy</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$28.99</span>
+
                             <span class="stock">In Stock: 70</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559181567-c3190ca385978?w=200&h=200&fit=crop" alt="Crutches" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Adjustable Crutches</h4>
+
                         <p class="commodity-desc">Mobility assistance device</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$55.99</span>
+
                             <span class="stock">In Stock: 40</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1605497785122-1c2e75dfb4b8?w=200&h=200&fit=crop" alt="Wheelchair" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Lightweight Wheelchair</h4>
+
                         <p class="commodity-desc">Portable mobility wheelchair</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$299.99</span>
+
                             <span class="stock">In Stock: 25</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1576091160550-2173dba999efc?w=200&h=200&fit=crop" alt="Hearing Aid" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Digital Hearing Aid</h4>
+
                         <p class="commodity-desc">Advanced hearing assistance device</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$199.99</span>
+
                             <span class="stock">In Stock: 35</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559181567-c3190ca385978?w=200&h=200&fit=crop" alt="Oxygen Tank" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Portable Oxygen Tank</h4>
+
                         <p class="commodity-desc">Medical oxygen supply system</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$149.99</span>
+
                             <span class="stock">In Stock: 20</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1605497785122-1c2e75dfb4b8?w=200&h=200&fit=crop" alt="Stethoscope" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Professional Stethoscope</h4>
+
                         <p class="commodity-desc">High-quality medical diagnostic tool</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$79.99</span>
+
                             <span class="stock">In Stock: 50</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1576091160550-2173dba999efc?w=200&h=200&fit=crop" alt="Medical Kit" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Complete Medical Kit</h4>
+
                         <p class="commodity-desc">Emergency medical supplies kit</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$45.99</span>
+
                             <span class="stock">In Stock: 65</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1605497785122-1c2e75dfb4b8?w=200&h=200&fit=crop" alt="Surgical Gloves" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Medical Surgical Gloves</h4>
+
                         <p class="commodity-desc">Disposable medical gloves</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$12.99</span>
+
                             <span class="stock">In Stock: 400</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1576091160550-2173dba999efc?w=200&h=200&fit=crop" alt="Antibiotics" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Antibiotics Course</h4>
+
                         <p class="commodity-desc">Prescription antibiotic medication</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$25.99</span>
+
                             <span class="stock">In Stock: 80</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1605497785122-1c2e75dfb4b8?w=200&h=200&fit=crop" alt="Vitamin D" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Vitamin D3 5000IU</h4>
+
                         <p class="commodity-desc">Bone health and immunity supplement</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$18.99</span>
+
                             <span class="stock">In Stock: 150</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1605497785122-1c2e75dfb4b8?w=200&h=200&fit=crop" alt="Probiotics" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Probiotics Supplement</h4>
+
                         <p class="commodity-desc">Digestive health support</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$22.99</span>
+
                             <span class="stock">In Stock: 110</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1605497785122-1c2e75dfb4b8?w=200&h=200&fit=crop" alt="Allergy Medicine" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Allergy Relief Medicine</h4>
+
                         <p class="commodity-desc">Seasonal allergy treatment</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$16.99</span>
+
                             <span class="stock">In Stock: 90</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1605497785122-1c2e75dfb4b8?w=200&h=200&fit=crop" alt="Pain Relief Cream" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Topical Pain Relief</h4>
+
                         <p class="commodity-desc">Muscle and joint pain cream</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$14.99</span>
+
                             <span class="stock">In Stock: 125</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1605497785122-1c2e75dfb4b8?w=200&h=200&fit=crop" alt="Sleep Aid" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Natural Sleep Aid</h4>
+
                         <p class="commodity-desc">Non-habit forming sleep supplement</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$19.99</span>
+
                             <span class="stock">In Stock: 85</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1605497785122-1c2e75dfb4b8?w=200&h=200&fit=crop" alt="Eye Drops" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Lubricating Eye Drops</h4>
+
                         <p class="commodity-desc">Dry eye relief solution</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$11.99</span>
+
                             <span class="stock">In Stock: 180</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1605497785122-1c2e75dfb4b8?w=200&h=200&fit=crop" alt="Cold Medicine" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Cold & Flu Medicine</h4>
+
                         <p class="commodity-desc">Multi-symptom cold relief</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$13.99</span>
+
                             <span class="stock">In Stock: 140</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1605497785122-1c2e75dfb4b8?w=200&h=200&fit=crop" alt="First Aid Kit" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Advanced First Aid Kit</h4>
+
                         <p class="commodity-desc">Professional emergency medical kit</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$65.99</span>
+
                             <span class="stock">In Stock: 55</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1605497785122-1c2e75dfb4b8?w=200&h=200&fit=crop" alt="Medical Tape" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Medical Adhesive Tape</h4>
+
                         <p class="commodity-desc">Surgical grade medical tape</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$8.99</span>
+
                             <span class="stock">In Stock: 200</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1605497785122-1c2e75dfb4b8?w=200&h=200&fit=crop" alt="Thermometer" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Infrared Thermometer</h4>
+
                         <p class="commodity-desc">No-touch temperature scanner</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$39.99</span>
+
                             <span class="stock">In Stock: 75</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1605497785122-1c2e75dfb4b8?w=200&h=200&fit=crop" alt="Blood Pressure Monitor" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Smart Blood Pressure Monitor</h4>
+
                         <p class="commodity-desc">Bluetooth enabled BP monitoring</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$89.99</span>
+
                             <span class="stock">In Stock: 45</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1605497785122-1c2e75dfb4b8?w=200&h=200&fit=crop" alt="Medical Scale" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Digital Medical Scale</h4>
+
                         <p class="commodity-desc">Professional body weight scale</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$55.99</span>
+
                             <span class="stock">In Stock: 60</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1605497785122-1c2e75dfb4b8?w=200&h=200&fit=crop" alt="Medical Supplies" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Premium Medical Supplies</h4>
+
                         <p class="commodity-desc">Complete home medical kit</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$125.99</span>
+
                             <span class="stock">In Stock: 30</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
+
 </section>
+
+
 
 <!-- Healthcare Services Trading Page -->
+
 <section class="trading-page" id="healthcare-page" hidden>
+
     <div class="trading-card">
+
         <div class="trading-header">
+
             <button class="back-btn" id="healthcare-back-btn">← Back to Market</button>
+
             <h2 class="trading-heading">Healthcare Services</h2>
+
         </div>
+
         
+
         <div class="trading-content">
+
             <div class="trading-filters">
+
                 <div class="filter-group">
+
                     <label>Service Type:</label>
+
                     <select class="filter-select">
+
                         <option>All Services</option>
+
                         <option>Consultations</option>
+
                         <option>Checkups</option>
+
                         <option>Specialists</option>
+
                         <option>Emergency</option>
+
                     </select>
+
                 </div>
+
                 <div class="filter-group">
+
                     <label>Location:</label>
+
                     <select class="filter-select">
+
                         <option>All Locations</option>
+
                         <option>Near Me</option>
+
                         <option>City Center</option>
+
                         <option>Suburbs</option>
+
                     </select>
+
                 </div>
+
                 <div class="search-group">
+
                     <input type="text" class="trading-search" placeholder="Search services...">
+
                     <button class="search-btn">🔍</button>
+
                 </div>
+
             </div>
+
             
+
             <div class="commodities-grid">
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1576091160550-2173dba999efc?w=200&h=200&fit=crop" alt="General Consultation" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>General Consultation</h4>
+
                         <p class="commodity-desc">30-minute doctor consultation</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$45.00</span>
+
                             <span class="stock">Available: 8 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559839734-67b19d34a53e?w=200&h=200&fit=crop" alt="Dental Checkup" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Dental Checkup</h4>
+
                         <p class="commodity-desc">Complete dental examination</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$85.00</span>
+
                             <span class="stock">Available: 5 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1582750415299-4e9b2ff25334?w=200&h=200&fit=crop" alt="Eye Exam" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Eye Examination</h4>
+
                         <p class="commodity-desc">Comprehensive eye test</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$65.00</span>
+
                             <span class="stock">Available: 3 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop" alt="Blood Test" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Full Blood Test</h4>
+
                         <p class="commodity-desc">Complete blood work analysis</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$120.00</span>
+
                             <span class="stock">Available: 10 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1576091160550-2173dba999efc?w=200&h=200&fit=crop" alt="Cardiology Consultation" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Cardiology Consultation</h4>
+
                         <p class="commodity-desc">Heart specialist consultation</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$150.00</span>
+
                             <span class="stock">Available: 4 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559839734-67b19d34a53e?w=200&h=200&fit=crop" alt="Dermatology" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Dermatology Consultation</h4>
+
                         <p class="commodity-desc">Skin examination and treatment</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$95.00</span>
+
                             <span class="stock">Available: 6 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1582750415299-4e9b2ff25334?w=200&h=200&fit=crop" alt="Pediatric Consultation" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Pediatric Consultation</h4>
+
                         <p class="commodity-desc">Child healthcare specialist</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$75.00</span>
+
                             <span class="stock">Available: 7 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559839734-67b19d34a53e?w=200&h=200&fit=crop" alt="Orthopedic Consultation" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Orthopedic Consultation</h4>
+
                         <p class="commodity-desc">Bone and joint specialist</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$110.00</span>
+
                             <span class="stock">Available: 5 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1576091160550-2173dba999efc?w=200&h=200&fit=crop" alt="Neurology Consultation" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Neurology Consultation</h4>
+
                         <p class="commodity-desc">Nervous system specialist</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$180.00</span>
+
                             <span class="stock">Available: 3 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop" alt="Gynecology Consultation" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Gynecology Consultation</h4>
+
                         <p class="commodity-desc">Women's health specialist</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$125.00</span>
+
                             <span class="stock">Available: 4 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1582750415299-4e9b2ff25334?w=200&h=200&fit=crop" alt="ENT Consultation" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>ENT Consultation</h4>
+
                         <p class="commodity-desc">Ear, nose, throat specialist</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$90.00</span>
+
                             <span class="stock">Available: 6 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559839734-67b19d34a53e?w=200&h=200&fit=crop" alt="Psychiatry Consultation" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Psychiatry Consultation</h4>
+
                         <p class="commodity-desc">Mental health specialist</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$140.00</span>
+
                             <span class="stock">Available: 5 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1576091160550-2173dba999efc?w=200&h=200&fit=crop" alt="Emergency Room Visit" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Emergency Room Visit</h4>
+
                         <p class="commodity-desc">Urgent medical care service</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$250.00</span>
+
                             <span class="stock">Available: 2 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop" alt="Ultrasound Scan" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Ultrasound Scan</h4>
+
                         <p class="commodity-desc">Diagnostic imaging service</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$95.00</span>
+
                             <span class="stock">Available: 8 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1582750415299-4e9b2ff25334?w=200&h=200&fit=crop" alt="MRI Scan" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>MRI Scan</h4>
+
                         <p class="commodity-desc">Advanced diagnostic imaging</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$450.00</span>
+
                             <span class="stock">Available: 3 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop" alt="CT Scan" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>CT Scan</h4>
+
                         <p class="commodity-desc">Cross-sectional imaging service</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$350.00</span>
+
                             <span class="stock">Available: 4 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1576091160550-2173dba999efc?w=200&h=200&fit=crop" alt="Physical Therapy" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Physical Therapy Session</h4>
+
                         <p class="commodity-desc">Rehabilitation and recovery therapy</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$80.00</span>
+
                             <span class="stock">Available: 10 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559839734-67b19d34a53e?w=200&h=200&fit=crop" alt="Nutritionist Consultation" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Nutritionist Consultation</h4>
+
                         <p class="commodity-desc">Dietary planning and advice</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$70.00</span>
+
                             <span class="stock">Available: 8 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1582750415299-4e9b2ff25334?w=200&h=200&fit=crop" alt="Vaccination Service" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Vaccination Service</h4>
+
                         <p class="commodity-desc">Immunization and vaccination</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$35.00</span>
+
                             <span class="stock">Available: 15 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop" alt="Telemedicine Consultation" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Telemedicine Consultation</h4>
+
                         <p class="commodity-desc">Online doctor consultation</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$49.00</span>
+
                             <span class="stock">Available: 20 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1576091160550-2173dba999efc?w=200&h=200&fit=crop" alt="Home Nursing Care" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Home Nursing Care</h4>
+
                         <p class="commodity-desc">In-home medical nursing service</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$120.00</span>
+
                             <span class="stock">Available: 6 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559839734-67b19d34a53e?w=200&h=200&fit=crop" alt="Chronic Disease Management" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Chronic Disease Management</h4>
+
                         <p class="commodity-desc">Long-term illness care planning</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$95.00</span>
+
                             <span class="stock">Available: 7 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1582750415299-4e9b2ff25334?w=200&h=200&fit=crop" alt="Preventive Care" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Preventive Care Visit</h4>
+
                         <p class="commodity-desc">Annual health checkup and screening</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$55.00</span>
+
                             <span class="stock">Available: 12 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop" alt="Mental Health Counseling" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Mental Health Counseling</h4>
+
                         <p class="commodity-desc">Professional counseling and therapy</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$85.00</span>
+
                             <span class="stock">Available: 9 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1576091160550-2173dba999efc?w=200&h=200&fit=crop" alt="Surgery Consultation" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Surgery Consultation</h4>
+
                         <p class="commodity-desc">Pre-surgical evaluation and planning</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$200.00</span>
+
                             <span class="stock">Available: 3 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1582750415299-4e9b2ff25334?w=200&h=200&fit=crop" alt="Allergy Testing" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Allergy Testing Service</h4>
+
                         <p class="commodity-desc">Comprehensive allergy assessment</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$110.00</span>
+
                             <span class="stock">Available: 5 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop" alt="Sleep Study" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Sleep Study Analysis</h4>
+
                         <p class="commodity-desc">Overnight sleep disorder testing</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$300.00</span>
+
                             <span class="stock">Available: 2 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1576091160550-2173dba999efc?w=200&h=200&fit=crop" alt="Genetic Counseling" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Genetic Counseling</h4>
+
                         <p class="commodity-desc">Genetic testing and counseling</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$175.00</span>
+
                             <span class="stock">Available: 4 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1582750415299-4e9b2ff25334?w=200&h=200&fit=crop" alt="Pain Management" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Pain Management Consultation</h4>
+
                         <p class="commodity-desc">Chronic pain treatment planning</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$130.00</span>
+
                             <span class="stock">Available: 6 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop" alt="Rehabilitation Therapy" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Rehabilitation Therapy</h4>
+
                         <p class="commodity-desc">Post-injury recovery therapy</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$90.00</span>
+
                             <span class="stock">Available: 8 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1576091160550-2173dba999efc?w=200&h=200&fit=crop" alt="Women's Health Checkup" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Women's Health Checkup</h4>
+
                         <p class="commodity-desc">Comprehensive women's health screening</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$105.00</span>
+
                             <span class="stock">Available: 7 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1582750415299-4e9b2ff25334?w=200&h=200&fit=crop" alt="Men's Health Checkup" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Men's Health Checkup</h4>
+
                         <p class="commodity-desc">Comprehensive men's health screening</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$95.00</span>
+
                             <span class="stock">Available: 8 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1576091160550-2173dba999efc?w=200&h=200&fit=crop" alt="Senior Care Consultation" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Senior Care Consultation</h4>
+
                         <p class="commodity-desc">Elderly health specialist consultation</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$115.00</span>
+
                             <span class="stock">Available: 5 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1582750415299-4e9b2ff25334?w=200&h=200&fit=crop" alt="Travel Medicine Consultation" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Travel Medicine Consultation</h4>
+
                         <p class="commodity-desc">Travel health advice and vaccinations</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$65.00</span>
+
                             <span class="stock">Available: 10 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1576091160550-2173dba999efc?w=200&h=200&fit=crop" alt="Occupational Health Checkup" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Occupational Health Checkup</h4>
+
                         <p class="commodity-desc">Workplace health assessment</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$85.00</span>
+
                             <span class="stock">Available: 6 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1582750415299-4e9b2ff25334?w=200&h=200&fit=crop" alt="Sports Medicine Consultation" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Sports Medicine Consultation</h4>
+
                         <p class="commodity-desc">Athletic injury assessment and treatment</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$100.00</span>
+
                             <span class="stock">Available: 4 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1576091160550-2173dba999efc?w=200&h=200&fit=crop" alt="Endocrinology Consultation" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Endocrinology Consultation</h4>
+
                         <p class="commodity-desc">Hormone and gland specialist</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$145.00</span>
+
                             <span class="stock">Available: 3 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1582750415299-4e9b2ff25334?w=200&h=200&fit=crop" alt="Rheumatology Consultation" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Rheumatology Consultation</h4>
+
                         <p class="commodity-desc">Autoimmune disease specialist</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$160.00</span>
+
                             <span class="stock">Available: 4 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1576091160550-2173dba999efc?w=200&h=200&fit=crop" alt="Gastroenterology Consultation" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Gastroenterology Consultation</h4>
+
                         <p class="commodity-desc">Digestive system specialist</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$135.00</span>
+
                             <span class="stock">Available: 5 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1582750415299-4e9b2ff25334?w=200&h=200&fit=crop" alt="Pulmonology Consultation" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Pulmonology Consultation</h4>
+
                         <p class="commodity-desc">Lung and respiratory specialist</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$125.00</span>
+
                             <span class="stock">Available: 4 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1576091160550-2173dba999efc?w=200&h=200&fit=crop" alt="Nephrology Consultation" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Nephrology Consultation</h4>
+
                         <p class="commodity-desc">Kidney disease specialist</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$155.00</span>
+
                             <span class="stock">Available: 3 slots</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
+
 </section>
+
+
 
 <!-- Wellness Trading Page -->
+
 <section class="trading-page" id="wellness-page" hidden>
+
     <div class="trading-card">
+
         <div class="trading-header">
+
             <button class="back-btn" id="wellness-back-btn">← Back to Market</button>
+
             <h2 class="trading-heading">Wellness Products</h2>
+
         </div>
+
         
+
         <div class="trading-content">
+
             <div class="trading-filters">
+
                 <div class="filter-group">
+
                     <label>Wellness Type:</label>
+
                     <select class="filter-select">
+
                         <option>All Products</option>
+
                         <option>Fitness</option>
+
                         <option>Nutrition</option>
+
                         <option>Mental Health</option>
+
                         <option>Relaxation</option>
+
                     </select>
+
                 </div>
+
                 <div class="filter-group">
+
                     <label>Price Range:</label>
+
                     <select class="filter-select">
+
                         <option>All Prices</option>
+
                         <option>Under $25</option>
+
                         <option>$25-$75</option>
+
                         <option>Over $75</option>
+
                     </select>
+
                 </div>
+
                 <div class="search-group">
+
                     <input type="text" class="trading-search" placeholder="Search wellness products...">
+
                     <button class="search-btn">🔍</button>
+
                 </div>
+
             </div>
+
             
+
             <div class="commodities-grid">
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1594746883505-8c3980a8e3e?w=200&h=200&fit=crop" alt="Yoga Mat" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Premium Yoga Mat</h4>
+
                         <p class="commodity-desc">Non-slip exercise mat with alignment guides</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$29.99</span>
+
                             <span class="stock">In Stock: 45</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1571019613459-073b33aa028b?w=200&h=200&fit=crop" alt="Protein Powder" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Whey Protein Powder</h4>
+
                         <p class="commodity-desc">High-quality protein supplement for muscle building</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$39.99</span>
+
                             <span class="stock">In Stock: 60</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1545166416-5b6315d9e6c4?w=200&h=200&fit=crop" alt="Meditation Cushion" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Meditation Cushion</h4>
+
                         <p class="commodity-desc">Comfortable meditation support with buckwheat filling</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$45.00</span>
+
                             <span class="stock">In Stock: 25</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1603056144-2b0c4f9a5a1a?w=200&h=200&fit=crop" alt="Essential Oils" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Lavender Essential Oil</h4>
+
                         <p class="commodity-desc">Relaxing aromatherapy oil for stress relief</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$18.99</span>
+
                             <span class="stock">In Stock: 80</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1584362925356-4cf0a5e3a2a?w=200&h=200&fit=crop" alt="Resistance Bands" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Resistance Bands Set</h4>
+
                         <p class="commodity-desc">Professional exercise resistance bands for strength training</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$24.99</span>
+
                             <span class="stock">In Stock: 35</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1517894918767-4eaf4ef1b2d8?w=200&h=200&fit=crop" alt="Foam Roller" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>High-Density Foam Roller</h4>
+
                         <p class="commodity-desc">Muscle recovery and massage foam roller</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$22.99</span>
+
                             <span class="stock">In Stock: 40</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1594746883505-8c3980a8e3e?w=200&h=200&fit=crop" alt="Exercise Ball" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Professional Exercise Ball</h4>
+
                         <p class="commodity-desc">Anti-burst stability ball for core workouts</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$34.99</span>
+
                             <span class="stock">In Stock: 30</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1571019613459-073b33aa028b?w=200&h=200&fit=crop" alt="Dumbbells" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Adjustable Dumbbells Set</h4>
+
                         <p class="commodity-desc">Professional weight training dumbbells set</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$89.99</span>
+
                             <span class="stock">In Stock: 20</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1584362925356-4cf0a5e3a2a?w=200&h=200&fit=crop" alt="Jump Rope" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Speed Jump Rope</h4>
+
                         <p class="commodity-desc">Professional fitness jump rope for cardio training</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$15.99</span>
+
                             <span class="stock">In Stock: 50</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1594746883505-8c3980a8e3e?w=200&h=200&fit=crop" alt="Pilates Ring" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Professional Pilates Ring</h4>
+
                         <p class="commodity-desc">Core strengthening and flexibility training device</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$42.99</span>
+
                             <span class="stock">In Stock: 28</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1603056144-2b0c4f9a5a1a?w=200&h=200&fit=crop" alt="Massage Ball" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Therapy Massage Ball</h4>
+
                         <p class="commodity-desc">Spiky massage ball for muscle relief and relaxation</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$19.99</span>
+
                             <span class="stock">In Stock: 45</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1517894918767-4eaf4ef1b2d8?w=200&h=200&fit=crop" alt="Balance Board" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Balance Training Board</h4>
+
                         <p class="commodity-desc">Professional balance board for stability training</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$38.99</span>
+
                             <span class="stock">In Stock: 22</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1594746883505-8c3980a8e3e?w=200&h=200&fit=crop" alt="Kettlebells" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Cast Iron Kettlebells Set</h4>
+
                         <p class="commodity-desc">Professional kettlebells for strength and conditioning</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$79.99</span>
+
                             <span class="stock">In Stock: 18</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1603056144-2b0c4f9a5a1a?w=200&h=200&fit=crop" alt="Yoga Blocks" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Bamboo Yoga Blocks</h4>
+
                         <p class="commodity-desc">Eco-friendly yoga blocks for support and alignment</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$24.99</span>
+
                             <span class="stock">In Stock: 35</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1545166416-5b6315d9e6c4?w=200&h=200&fit=crop" alt="Sleep Mask" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Weighted Sleep Mask</h4>
+
                         <p class="commodity-desc">Comfortable sleep mask with light blocking for better rest</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$16.99</span>
+
                             <span class="stock">In Stock: 55</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1603056144-2b0c4f9a5a1a?w=200&h=200&fit=crop" alt="Acupressure Mat" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Acupressure Massage Mat</h4>
+
                         <p class="commodity-desc">Traditional Chinese medicine acupressure points mat</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$32.99</span>
+
                             <span class="stock">In Stock: 25</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1571019613459-073b33aa028b?w=200&h=200&fit=crop" alt="Pre-Workout Supplement" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Pre-Workout Energy Supplement</h4>
+
                         <p class="commodity-desc">Natural energy booster for enhanced workout performance</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$28.99</span>
+
                             <span class="stock">In Stock: 40</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1603056144-2b0c4f9a5a1a?w=200&h=200&fit=crop" alt="Recovery Supplement" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Post-Workout Recovery Formula</h4>
+
                         <p class="commodity-desc">BCAA supplement for muscle recovery and growth</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$35.99</span>
+
                             <span class="stock">In Stock: 30</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1517894918767-4eaf4ef1b2d8?w=200&h=200&fit=crop" alt="Stretching Strap" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Yoga Stretching Strap</h4>
+
                         <p class="commodity-desc">Professional stretching strap for flexibility training</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$18.99</span>
+
                             <span class="stock">In Stock: 48</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1594746883505-8c3980a8e3e?w=200&h=200&fit=crop" alt="Fitness Tracker" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Smart Fitness Tracker</h4>
+
                         <p class="commodity-desc">Activity tracker with heart rate monitoring and sleep analysis</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$89.99</span>
+
                             <span class="stock">In Stock: 22</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1603056144-2b0c4f9a5a1a?w=200&h=200&fit=crop" alt="Water Bottle" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Insulated Sports Water Bottle</h4>
+
                         <p class="commodity-desc">BPA-free water bottle with time markers for hydration tracking</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$14.99</span>
+
                             <span class="stock">In Stock: 65</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1545166416-5b6315d9e6c4?w=200&h=200&fit=crop" alt="Gym Bag" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Professional Gym Bag</h4>
+
                         <p class="commodity-desc">Spacious gym bag with multiple compartments and shoe storage</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$54.99</span>
+
                             <span class="stock">In Stock: 32</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1603056144-2b0c4f9a5a1a?w=200&h=200&fit=crop" alt="Running Shoes" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Professional Running Shoes</h4>
+
                         <p class="commodity-desc">Cushioned running shoes with arch support and breathable mesh</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$79.99</span>
+
                             <span class="stock">In Stock: 25</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1517894918767-4eaf4ef1b2d8?w=200&h=200&fit=crop" alt="Exercise Gloves" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Weightlifting Gloves</h4>
+
                         <p class="commodity-desc">Padded weightlifting gloves with wrist support for grip and protection</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$22.99</span>
+
                             <span class="stock">In Stock: 38</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1603056144-2b0c4f9a5a1a?w=200&h=200&fit=crop" alt="Workout Journal" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Fitness Workout Journal</h4>
+
                         <p class="commodity-desc">Premium workout journal with exercise tracking and goal setting pages</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$19.99</span>
+
                             <span class="stock">In Stock: 42</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1594746883505-8c3980a8e3e?w=200&h=200&fit=crop" alt="Muscle Roller" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Handheld Muscle Roller</h4>
+
                         <p class="commodity-desc">Portable muscle roller for deep tissue massage and recovery</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$26.99</span>
+
                             <span class="stock">In Stock: 33</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1603056144-2b0c4f9a5a1a?w=200&h=200&fit=crop" alt="Cooling Towel" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Instant Cooling Towel</h4>
+
                         <p class="commodity-desc">Microfiber cooling towel for workouts and outdoor activities</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$21.99</span>
+
                             <span class="stock">In Stock: 50</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1517894918767-4eaf4ef1b2d8?w=200&h=200&fit=crop" alt="Compression Sleeves" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Compression Arm Sleeves</h4>
+
                         <p class="commodity-desc">Moisture-wicking compression sleeves for muscle support and recovery</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$24.99</span>
+
                             <span class="stock">In Stock: 36</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1603056144-2b0c4f9a5a1a?w=200&h=200&fit=crop" alt="Resistance Tubes" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Resistance Exercise Tubes Set</h4>
+
                         <p class="commodity-desc">Portable resistance tubes with multiple tension levels for full body workout</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$31.99</span>
+
                             <span class="stock">In Stock: 28</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1594746883505-8c3980a8e3e?w=200&h=200&fit=crop" alt="Yoga Wheel" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Professional Yoga Wheel</h4>
+
                         <p class="commodity-desc">Yoga wheel for deep stretches, backbends and core strengthening</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$28.99</span>
+
                             <span class="stock">In Stock: 20</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1603056144-2b0c4f9a5a1a?w=200&h=200&fit=crop" alt="Sliders" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Gliding Exercise Discs</h4>
+
                         <p class="commodity-desc">Professional gliding discs for core stability and low-impact cardio</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$33.99</span>
+
                             <span class="stock">In Stock: 24</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1545166416-5b6315d9e6c4?w=200&h=200&fit=crop" alt="Battle Ropes" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Battle Ropes Set</h4>
+
                         <p class="commodity-desc">Heavy-duty battle ropes for high-intensity interval training</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$45.99</span>
+
                             <span class="stock">In Stock: 15</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1603056144-2b0c4f9a5a1a?w=200&h=200&fit=crop" alt="Medicine Ball" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Weighted Medicine Ball</h4>
+
                         <p class="commodity-desc">Professional medicine ball for strength training and rehabilitation</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$36.99</span>
+
                             <span class="stock">In Stock: 18</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Trade</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
+
 </section>
+
+
 
 <!-- Lab Tests Trading Page -->
+
 <section class="trading-page" id="labtests-page" hidden>
+
     <div class="trading-card">
+
         <div class="trading-header">
+
             <button class="back-btn" id="labtests-back-btn">← Back to Market</button>
+
             <h2 class="trading-heading">Lab Tests</h2>
+
         </div>
+
         
+
         <div class="trading-content">
+
             <div class="trading-filters">
+
                 <div class="filter-group">
+
                     <label>Test Type:</label>
+
                     <select class="filter-select">
+
                         <option>All Tests</option>
+
                         <option>Blood Tests</option>
+
                         <option>Urine Tests</option>
+
                         <option>Imaging</option>
+
                         <option>Genetic</option>
+
                     </select>
+
                 </div>
+
                 <div class="filter-group">
+
                     <label>Urgency:</label>
+
                     <select class="filter-select">
+
                         <option>All Urgency</option>
+
                         <option>Standard</option>
+
                         <option>Express</option>
+
                         <option>Emergency</option>
+
                     </select>
+
                 </div>
+
                 <div class="search-group">
+
                     <input type="text" class="trading-search" placeholder="Search lab tests...">
+
                     <button class="search-btn">🔍</button>
+
                 </div>
+
             </div>
+
             
+
             <div class="commodities-grid">
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1584116769339-7c38b40b9b17?w=200&h=200&fit=crop" alt="COVID Test" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>COVID-19 PCR Test</h4>
+
                         <p class="commodity-desc">Rapid COVID testing with same-day results</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$89.00</span>
+
                             <span class="stock">Available: 50</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop" alt="Cholesterol Test" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Cholesterol Panel</h4>
+
                         <p class="commodity-desc">Complete lipid profile for heart health assessment</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$55.00</span>
+
                             <span class="stock">Available: 30</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559839734-67b19d34a53e?w=200&h=200&fit=crop" alt="X-Ray" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Chest X-Ray</h4>
+
                         <p class="commodity-desc">Digital radiography for lung and heart examination</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$125.00</span>
+
                             <span class="stock">Available: 15</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1582750415299-4e9b2ff25334?w=200&h=200&fit=crop" alt="Allergy Test" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Allergy Panel</h4>
+
                         <p class="commodity-desc">Comprehensive allergy testing for common allergens</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$195.00</span>
+
                             <span class="stock">Available: 20</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1576091160550-2173dba999efc?w=200&h=200&fit=crop" alt="Blood Test" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Complete Blood Count</h4>
+
                         <p class="commodity-desc">Full blood analysis for overall health assessment</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$45.00</span>
+
                             <span class="stock">Available: 40</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop" alt="MRI Scan" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Brain MRI Scan</h4>
+
                         <p class="commodity-desc">Advanced brain imaging for neurological assessment</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$450.00</span>
+
                             <span class="stock">Available: 8</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1582750415299-4e9b2ff25334?w=200&h=200&fit=crop" alt="CT Scan" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Abdominal CT Scan</h4>
+
                         <p class="commodity-desc">Cross-sectional imaging for abdominal organs</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$350.00</span>
+
                             <span class="stock">Available: 12</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1576091160550-2173dba999efc?w=200&h=200&fit=crop" alt="Ultrasound" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Abdominal Ultrasound</h4>
+
                         <p class="commodity-desc">Non-invasive imaging for abdominal organs</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$95.00</span>
+
                             <span class="stock">Available: 25</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop" alt="EKG" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Electrocardiogram (EKG)</h4>
+
                         <p class="commodity-desc">Heart rhythm and electrical activity testing</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$35.00</span>
+
                             <span class="stock">Available: 35</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1582750415299-4e9b2ff25334?w=200&h=200&fit=crop" alt="Diabetes Test" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Diabetes Screening</h4>
+
                         <p class="commodity-desc">Blood glucose and A1C testing for diabetes</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$65.00</span>
+
                             <span class="stock">Available: 30</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1576091160550-2173dba999efc?w=200&h=200&fit=crop" alt="Thyroid Test" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Thyroid Function Panel</h4>
+
                         <p class="commodity-desc">Complete thyroid hormone testing</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$75.00</span>
+
                             <span class="stock">Available: 22</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop" alt="Kidney Test" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Kidney Function Panel</h4>
+
                         <p class="commodity-desc">Comprehensive kidney health assessment</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$55.00</span>
+
                             <span class="stock">Available: 28</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1582750415299-4e9b2ff25334?w=200&h=200&fit=crop" alt="Liver Test" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Liver Function Panel</h4>
+
                         <p class="commodity-desc">Complete liver health and enzyme testing</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$65.00</span>
+
                             <span class="stock">Available: 25</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1576091160550-2173dba999efc?w=200&h=200&fit=crop" alt="Vitamin Test" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Vitamin D Test</h4>
+
                         <p class="commodity-desc">Vitamin D level assessment for bone health</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$45.00</span>
+
                             <span class="stock">Available: 32</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop" alt="Iron Test" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Iron Deficiency Panel</h4>
+
                         <p class="commodity-desc">Complete iron and anemia testing</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$35.00</span>
+
                             <span class="stock">Available: 38</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1582750415299-4e9b2ff25334?w=200&h=200&fit=crop" alt="Hormone Test" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Hormone Panel</h4>
+
                         <p class="commodity-desc">Comprehensive hormone level testing</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$85.00</span>
+
                             <span class="stock">Available: 18</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1576091160550-2173dba999efc?w=200&h=200&fit=crop" alt="Genetic Test" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Genetic Health Screening</h4>
+
                         <p class="commodity-desc">Comprehensive genetic health risk assessment</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$299.00</span>
+
                             <span class="stock">Available: 10</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop" alt="Cancer Screening" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Cancer Screening Panel</h4>
+
                         <p class="commodity-desc">Early cancer detection markers testing</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$185.00</span>
+
                             <span class="stock">Available: 15</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1582750415299-4e9b2ff25334?w=200&h=200&fit=crop" alt="Pregnancy Test" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Pregnancy Panel</h4>
+
                         <p class="commodity-desc">Complete pregnancy health assessment</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$125.00</span>
+
                             <span class="stock">Available: 20</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1576091160550-2173dba999efc?w=200&h=200&fit=crop" alt="STD Test" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>STD Screening Panel</h4>
+
                         <p class="commodity-desc">Comprehensive sexually transmitted disease testing</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$155.00</span>
+
                             <span class="stock">Available: 25</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop" alt="Drug Test" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Drug Screening Panel</h4>
+
                         <p class="commodity-desc">Comprehensive substance abuse testing</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$95.00</span>
+
                             <span class="stock">Available: 30</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1582750415299-4e9b2ff25334?w=200&h=200&fit=crop" alt="Heavy Metals Test" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Heavy Metals Panel</h4>
+
                         <p class="commodity-desc">Toxic heavy metals exposure testing</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$145.00</span>
+
                             <span class="stock">Available: 12</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1576091160550-2173dba999efc?w=200&h=200&fit=crop" alt="Food Allergy Test" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Food Allergy Panel</h4>
+
                         <p class="commodity-desc">Comprehensive food allergen testing</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$165.00</span>
+
                             <span class="stock">Available: 18</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop" alt="Environmental Allergy Test" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Environmental Allergy Panel</h4>
+
                         <p class="commodity-desc">Environmental allergen sensitivity testing</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$135.00</span>
+
                             <span class="stock">Available: 15</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1576091160550-2173dba999efc?w=200&h=200&fit=crop" alt="Autoimmune Test" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Autoimmune Panel</h4>
+
                         <p class="commodity-desc">Autoimmune disease markers testing</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$225.00</span>
+
                             <span class="stock">Available: 10</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop" alt="Cardiac Risk Test" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Cardiac Risk Assessment</h4>
+
                         <p class="commodity-desc">Comprehensive heart disease risk testing</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$115.00</span>
+
                             <span class="stock">Available: 20</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1582750415299-4e9b2ff25334?w=200&h=200&fit=crop" alt="Bone Density Test" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Bone Density Scan</h4>
+
                         <p class="commodity-desc">DEXA scan for osteoporosis assessment</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$175.00</span>
+
                             <span class="stock">Available: 8</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1576091160550-2173dba999efc?w=200&h=200&fit=crop" alt="Sleep Study" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Sleep Study Analysis</h4>
+
                         <p class="commodity-desc">Overnight sleep disorder assessment</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$285.00</span>
+
                             <span class="stock">Available: 5</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop" alt="Mammogram" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Mammography Screening</h4>
+
                         <p class="commodity-desc">Breast cancer screening for women</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$95.00</span>
+
                             <span class="stock">Available: 25</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1582750415299-4e9b2ff25334?w=200&h=200&fit=crop" alt="Colonoscopy" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Colon Cancer Screening</h4>
+
                         <p class="commodity-desc">Colonoscopy for colorectal cancer prevention</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$285.00</span>
+
                             <span class="stock">Available: 6</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1576091160550-2173dba999efc?w=200&h=200&fit=crop" alt="Pap Smear" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Pap Smear Test</h4>
+
                         <p class="commodity-desc">Cervical cancer screening for women</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$65.00</span>
+
                             <span class="stock">Available: 30</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop" alt="PSA Test" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>PSA Test</h4>
+
                         <p class="commodity-desc">Prostate cancer screening for men</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$55.00</span>
+
                             <span class="stock">Available: 28</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1576091160550-2173dba999efc?w=200&h=200&fit=crop" alt="Hepatitis Test" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Hepatitis Panel</h4>
+
                         <p class="commodity-desc">Comprehensive hepatitis virus testing</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$85.00</span>
+
                             <span class="stock">Available: 22</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop" alt="HIV Test" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>HIV Screening</h4>
+
                         <p class="commodity-desc">Confidential HIV testing and counseling</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$75.00</span>
+
                             <span class="stock">Available: 35</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop" alt="Urine Test" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Urinalysis Panel</h4>
+
                         <p class="commodity-desc">Comprehensive urine analysis for health assessment</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$35.00</span>
+
                             <span class="stock">Available: 40</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop" alt="Stool Test" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Stool Analysis</h4>
+
                         <p class="commodity-desc">Digestive health and parasite testing</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$55.00</span>
+
                             <span class="stock">Available: 25</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop" alt="Pulmonary Test" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Pulmonary Function Test</h4>
+
                         <p class="commodity-desc">Lung capacity and respiratory assessment</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$85.00</span>
+
                             <span class="stock">Available: 18</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop" alt="Metabolic Test" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Metabolic Panel</h4>
+
                         <p class="commodity-desc">Comprehensive metabolic health assessment</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$65.00</span>
+
                             <span class="stock">Available: 30</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="commodity-card">
+
                     <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop" alt="Nutritional Test" class="commodity-image">
+
                     <div class="commodity-info">
+
                         <h4>Nutritional Deficiency Panel</h4>
+
                         <p class="commodity-desc">Vitamin and mineral deficiency testing</p>
+
                         <div class="commodity-price">
+
                             <span class="price">$95.00</span>
+
                             <span class="stock">Available: 20</span>
+
                         </div>
+
                         <div class="commodity-actions">
+
                             <button class="trade-btn">Book</button>
+
                             <button class="details-btn">Details</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
+
 </section>
+
+
 
 <!-- Market page (shown when Market is clicked in sidebar) -->
+
 <section class="market-page" id="market-page" hidden>
+
     <div class="market-card">
+
         <h2 class="market-heading">Health Market</h2>
+
         
+
         <div class="market-content">
+
             <div class="market-section">
+
                 <h3>Health Products & Services</h3>
+
                 <p class="market-subtitle">Browse health-related products and services</p>
+
                 
+
                 <div class="market-categories">
+
                     <div class="category-card">
+
                         <div class="category-icon">💊</div>
+
                         <h4>Pharmacy</h4>
+
                         <p>Medications and health supplies</p>
+
                         <button class="category-btn">Browse</button>
+
                     </div>
+
                     
+
                     <div class="category-card">
+
                         <div class="category-icon">🏥</div>
+
                         <h4>Healthcare Services</h4>
+
                         <p>Book appointments and consultations</p>
+
                         <button class="category-btn">Explore</button>
+
                     </div>
+
                     
+
                     <div class="category-card">
+
                         <div class="category-icon">🧘</div>
+
                         <h4>Wellness</h4>
+
                         <p>Fitness, nutrition, and mental health</p>
+
                         <button class="category-btn">Discover</button>
+
                     </div>
+
                     
+
                     <div class="category-card">
+
                         <div class="category-icon">🔬</div>
+
                         <h4>Lab Tests</h4>
+
                         <p>Diagnostic tests and screenings</p>
+
                         <button class="category-btn">Book Now</button>
+
                     </div>
+
                 </div>
+
                 
+
                 <div class="market-featured">
+
                     <h3>Featured Deals</h3>
+
                     <div class="featured-items">
+
                         <div class="featured-item">
+
                             <div class="featured-badge">20% OFF</div>
+
                             <h4>Annual Health Checkup</h4>
+
                             <p>Complete health screening package</p>
+
                             <div class="featured-price">
+
                                 <span class="original-price">$199</span>
+
                                 <span class="sale-price">$159</span>
+
                             </div>
+
                             <button class="featured-btn">Get Deal</button>
+
                         </div>
+
                         
+
                         <div class="featured-item">
+
                             <div class="featured-badge">NEW</div>
+
                             <h4>Telemedicine Consultation</h4>
+
                             <p>Online doctor consultation</p>
+
                             <div class="featured-price">
+
                                 <span class="sale-price">$49</span>
+
                             </div>
+
                             <button class="featured-btn">Book Now</button>
+
                         </div>
+
                     </div>
+
                 </div>
+
             </div>
+
         </div>
+
         
+
         <div class="market-actions">
+
             <button type="button" class="market-back-btn" id="market-back-btn">Back to Home</button>
+
         </div>
+
     </div>
+
 </section>
+
+
 
 <!-- Healther AI Page -->
+
 <section class="ai-page" id="healther-ai-page" hidden>
+
     <div class="ai-card">
+
         <div class="ai-container">
+
             <iframe src="https://healtherai.base44.app" title="Healther AI Assistant"></iframe>
+
         </div>
+
         <div class="ai-actions">
+
             <button type="button" class="ai-back-btn" id="ai-back-btn">Back to Home</button>
+
         </div>
+
     </div>
+
 </section>
+
+
 
 <section class="home-page" id="home-page">
+
     <div class="welcome-section">
+
         <h1>Welcome to Healther</h1>
+
         <p>Your personal health management platform</p>
+
     </div>
+
     
+
     <div class="quick-actions">
+
         <div class="action-card" onclick="window.location.href='health-status.html'">
+
             <div class="action-icon">
+
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+
                     <path d="M3 19h3v-4H3v4zM8 19h3v-7H8v7zM13 19h3v-10h-3v10z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+
                     <path d="M15 6l4-4v4h-4z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+
                     <path d="M16 3v3h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+
                 </svg>
+
             </div>
+
             <h3>Health Status</h3>
+
             <p>View your health information</p>
+
         </div>
 
+
+
         <div class="action-card">
+
             <div class="action-icon">
+
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+
                     <circle cx="7" cy="8" r="2" stroke="currentColor" stroke-width="1.4"/>
+
                     <path d="M5 11c0 1.5 1 2.5 2 2.5s2-1 2-2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+
                     <circle cx="12" cy="7" r="2" stroke="currentColor" stroke-width="1.4"/>
+
                     <path d="M10 10c0 1.5 1 2.5 2 2.5s2-1 2-2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+
                     <circle cx="18" cy="9" r="1.6" stroke="currentColor" stroke-width="1.2"/>
+
                     <path d="M17 11c0 1 0.7 1.6 1.4 1.6S20 12 20 11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+
                 </svg>
+
             </div>
+
             <h3>Community</h3>
+
             <p>Connect with others</p>
+
         </div>
 
-        <div class="action-card">
-            <div class="action-icon">
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2l2.9 5.88L21 9.27l-4.5 4.16L17.8 21 12 17.77 6.2 21l1.3-7.57L3 9.27l6.1-1.39L12 2z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </div>
-            <h3>Achievements</h3>
-            <p>View your badges</p>
+
+
+        <div class="action-card" onclick="openHealtherAI()">
+
+            <div class="action-icon">🤖</div>
+
+            <h3>Healther AI</h3>
+
+            <p>AI Health Assistant</p>
+
         </div>
+
+
+
+        <div class="action-card">
+
+            <div class="action-icon">
+
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+                    <path d="M12 2l2.9 5.88L21 9.27l-4.5 4.16L17.8 21 12 17.77 6.2 21l1.3-7.57L3 9.27l6.1-1.39L12 2z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+
+                </svg>
+
+            </div>
+
+            <h3>Achievements</h3>
+
+            <p>View your badges</p>
+
+        </div>
+
     </div>
+
 </section>
 
+
+
 <script src="../global/logout-helper.js"></script>
+
 <script src="../global/translations.js"></script>
 
+
+
 <!-- Loading Overlay -->
+
 <div id="loading-overlay" style="display: none;">
+
     <div class="loading-page">
+
         <div class="loading-spinner"></div>
+
         <div class="loading-text">Loading...</div>
+
     </div>
+
 </div>
 
+
+
 <script src="citizen.js"></script>
+
 <script src="explore.js"></script>
+
 <!-- Cross-platform navigation removed for citizen-only platform -->
 
+
+
 <script>
+
 // Override loading functions to work without overlay
+
 window.showLoading = function() {
+
     console.log('Navigation loading...');
+
 };
+
+
 
 window.hideLoading = function() {
+
     console.log('Navigation complete');
+
 };
+
+
 
 window.navigateWithLoading = function(callback) {
+
     console.log('Navigating...');
+
     if (callback) callback();
+
 };
 
+
+
 // Simple direct navigation handler
+
 console.log('=== DIRECT NAVIGATION SETUP ===');
+
 const navItems = document.querySelectorAll('.sidebar .nav-item');
+
 console.log('Navigation items found:', navItems.length);
 
+
+
 navItems.forEach((item) => {
+
     const key = item.getAttribute('data-key');
+
     console.log('Setting up navigation for:', key);
+
     
+
     item.addEventListener('click', function(e) {
+
         e.preventDefault();
+
         e.stopPropagation();
+
         console.log('Direct navigation clicked:', key);
+
         
+
         // Clear all active states
+
         navItems.forEach(nav => nav.classList.remove('active'));
+
         
+
         // Set active state
+
         this.classList.add('active');
+
         
+
         // Handle navigation
+
         switch(key) {
+
             case 'home':
+
                 console.log('Navigating to Home');
+
                 const homeDashboard = document.getElementById('dashboard');
+
                 const homeAccountPage = document.getElementById('account-page');
+
                 const homeExplorePage = document.getElementById('explore-page');
+
                 const homeMarketPage = document.getElementById('market-page');
+
                 
+
                 if (homeDashboard) homeDashboard.style.display = '';
+
                 if (homeAccountPage) homeAccountPage.setAttribute('hidden', '');
+
                 if (homeExplorePage) homeExplorePage.setAttribute('hidden', '');
+
                 if (homeMarketPage) homeMarketPage.setAttribute('hidden', '');
+
                 
+
                 // Hide all trading pages
+
                 hideAllTradingPages();
+
                 break;
+
                 
+
             case 'explore':
+
                 console.log('Navigating to Explore');
+
                 const explorePageElement = document.getElementById('explore-page');
+
                 const exploreDash = document.getElementById('dashboard');
+
                 const exploreAccount = document.getElementById('account-page');
+
                 const exploreMarket = document.getElementById('market-page');
+
                 
+
                 if (explorePageElement) explorePageElement.removeAttribute('hidden');
+
                 if (exploreDash) exploreDash.style.display = 'none';
+
                 if (exploreAccount) exploreAccount.setAttribute('hidden', '');
+
                 if (exploreMarket) exploreMarket.setAttribute('hidden', '');
+
                 
+
                 // Hide all trading pages
+
                 hideAllTradingPages();
+
                 break;
+
                 
+
             case 'market':
+
                 console.log('Navigating to Market');
+
                 const marketPage = document.getElementById('market-page');
+
                 const marketDash = document.getElementById('dashboard');
+
                 const marketAccount = document.getElementById('account-page');
+
                 const marketExplore = document.getElementById('explore-page');
+
                 
+
                 if (marketPage) marketPage.removeAttribute('hidden');
+
                 if (marketDash) marketDash.style.display = 'none';
+
                 if (marketAccount) marketAccount.setAttribute('hidden', '');
+
                 if (marketExplore) marketExplore.setAttribute('hidden', '');
+
                 
+
                 // Hide all trading pages
+
                 hideAllTradingPages();
+
                 break;
+
                 
+
             case 'notifications':
+
                 console.log('Notifications clicked');
+
                 // Let citizen.js handle notifications properly
+
                 break;
+
                 
+
             case 'account':
+
                 console.log('Navigating to Account');
+
                 const acctPage = document.getElementById('account-page');
+
                 const dashb = document.getElementById('dashboard');
+
                 const exploreElement = document.getElementById('explore-page');
+
                 const marketElement = document.getElementById('market-page');
+
                 
+
                 if (acctPage) acctPage.removeAttribute('hidden');
+
                 if (dashb) dashb.style.display = 'none';
+
                 if (exploreElement) exploreElement.setAttribute('hidden', '');
+
                 if (marketElement) marketElement.setAttribute('hidden', '');
+
                 
+
                 // Hide all trading pages
+
                 hideAllTradingPages();
+
                 break;
+
         }
+
     });
+
 });
+
+
 
 console.log('Direct navigation setup complete');
 
+
+
 // Market page functionality
+
 document.addEventListener('DOMContentLoaded', function() {
+
     // Category buttons - navigate to trading pages
+
     const categoryBtns = document.querySelectorAll('.category-btn');
+
     categoryBtns.forEach(btn => {
+
         btn.addEventListener('click', function() {
+
             const category = this.closest('.category-card').querySelector('h4').textContent;
+
             console.log(`Category clicked: ${category}`);
+
             
+
             // Hide all pages
+
             document.getElementById('market-page').setAttribute('hidden', '');
+
             document.getElementById('dashboard').style.display = 'none';
+
             document.getElementById('explore-page').setAttribute('hidden', '');
+
             document.getElementById('account-page').setAttribute('hidden', '');
+
             
+
             // Show appropriate trading page
+
             switch(category) {
+
                 case 'Pharmacy':
+
                     document.getElementById('pharmacy-page').removeAttribute('hidden');
+
                     break;
+
                 case 'Healthcare Services':
+
                     document.getElementById('healthcare-page').removeAttribute('hidden');
+
                     break;
+
                 case 'Wellness':
+
                     document.getElementById('wellness-page').removeAttribute('hidden');
+
                     break;
+
                 case 'Lab Tests':
+
                     document.getElementById('labtests-page').removeAttribute('hidden');
+
                     break;
+
             }
+
         });
+
     });
+
     
+
     // Featured buttons
+
     const featuredBtns = document.querySelectorAll('.featured-btn');
+
     featuredBtns.forEach(btn => {
+
         btn.addEventListener('click', function() {
+
             const item = this.closest('.featured-item').querySelector('h4').textContent;
+
             console.log(`Featured item clicked: ${item}`);
+
             alert(`${item} booking coming soon!`);
+
         });
+
     });
+
     
+
     // Market back button
+
     const marketBackBtn = document.getElementById('market-back-btn');
+
     if (marketBackBtn) {
+
         marketBackBtn.addEventListener('click', function() {
+
             console.log('Market back button clicked');
+
             const marketPage = document.getElementById('market-page');
+
             const dashboard = document.getElementById('dashboard');
+
             
+
             if (marketPage) marketPage.setAttribute('hidden', '');
+
             if (dashboard) dashboard.style.display = '';
+
             
+
             // Update active state
+
             document.querySelectorAll('.sidebar .nav-item').forEach(nav => nav.classList.remove('active'));
+
             const homeNav = document.querySelector('.sidebar .nav-item[data-key="home"]');
+
             if (homeNav) homeNav.classList.add('active');
+
         });
+
     }
+
     
+
     // Trading page back buttons
+
     const pharmacyBackBtn = document.getElementById('pharmacy-back-btn');
+
     if (pharmacyBackBtn) {
+
         pharmacyBackBtn.addEventListener('click', function() {
+
             hideAllTradingPages();
+
             document.getElementById('market-page').removeAttribute('hidden');
+
         });
+
     }
+
     
+
     const healthcareBackBtn = document.getElementById('healthcare-back-btn');
+
     if (healthcareBackBtn) {
+
         healthcareBackBtn.addEventListener('click', function() {
+
             hideAllTradingPages();
+
             document.getElementById('market-page').removeAttribute('hidden');
+
         });
+
     }
+
     
+
     const wellnessBackBtn = document.getElementById('wellness-back-btn');
+
     if (wellnessBackBtn) {
+
         wellnessBackBtn.addEventListener('click', function() {
+
             hideAllTradingPages();
+
             document.getElementById('market-page').removeAttribute('hidden');
+
         });
+
     }
+
     
+
     const labtestsBackBtn = document.getElementById('labtests-back-btn');
+
     if (labtestsBackBtn) {
+
         labtestsBackBtn.addEventListener('click', function() {
+
             hideAllTradingPages();
+
             document.getElementById('market-page').removeAttribute('hidden');
+
         });
+
     }
+
     
+
     // Trade and Details buttons
+
     const tradeBtns = document.querySelectorAll('.trade-btn');
+
     tradeBtns.forEach(btn => {
+
         btn.addEventListener('click', function() {
+
             const item = this.closest('.commodity-card').querySelector('h4').textContent;
+
             console.log(`Trade clicked for: ${item}`);
+
             alert(`Trading functionality for ${item} coming soon!`);
+
         });
+
     });
+
     
+
     const detailsBtns = document.querySelectorAll('.details-btn');
+
     detailsBtns.forEach(btn => {
+
         btn.addEventListener('click', function() {
+
             const item = this.closest('.commodity-card').querySelector('h4').textContent;
+
             console.log(`Details clicked for: ${item}`);
+
             alert(`Detailed information for ${item} coming soon!`);
+
         });
+
     });
+
     
+
     // Search functionality
+
     const searchBtns = document.querySelectorAll('.search-btn');
+
     searchBtns.forEach(btn => {
+
         btn.addEventListener('click', function() {
+
             const searchInput = this.closest('.search-group').querySelector('.trading-search');
+
             const searchTerm = searchInput.value;
+
             console.log(`Search for: ${searchTerm}`);
+
             alert(`Search functionality for "${searchTerm}" coming soon!`);
+
         });
+
     });
+
 });
+
+
 
 function hideAllTradingPages() {
+
     document.getElementById('pharmacy-page').setAttribute('hidden', '');
+
     document.getElementById('healthcare-page').setAttribute('hidden', '');
+
     document.getElementById('wellness-page').setAttribute('hidden', '');
+
     document.getElementById('labtests-page').setAttribute('hidden', '');
+
 }
+
+
 
 console.log('Checking elements...');
+
 console.log('More options button:', document.getElementById('more-options'));
+
 console.log('Options tile:', document.getElementById('options-tile'));
 
+
+
 // Test if button is clickable
+
 const moreBtn = document.getElementById('more-options');
+
 if (moreBtn) {
+
     moreBtn.addEventListener('click', function() {
+
         console.log('Three dots button clicked!');
+
         const optTile = document.getElementById('options-tile');
+
         if (optTile) {
+
             console.log('Options tile found, toggling...');
+
             if (optTile.hasAttribute('hidden')) {
+
                 optTile.removeAttribute('hidden');
+
                 console.log('Options tile opened');
+
             } else {
+
                 optTile.setAttribute('hidden', '');
+
                 console.log('Options tile closed');
+
             }
+
         } else {
+
             console.log('Options tile NOT found!');
+
         }
+
     });
+
 }
 
+
+
 // Test option button clicks
+
 const optBtns = document.querySelectorAll('.opt-btn');
+
 console.log('Option buttons found:', optBtns.length);
+
 optBtns.forEach((btn, index) => {
+
     btn.addEventListener('click', function(e) {
+
         e.preventDefault();
+
         e.stopPropagation();
+
         const action = this.getAttribute('data-action');
+
         console.log('Option button clicked:', action);
+
         
+
         // Close the options tile
+
         const optTile = document.getElementById('options-tile');
+
         if (optTile) {
+
             optTile.setAttribute('hidden', '');
+
         }
+
         
+
         // Handle actions
+
         switch(action) {
+
             case 'profile':
+
                 console.log('Profile action triggered');
+
                 break;
+
             case 'settings':
+
                 console.log('Settings action triggered');
+
                 const settingsTile = document.getElementById('settings-tile');
+
                 if (settingsTile) {
+
                     console.log('Settings tile found, opening...');
+
                     settingsTile.removeAttribute('hidden');
+
                 } else {
+
                     console.log('Settings tile NOT found!');
+
                 }
+
                 break;
+
             case 'help':
+
                 console.log('Help action triggered');
+
                 alert('Help feature coming soon!');
+
                 break;
+
             case 'logout':
+
                 console.log('Logout action triggered');
+
                 if (confirm('Are you sure you want to logout?')) {
+
                     console.log('Logout confirmed');
+
                     alert('You would be logged out now');
+
                 }
+
                 break;
+
         }
+
     });
+
 });
+
+
 
 // Handle settings tile options
+
 const settingBtns = document.querySelectorAll('.setting-btn');
+
 console.log('Setting buttons found:', settingBtns.length);
+
 settingBtns.forEach((btn) => {
+
     btn.addEventListener('click', function(e) {
+
         e.preventDefault();
+
         e.stopPropagation();
+
         const setting = this.getAttribute('data-setting');
+
         console.log('Setting button clicked:', setting);
+
         
+
         // Close the settings tile
+
         const settingsTile = document.getElementById('settings-tile');
+
         if (settingsTile) {
+
             settingsTile.setAttribute('hidden', '');
+
         }
+
         
+
         // Handle setting actions
+
         switch(setting) {
+
             case 'theme':
+
                 console.log('Theme setting triggered');
+
                 const themeTile = document.getElementById('theme-tile');
+
                 if (themeTile) {
+
                     console.log('Theme tile found, opening...');
+
                     themeTile.removeAttribute('hidden');
+
                 } else {
+
                     console.log('Theme tile NOT found!');
+
                 }
+
                 break;
+
             case 'accounts':
+
                 console.log('Accounts setting triggered');
+
                 alert('Accounts Centre would open here');
+
                 break;
+
             case 'language':
+
                 console.log('Language setting triggered');
+
                 alert('Language settings would open here');
+
                 break;
+
             case 'tutorials':
+
                 console.log('Tutorials setting triggered');
+
                 alert('Tutorials would open here');
+
                 break;
+
         }
+
     });
+
 });
 
+
+
 // Handle theme options
+
 const themeOptions = document.querySelectorAll('.theme-option');
+
 console.log('Theme options found:', themeOptions.length);
+
 themeOptions.forEach((option) => {
+
     option.addEventListener('click', function(e) {
+
         e.preventDefault();
+
         e.stopPropagation();
+
         const theme = this.getAttribute('data-theme');
+
         console.log('Theme option clicked:', theme);
+
         
+
         // Close theme tile
+
         const themeTile = document.getElementById('theme-tile');
+
         if (themeTile) {
+
             themeTile.setAttribute('hidden', '');
+
         }
+
         
+
         // Apply theme
+
         document.documentElement.setAttribute('data-theme', theme);
+
         localStorage.setItem('theme', theme);
+
         console.log('Theme applied:', theme);
+
     });
+
 });
+
 </script>
+
     
+
     </body>
+
 </html>
