@@ -33,7 +33,7 @@ message:message
 
 const data = await response.json();
 
-const aiReply = JSON.stringify(data);
+const aiReply = data.reply || "AI responded";
 
 addMessage(aiReply,"ai");
 

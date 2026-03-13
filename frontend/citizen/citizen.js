@@ -489,7 +489,7 @@ window.navigateWithLoading = function(callback) {
 
 // Open Healther AI function
 function openHealtherAI(){
-    window.location.href="https://healtherai.base44.app";
+    window.location.href="healther-ai.html";
 }
 
 // Simple direct navigation handler buttons
