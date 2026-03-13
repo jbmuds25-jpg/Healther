@@ -497,10 +497,17 @@ document.getElementById('explore-back-btn')?.addEventListener('click', () => {
 // ========================================
 
 // Initialize market functionality
-window.initializeMarket = function() {
-    console.log('Market page initialized');
-    
-    // Setup market category buttons
+window.navigateWithLoading = function(callback) {
+    console.log('Navigating...');
+    if (callback) callback();
+};
+
+// Open Healther AI function
+function openHealtherAI(){
+    window.location.href="healther-ai.html";
+}
+
+// Simple direct navigation handler buttons
     const categoryBtns = document.querySelectorAll('.category-btn');
     categoryBtns.forEach(btn => {
         btn.addEventListener('click', function() {

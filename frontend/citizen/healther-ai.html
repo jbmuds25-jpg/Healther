@@ -1,63 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Healther AI</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f5f9ff;
-        }
-        
-        .header {
-            background: #0a66ff;
-            color: white;
-            padding: 15px;
-            font-size: 20px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .ai-container {
-            width: 100%;
-            height: calc(100vh - 60px);
-        }
-        
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        
-        /* Dark theme support */
-        [data-theme="dark"] body {
-            background: #1a1a2e;
-        }
-        
-        [data-theme="dark"] .header {
-            background: #1e3a8a;
-        }
-        
-        /* Responsive design */
-        @media (max-width: 768px) {
-            .header {
-                font-size: 16px;
-                padding: 12px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Healther AI</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#f4f7fb;
+margin:0;
+}
+
+.header{
+background:#0a66ff;
+color:white;
+padding:15px;
+font-size:20px;
+font-weight:bold;
+}
+
+.chat-container{
+height:80vh;
+overflow-y:auto;
+padding:20px;
+}
+
+.message{
+padding:10px 15px;
+margin:10px 0;
+border-radius:10px;
+max-width:70%;
+}
+
+.user{
+background:#0a66ff;
+color:white;
+margin-left:auto;
+}
+
+.ai{
+background:#e5e5e5;
+}
+
+.input-area{
+display:flex;
+padding:10px;
+background:white;
+border-top:1px solid #ccc;
+}
+
+input{
+flex:1;
+padding:10px;
+font-size:16px;
+}
+
+button{
+padding:10px 20px;
+background:#0a66ff;
+color:white;
+border:none;
+cursor:pointer;
+}
+
+</style>
+
 </head>
+
 <body>
-    <div class="header">
-        🤖 Healther AI Assistant
-    </div>
-    
-    <div class="ai-container">
-        <iframe src="https://healtherai.base44.app" title="Healther AI Assistant"></iframe>
-    </div>
+
+<div class="header">🤖 Healther AI</div>
+
+<div id="chat" class="chat-container"></div>
+
+<div class="input-area">
+<input id="messageInput" placeholder="Ask Healther AI anything...">
+<button onclick="sendMessage()">Send</button>
+</div>
+
+<script src="healther-ai.js"></script>
+
 </body>
 </html>
