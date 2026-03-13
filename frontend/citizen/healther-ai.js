@@ -14,6 +14,9 @@ addMessage(message,"user");
 
 input.value="";
 
+// Show loading state
+addMessage("Thinking...","ai");
+
 try{
 
 const response = await fetch(API_URL,{
@@ -31,16 +34,41 @@ message:message
 })
 });
 
+if(!response.ok){
+throw new Error(`HTTP error! status: ${response.status}`);
+}
+
 const data = await response.json();
 
-const aiReply = data.reply || "AI responded";
+const aiReply = data.reply || data.message || "AI responded";
+
+// Remove loading message and add AI response
+const chatContainer = document.getElementById("chat");
+const loadingMessages = chatContainer.querySelectorAll('.message');
+if(loadingMessages.length > 0){
+    const lastMessage = loadingMessages[loadingMessages.length - 1];
+    if(lastMessage && lastMessage.textContent === "Thinking..."){
+        lastMessage.remove();
+    }
+}
 
 addMessage(aiReply,"ai");
 
 }catch(error){
 
-addMessage("Error contacting Healther AI","ai");
+console.error('Healther AI Error:', error);
 
+// Remove loading message and add error
+const chatContainer = document.getElementById("chat");
+const loadingMessages = chatContainer.querySelectorAll('.message');
+if(loadingMessages.length > 0){
+    const lastMessage = loadingMessages[loadingMessages.length - 1];
+    if(lastMessage && lastMessage.textContent === "Thinking..."){
+        lastMessage.remove();
+    }
+}
+
+addMessage("Error: Unable to connect to Healther AI. Please try again.","ai");
 }
 
 }
