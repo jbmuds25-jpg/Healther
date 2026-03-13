@@ -1322,6 +1322,37 @@ if (document.readyState === 'loading') {
     window.initSearch();
 }
 
+// AI Page Event Listeners
+document.addEventListener('DOMContentLoaded', function() {
+    // AI back button
+    const aiBackBtn = document.getElementById('ai-back-btn');
+    if (aiBackBtn) {
+        aiBackBtn.addEventListener('click', function() {
+            console.log('AI back button clicked');
+            
+            // Hide AI page
+            const aiPage = document.getElementById('healther-ai-page');
+            if (aiPage) {
+                aiPage.setAttribute('hidden', '');
+            }
+            
+            // Show home page
+            const homePage = document.getElementById('dashboard');
+            if (homePage) {
+                homePage.style.display = '';
+            }
+            
+            // Update sidebar active state
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            const homeItem = document.querySelector('.nav-item[data-key="home"]');
+            if (homeItem) {
+                homeItem.classList.add('active');
+            }
+        });
+    }
+});
+
 // Account Center functionality
 (function() {
     function showAccountCenter() {
