@@ -6010,36 +6010,14 @@
 
         </div>
 
-
-
-        <div class="action-card" onclick="openHealtherAI()">
-
-            <div class="action-icon">🤖</div>
-
-            <h3>Healther AI</h3>
-
-            <p>AI Health Assistant</p>
-
-        </div>
-
-
-
         <div class="action-card">
-
             <div class="action-icon">
-
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-
                     <path d="M12 2l2.9 5.88L21 9.27l-4.5 4.16L17.8 21 12 17.77 6.2 21l1.3-7.57L3 9.27l6.1-1.39L12 2z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-
                 </svg>
-
             </div>
-
             <h3>Achievements</h3>
-
             <p>View your badges</p>
-
         </div>
 
     </div>
@@ -6285,6 +6263,14 @@ navItems.forEach((item) => {
                 // Hide all trading pages
 
                 hideAllTradingPages();
+
+                break;
+
+            case 'healther-ai':
+
+                console.log('Healther AI clicked');
+
+                openHealtherAI();
 
                 break;
 
