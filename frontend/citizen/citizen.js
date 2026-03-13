@@ -427,12 +427,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         if (marketPage) {
                             marketPage.setAttribute('hidden', '');
                         }
-                        // Hide AI page when other items are clicked
-                        const aiPage = document.getElementById('healther-ai-page');
-                        if (aiPage) {
-                            aiPage.setAttribute('hidden', '');
-                        }
-                    }
+                                            }
                 });
             });
         });
@@ -1322,12 +1317,7 @@ document.addEventListener('DOMContentLoaded', function() {
         aiBackBtn.addEventListener('click', function() {
             console.log('AI back button clicked');
             
-            // Hide AI page
-            const aiPage = document.getElementById('healther-ai-page');
-            if (aiPage) {
-                aiPage.setAttribute('hidden', '');
-            }
-            
+                        
             // Show home page
             const homePage = document.getElementById('dashboard');
             if (homePage) {
