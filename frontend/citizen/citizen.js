@@ -488,7 +488,7 @@ window.navigateWithLoading = function(callback) {
 };
 
 // Open Healther AI function
-function openHealtherAI(){
+window.openHealtherAI = function(){
     window.location.href="healther-ai.html";
 }
 
